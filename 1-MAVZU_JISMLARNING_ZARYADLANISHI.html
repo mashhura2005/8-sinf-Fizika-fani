@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1-MAVZU_JISMLARNING_ZARYADLANISHI</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;line-height:1.55}
+header{background:#183b63;color:#fff;padding:24px 16px;text-align:center;position:relative}
+header h1{margin:0;font-size:clamp(21px,4vw,34px)}
+header p{margin:8px 0 0;opacity:.9}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dbe2ea;display:flex;gap:8px;padding:9px;overflow-x:auto}
+nav a{white-space:nowrap;text-decoration:none;color:#183b63;background:#eef4f9;border-radius:9px;padding:9px 12px;font-weight:bold;font-size:14px}
+.container{max-width:1100px;margin:auto;padding:18px}
+.section{background:#fff;border:1px solid #dbe2ea;border-radius:16px;padding:20px;margin:18px 0;box-shadow:0 4px 16px rgba(20,45,70,.06)}
+.section h2{margin-top:0;color:#183b63;font-size:clamp(20px,3vw,27px)}
+.section h3{color:#245b86;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:#f8fafc;border:1px solid #e1e7ee;border-radius:13px;padding:16px}
+.theory li{margin:7px 0}
+.highlight{background:#edf6ff;border-left:5px solid #2674b8;padding:12px 14px;border-radius:8px;margin:12px 0}
+.formula{font-size:24px;font-weight:bold;text-align:center;padding:13px;background:#f1f4f7;border-radius:10px;margin:10px 0}
+.sim{background:#0f2238;color:#fff;border-radius:14px;padding:16px;margin-top:14px}
+.sim h3{color:#fff;margin-top:0}
+.controls{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+button{border:0;border-radius:9px;padding:11px 15px;background:#2674b8;color:#fff;font-weight:bold;cursor:pointer;font-size:15px;min-height:44px}
+button:hover{filter:brightness(.93)}
+button.secondary{background:#667788}
+button.green{background:#27824b}
+button.orange{background:#bd711c}
+button.red{background:#a93c3c}
+.result{min-height:30px;padding:9px 11px;background:rgba(255,255,255,.1);border-radius:8px;margin-top:9px}
+.stage{position:relative;min-height:220px;background:#081727;border-radius:12px;overflow:hidden;border:1px solid #28435d}
+.label{font-weight:bold;margin:7px 0}
+.charge-area{position:relative;height:210px}
+.object{position:absolute;width:150px;height:100px;border-radius:50%;border:3px solid #dce8f4;display:flex;align-items:center;justify-content:center;font-weight:bold;transition:all .8s ease;top:55px}
+.object.small{width:95px;height:95px}
+.body1{left:12%;background:#355b78}
+.body2{right:12%;background:#5c486d}
+.particle{position:absolute;width:11px;height:11px;border-radius:50%;z-index:3}
+.proton{background:#ef6666;box-shadow:0 0 5px #ef6666}
+.electron{background:#55a8ff;box-shadow:0 0 6px #55a8ff}
+.particles{position:absolute;inset:0;pointer-events:none}
+.status{font-size:18px;font-weight:bold;text-align:center;margin-top:9px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin:9px 0}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px}
+.redDot{background:#ef6666}.blueDot{background:#55a8ff}
+.method-stage{height:260px;position:relative;background:#081727;border-radius:12px;overflow:hidden}
+.rod{position:absolute;left:14%;top:100px;width:170px;height:46px;border-radius:23px;background:#8f96a0;transform:rotate(-10deg);transition:all .7s ease}
+.cloth{position:absolute;right:14%;top:88px;width:125px;height:75px;border-radius:12px;background:#9c7957;transition:all .7s ease}
+.spark{position:absolute;width:8px;height:8px;border-radius:50%;background:#55a8ff;box-shadow:0 0 8px #55a8ff}
+.metal-ball{position:absolute;width:105px;height:105px;border-radius:50%;background:#8d9aa8;border:3px solid #dce8f4;top:78px;transition:all .8s ease;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#142131}
+.ballA{left:18%}.ballB{right:18%}
+.rod2{position:absolute;left:8%;top:104px;width:155px;height:44px;border-radius:22px;background:#d45a5a;transform:rotate(-6deg);transition:left .8s ease}
+.q{position:absolute;font-size:19px;font-weight:bold}
+.qplus{color:#ef6666}.qminus{color:#55a8ff}
+.interaction-stage{height:260px;position:relative;background:#081727;border-radius:12px;overflow:hidden}
+.interaction-ball{position:absolute;width:90px;height:90px;border-radius:50%;top:85px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:bold;border:3px solid #dce8f4;transition:left 1s ease,right 1s ease}
+.ib1{left:18%}.ib2{right:18%}
+.force{position:absolute;top:115px;font-size:32px;font-weight:bold;opacity:0;transition:opacity .4s}
+.force.left{left:35%}.force.right{right:35%}
+input[type=range]{width:100%;accent-color:#55a8ff}
+.quiz{margin-top:14px;border-top:1px solid #dbe2ea;padding-top:14px}
+.quiz button{background:#eef4f9;color:#183b63;border:1px solid #cbd8e4}
+.quiz button.correct{background:#27824b;color:#fff}
+.quiz button.wrong{background:#a93c3c;color:#fff}
+.qbox{background:#f8fafc;border:1px solid #e1e7ee;border-radius:11px;padding:14px;margin:12px 0}
+.qbox p{font-weight:bold;margin-top:0}
+.feedback{font-weight:bold;margin-top:7px;min-height:24px}
+.test-option{display:block;width:100%;text-align:left;margin:7px 0;background:#fff;color:#172033;border:1px solid #ccd7e1}
+.test-option.selected{border-color:#2674b8}
+.test-option.correct{background:#dff3e7;border-color:#27824b;color:#165a31}
+.test-option.wrong{background:#f9e2e2;border-color:#a93c3c;color:#7b2424}
+#score{font-size:19px;font-weight:bold;padding:12px;border-radius:10px;background:#eef4f9}
+footer{text-align:center;color:#647487;padding:25px 10px}
+@media(max-width:760px){
+ .grid{grid-template-columns:1fr}
+ .section{padding:15px}
+ .object{width:120px;height:85px}.body1{left:4%}.body2{right:4%}
+ .rod{left:5%;width:125px}.cloth{right:5%;width:105px}
+ .ballA{left:7%}.ballB{right:7%}
+ .rod2{left:2%;width:125px}
+ .interaction-ball{width:75px;height:75px;top:92px}.ib1{left:8%}.ib2{right:8%}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>8-SINF FIZIKA — 1-MAVZU: JISMLARNING ZARYADLANISHI</h1>
+<p>Interaktiv, animatsiyali va ta’limiy simulyatsiya</p>
+</header>
+
+<nav>
+<a href="#reja1">1. Tushuncha</a>
+<a href="#reja2">2. Usullar</a>
+<a href="#reja3">3. O‘zaro ta’sir</a>
+<a href="#test">O‘zingizni sinang</a>
+</nav>
+
+<main class="container">
+
+<section class="section" id="reja1">
+<h2>1. Jismlarning zaryadlanishi haqida tushuncha</h2>
+<div class="grid">
+<div class="card theory">
+<h3>Qisqa nazariya</h3>
+<ul>
+<li>Barcha jismlar atom va molekulalardan tashkil topgan.</li>
+<li>Atom tarkibida musbat zaryadli protonlar va manfiy zaryadli elektronlar mavjud.</li>
+<li>Oddiy holatda jism elektr jihatdan neytral bo‘ladi.</li>
+<li>Jism elektron yo‘qotsa, musbat zaryadlanadi.</li>
+<li>Jism elektron olsa, manfiy zaryadlanadi.</li>
+<li>Elektr zaryadga ega bo‘lish jarayoni <b>jismlarning zaryadlanishi</b> deyiladi.</li>
+<li>Zaryadlanishda protonlar odatda jismda qoladi, elektronlar esa bir jismdan ikkinchisiga o‘tishi mumkin.</li>
+</ul>
+<div class="formula">Elektron yo‘qotsa → MUSBAT (+) &nbsp;&nbsp; | &nbsp;&nbsp; Elektron olsa → MANFIY (−)</div>
+</div>
+
+<div class="card">
+<h3>Animatsiya: Zaryadlanish jarayoni</h3>
+<div class="stage">
+<div class="charge-area" id="chargeStage"></div>
+</div>
+<div class="legend"><span><i class="dot redDot"></i>proton (+)</span><span><i class="dot blueDot"></i>elektron (−)</span></div>
+<div class="status" id="chargeStatus">Neytral jism</div>
+<div class="controls">
+<button onclick="chargeGive()">Elektron berish</button>
+<button onclick="chargeTake()">Elektron olish</button>
+<button class="green" onclick="neutralize()">Neytrallash</button>
+<button class="secondary" onclick="resetCharge()">Qayta boshlash</button>
+</div>
+<div class="result" id="chargeResult">Elektronlar soni: 8 | Protonlar soni: 8</div>
+</div>
+</div>
+
+<div class="quiz">
+<div class="qbox">
+<p>Jism elektron olsa, qanday zaryadlanadi?</p>
+<button onclick="miniAnswer(this,true,'mini1')">Musbat</button>
+<button onclick="miniAnswer(this,false,'mini1')">Manfiy</button>
+<div class="feedback" id="mini1"></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="reja2">
+<h2>2. Jismlarning zaryadlanish usullari</h2>
+
+<div class="grid">
+<div class="card">
+<h3>1) Ishqalanish orqali zaryadlanish</h3>
+<p>Ikki xil material ishqalanganda elektronlar bir jismdan ikkinchisiga o‘tishi mumkin.</p>
+<div class="highlight"><b>Misol:</b> plastmassa tayoqcha jun matoga ishqalansa, elektronlar junga nisbatan tayoqchaga ko‘proq o‘tadi. Tayoqcha manfiy, jun mato musbat zaryadlanadi.</div>
+<div class="method-stage" id="frictionStage"></div>
+<div class="controls">
+<button onclick="friction()">ISHQALASH</button>
+<button class="secondary" onclick="resetFriction()">Qayta boshlash</button>
+</div>
+<div class="result" id="frictionResult">Boshlang‘ich holat: tayoqcha va jun mato neytral.</div>
+</div>
+
+<div class="card">
+<h3>2) Tegizish orqali zaryadlanish</h3>
+<p>Zaryadlangan jism neytral jismga tegizilganda zaryadning bir qismi ikkinchi jismga o‘tib, taqsimlanadi.</p>
+<div class="method-stage" id="touchStage"></div>
+<div class="controls">
+<button onclick="touchBalls()">TEGIZISH</button>
+<button class="secondary" onclick="resetTouch()">Qayta boshlash</button>
+</div>
+<div class="result" id="touchResult">Chap shar zaryadlangan, o‘ng shar neytral.</div>
+</div>
+
+<div class="card">
+<h3>3) Ta’sir orqali zaryadlanish</h3>
+<p>Zaryadlangan tayoqcha metall sharga tegmasdan yaqinlashtirilsa, shar ichidagi elektronlar siljiydi.</p>
+<div class="method-stage" id="influenceStage"></div>
+<div class="controls">
+<button onclick="influence()">YAQINLASHTIRISH</button>
+<button class="secondary" onclick="resetInfluence()">Qayta boshlash</button>
+</div>
+<div class="result" id="influenceResult">Tayoqcha shar bilan tegishmagan: shar neytral.</div>
+</div>
+</div>
+
+<div class="quiz">
+<div class="qbox">
+<p>Qaysi usulda jismlar ishqalanish orqali zaryadlanadi?</p>
+<button onclick="miniAnswer(this,true,'mini2')">Ishqalanish</button>
+<button onclick="miniAnswer(this,false,'mini2')">Tinch holat</button>
+<div class="feedback" id="mini2"></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="reja3">
+<h2>3. Zaryadlangan jismlarning o‘zaro ta’siri</h2>
+<div class="grid">
+<div class="card theory">
+<h3>Asosiy qoida</h3>
+<ul>
+<li><b>Bir xil ishorali zaryadlar</b> bir-birini itaradi.</li>
+<li><b>Har xil ishorali zaryadlar</b> bir-birini tortadi.</li>
+<li>Musbat va musbat → <b>itarilish</b>.</li>
+<li>Manfiy va manfiy → <b>itarilish</b>.</li>
+<li>Musbat va manfiy → <b>tortishish</b>.</li>
+</ul>
+<div class="formula">Bir xil → ITARILISH &nbsp;&nbsp;&nbsp; Har xil → TORTISHISH</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya</h3>
+<div class="interaction-stage" id="interactionStage">
+<div class="interaction-ball ib1" id="ib1">+</div>
+<div class="interaction-ball ib2" id="ib2">+</div>
+<div class="force left" id="forceLeft">←</div>
+<div class="force right" id="forceRight">→</div>
+</div>
+<div class="controls">
+<button onclick="setInteraction('+','+')">+ +</button>
+<button onclick="setInteraction('-','-')">− −</button>
+<button onclick="setInteraction('+','-')">+ −</button>
+<button onclick="setInteraction('-','+')">− +</button>
+<button class="secondary" onclick="resetInteraction()">Qayta boshlash</button>
+</div>
+<label><b>Masofa: <span id="distanceValue">60</span> birlik</b></label>
+<input id="distance" type="range" min="20" max="100" value="60" oninput="updateDistance(this.value)">
+<div class="result" id="interactionResult">Bir xil ishorali zaryadlar — ITARILISH</div>
+</div>
+</div>
+
+<div class="quiz">
+<div class="qbox">
+<p>Bir xil ishorali zaryadlar qanday ta’sirlashadi?</p>
+<button onclick="miniAnswer(this,false,'mini3')">Tortishadi</button>
+<button onclick="miniAnswer(this,true,'mini3')">Itarishadi</button>
+<div class="feedback" id="mini3"></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="test">
+<h2>Yakuniy test — “O‘ZINGIZNI SINANG”</h2>
+<p>Har bir savol uchun bitta javob tanlang. Javob tanlanganda natija darhol ko‘rsatiladi.</p>
+<div id="testContainer"></div>
+<div id="score">Siz 5 ta savoldan 0 tasiga to‘g‘ri javob berdingiz.</div>
+<div class="controls">
+<button class="green" onclick="resetTest()">Testni qayta boshlash</button>
+</div>
+</section>
+
+</main>
+<footer>8-sinf Fizika • Jismlarning zaryadlanishi • Internet va tashqi kutubxonalarsiz ishlaydi</footer>
+
+<script>
+function makeParticle(cls, parent, x, y){
+ const p=document.createElement('span');
+ p.className='particle '+cls;
+ p.style.left=x+'%'; p.style.top=y+'%';
+ parent.appendChild(p); return p;
+}
+
+/* 1-reja */
+const chargeStage=document.getElementById('chargeStage');
+let electrons=8, protons=8;
+function drawCharge(){
+ chargeStage.innerHTML='';
+ const obj=document.createElement('div');
+ obj.className='object';
+ obj.style.left='calc(50% - 75px)';
+ obj.textContent=protons===electrons?'NEYTRAL':(electrons<protons?'+ ZARYAD':'− ZARYAD');
+ chargeStage.appendChild(obj);
+ for(let i=0;i<protons;i++){
+   const a=(i*137)%360, r=27+(i%3)*8;
+   const x=50+Math.cos(a*Math.PI/180)*r, y=50+Math.sin(a*Math.PI/180)*r;
+   makeParticle('proton',chargeStage,x,y);
+ }
+ for(let i=0;i<electrons;i++){
+   const a=(i*137+40)%360, r=18+(i%4)*10;
+   const x=50+Math.cos(a*Math.PI/180)*r, y=50+Math.sin(a*Math.PI/180)*r;
+   const p=makeParticle('electron',chargeStage,x,y);
+   p.animate([{transform:'translate(0,0)'},{transform:'translate(12px,-8px)'},{transform:'translate(-8px,10px)'},{transform:'translate(0,0)'}],{duration:1700+(i%4)*180,iterations:Infinity});
+ }
+ document.getElementById('chargeStatus').textContent=protons===electrons?'Neytral jism':(electrons<protons?'Musbat zaryadlangan':'Manfiy zaryadlangan');
+ document.getElementById('chargeResult').textContent=`Elektronlar soni: ${electrons} | Protonlar soni: ${protons}`;
+}
+function chargeGive(){
+ if(electrons>1) electrons--;
+ drawCharge();
+ document.getElementById('chargeResult').textContent='Jism elektron yo‘qotdi → MUSBAT zaryadlandi. Elektronlar soni: '+electrons;
+}
+function chargeTake(){
+ if(electrons<16) electrons++;
+ drawCharge();
+ document.getElementById('chargeResult').textContent='Jism elektron oldi → MANFIY zaryadlandi. Elektronlar soni: '+electrons;
+}
+function neutralize(){electrons=protons;drawCharge();document.getElementById('chargeResult').textContent='Jism NEYTRAL. Elektronlar va protonlar soni teng.'}
+function resetCharge(){electrons=8;protons=8;drawCharge()}
+drawCharge();
+
+/* 2-reja: friction */
+const fs=document.getElementById('frictionStage');
+function drawFriction(){
+ fs.innerHTML='<div class="rod" id="rod"></div><div class="cloth" id="cloth"></div>';
+}
+function friction(){
+ const rod=document.getElementById('rod'), cloth=document.getElementById('cloth');
+ document.getElementById('frictionResult').textContent='Ishqalanish boshlandi: elektronlar jun matodan tayoqchaga o‘tmoqda...';
+ let n=0;
+ const timer=setInterval(()=>{
+   n++;
+   rod.style.left=(14+(n%2)*4)+'%'; cloth.style.right=(14+(n%2)*4)+'%';
+   const s=document.createElement('span');s.className='spark';
+   s.style.left=(42+n%10)+'%';s.style.top=(105+n*7%80)+'px';fs.appendChild(s);
+   setTimeout(()=>s.remove(),650);
+   if(n>=6){clearInterval(timer);rod.style.left='18%';cloth.style.right='18%';document.getElementById('frictionResult').textContent='Natija: plastmassa tayoqcha MANFIY, jun mato MUSBAT zaryadlandi.'}
+ },300);
+}
+function resetFriction(){drawFriction();document.getElementById('frictionResult').textContent='Boshlang‘ich holat: tayoqcha va jun mato neytral.'}
+drawFriction();
+
+/* touch */
+const ts=document.getElementById('touchStage');
+function drawTouch(){
+ ts.innerHTML='<div class="metal-ball ballA" id="touchA">+</div><div class="metal-ball ballB" id="touchB">0</div>';
+}
+function touchBalls(){
+ const a=document.getElementById('touchA'),b=document.getElementById('touchB');
+ a.style.left='33%';b.style.right='33%';
+ document.getElementById('touchResult').textContent='Sharlar tegishdi: elektronlar harakatlanib, zaryad taqsimlanmoqda...';
+ setTimeout(()=>{a.textContent='+';b.textContent='+';a.style.left='20%';b.style.right='20%';document.getElementById('touchResult').textContent='Natija: zaryad ikki shar orasida taqsimlandi.'},1100);
+}
+function resetTouch(){drawTouch();document.getElementById('touchResult').textContent='Chap shar zaryadlangan, o‘ng shar neytral.'}
+drawTouch();
+
+/* influence */
+const ins=document.getElementById('influenceStage');
+function drawInfluence(){
+ ins.innerHTML='<div class="rod2" id="rod2">− − −</div><div class="metal-ball" id="influenceBall" style="right:13%">− − −</div>';
+}
+function influence(){
+ const rod=document.getElementById('rod2'), ball=document.getElementById('influenceBall');
+ rod.style.left='25%';
+ ball.innerHTML='<span style="color:#ef6666">+ + +</span>&nbsp;&nbsp;<span style="color:#55a8ff">− − −</span>';
+ document.getElementById('influenceResult').textContent='Tayoqcha tegmadi. Elektronlar qarama-qarshi tomonga siljidi → elektr ta’sir orqali zaryadlanish.';
+}
+function resetInfluence(){drawInfluence();document.getElementById('influenceResult').textContent='Tayoqcha shar bilan tegishmagan: shar neytral.'}
+drawInfluence();
+
+/* interaction */
+let currentPlus=true,currentMinus=true;
+function setInteraction(a,b){
+ currentPlus=a==='+'; currentMinus=b==='+';
+ const x=document.getElementById('ib1'),y=document.getElementById('ib2');
+ x.textContent=a;y.textContent=b;
+ x.style.left='18%';y.style.right='18%';
+ const same=a===b;
+ document.getElementById('interactionResult').textContent=same?'Bir xil ishorali zaryadlar — ITARILISH':'Har xil ishorali zaryadlar — TORTISHISH';
+ const fl=document.getElementById('forceLeft'),fr=document.getElementById('forceRight');
+ fl.style.opacity=fr.style.opacity='1';
+ if(same){x.style.left='5%';y.style.right='5%';fl.textContent='←';fr.textContent='→';}
+ else{x.style.left='31%';y.style.right='31%';fl.textContent='→';fr.textContent='←';}
+ updateDistance(document.getElementById('distance').value);
+}
+function updateDistance(v){
+ document.getElementById('distanceValue').textContent=v;
+ const x=document.getElementById('ib1'),y=document.getElementById('ib2');
+ const same=x.textContent===y.textContent;
+ const gap=(100-v)*0.22;
+ if(same){x.style.left=(5+gap)+'%';y.style.right=(5+gap)+'%';}
+ else{x.style.left=(18+gap/2)+'%';y.style.right=(18+gap/2)+'%';}
+ document.getElementById('interactionResult').textContent= v<50 ?
+ 'Masofa kichik: zaryadlar orasidagi o‘zaro ta’sir kuchliroq.' :
+ 'Masofa kattaroq: zaryadlar orasidagi o‘zaro ta’sir kuchsizroq.';
+}
+function resetInteraction(){
+ document.getElementById('distance').value=60;
+ setInteraction('+','+');
+ document.getElementById('interactionResult').textContent='Bir xil ishorali zaryadlar — ITARILISH';
+}
+resetInteraction();
+
+/* mini quizzes */
+function miniAnswer(btn,correct,id){
+ const box=document.getElementById(id);
+ box.textContent=correct?'✓ To‘g‘ri!':'✗ Noto‘g‘ri, qayta urinib ko‘ring.';
+ box.style.color=correct?'#27824b':'#a93c3c';
+}
+
+/* final test */
+const questions=[
+ {q:'Jism elektron yo‘qotsa qanday zaryadlanadi?',o:['Manfiy','Musbat','Neytral','Zaryadsiz'],a:1},
+ {q:'Jism elektron olsa qanday zaryadlanadi?',o:['Musbat','Neytral','Manfiy','Zaryadsiz'],a:2},
+ {q:'Jismlarni ishqalash orqali zaryadlash qanday usul?',o:['Ishqalanish orqali zaryadlanish','Ta’sir orqali zaryadlanish','Issiqlik orqali','Yorug‘lik orqali'],a:0},
+ {q:'Bir xil ishorali zaryadlar qanday ta’sirlashadi?',o:['Tortishadi','Itarishadi','Ta’sirlashmaydi','Yo‘qoladi'],a:1},
+ {q:'Har xil ishorali zaryadlar qanday ta’sirlashadi?',o:['Itarishadi','Tortishadi','Ta’sirlashmaydi','Zaryadsizlanadi'],a:1}
+];
+let answers=Array(questions.length).fill(null);
+function renderTest(){
+ const c=document.getElementById('testContainer');c.innerHTML='';
+ questions.forEach((item,i)=>{
+   const box=document.createElement('div');box.className='qbox';
+   const p=document.createElement('p');p.textContent=(i+1)+'. '+item.q;box.appendChild(p);
+   item.o.forEach((op,j)=>{
+     const b=document.createElement('button');b.className='test-option';b.textContent=String.fromCharCode(65+j)+') '+op;
+     b.onclick=()=>answerTest(i,j);box.appendChild(b);
+   });
+   const f=document.createElement('div');f.className='feedback';f.id='tf'+i;box.appendChild(f);
+   c.appendChild(box);
+ });
+}
+function answerTest(i,j){
+ answers[i]=j;
+ const box=document.getElementById('testContainer').children[i];
+ [...box.querySelectorAll('.test-option')].forEach((b,k)=>{
+   b.classList.remove('selected','correct','wrong');
+   if(k===j)b.classList.add('selected');
+   if(k===questions[i].a)b.classList.add('correct');
+   else if(k===j)b.classList.add('wrong');
+ });
+ const f=document.getElementById('tf'+i);
+ f.textContent=j===questions[i].a?'✓ To‘g‘ri javob!':'✗ Noto‘g‘ri. Qayta urinib ko‘ring.';
+ f.style.color=j===questions[i].a?'#27824b':'#a93c3c';
+ updateScore();
+}
+function updateScore(){
+ let score=answers.reduce((s,v,i)=>s+(v===questions[i].a?1:0),0);
+ document.getElementById('score').textContent=`Siz 5 ta savoldan ${score} tasiga to‘g‘ri javob berdingiz.`;
+}
+function resetTest(){answers=Array(questions.length).fill(null);renderTest();updateScore()}
+renderTest();
+</script>
+</body>
+</html>

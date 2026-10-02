@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-MAVZU_TOK_MANBALARI</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8fb;color:#172033;line-height:1.6;overflow-x:hidden}
+header{background:#fff;border-bottom:1px solid #dbe3ec;position:sticky;top:0;z-index:20}
+.header-inner{max-width:1150px;margin:auto;padding:18px 16px}
+h1{font-size:clamp(22px,4vw,34px);margin:0 0 14px;color:#173b67}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+button,.nav a{border:0;border-radius:9px;padding:10px 14px;background:#1769aa;color:#fff;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s}
+button:hover,.nav a:hover{background:#0e4f83;transform:translateY(-1px)}
+button.secondary{background:#64748b}
+button.green{background:#16805a}
+button.orange{background:#d97706}
+button.red{background:#c53b3b}
+main{max-width:1150px;margin:auto;padding:20px 14px 50px}
+section{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:24px;margin:18px 0;box-shadow:0 3px 12px rgba(30,55,80,.05)}
+h2{color:#174f7c;margin-top:0;font-size:clamp(20px,3vw,28px)}
+h3{color:#245b86}
+.info{background:#eef6ff;border-left:5px solid #2385c8;padding:13px 16px;border-radius:8px;margin:14px 0}
+.energy-grid,.source-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.source-grid{grid-template-columns:repeat(5,1fr)}
+.card{border:1px solid #d6e0ea;border-radius:12px;padding:16px;background:#fbfdff;text-align:center}
+.card strong{display:block;color:#194f78;margin-bottom:7px}
+.flow-area{border:1px solid #ccd9e5;border-radius:12px;padding:18px;background:#f8fbfe}
+.flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;min-height:100px}
+.flow-box{padding:15px 20px;border-radius:10px;border:2px solid #5b88ac;background:#fff;font-weight:700;min-width:145px;text-align:center}
+.arrow{font-size:30px;color:#1c79b6}
+.particle{display:inline-block;width:12px;height:12px;border-radius:50%;background:#2385c8;margin:0 3px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.status{font-weight:700;color:#174f7c;min-height:28px;margin-top:8px}
+.animation-track{height:50px;position:relative;background:#e8f0f7;border-radius:25px;overflow:hidden;margin:15px 0}
+.energy-dot{position:absolute;top:17px;width:16px;height:16px;border-radius:50%;background:#f59e0b;left:-20px}
+.energy-dot.run{animation:moveEnergy 2.5s linear infinite}
+@keyframes moveEnergy{from{left:-20px}to{left:calc(100% + 20px)}}
+ion{display:inline-block}
+.cell-model{display:flex;justify-content:center;align-items:stretch;gap:0;margin:18px auto;max-width:600px}
+.electrode{width:120px;min-height:190px;padding:18px 8px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:bold;color:#fff}
+.positive{background:#c83d3d;border-radius:12px 0 0 12px}
+.negative{background:#34495e;border-radius:0 12px 12px 0}
+.electrolyte{flex:1;min-height:190px;background:#dff2f6;border:2px solid #80b7c4;padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.ions{height:85px;width:100%;position:relative;overflow:hidden}
+.ion{position:absolute;width:11px;height:11px;border-radius:50%;background:#16805a}
+.ion.a{background:#8b5cf6}
+.ions.run .ion{animation:ionMove 2.2s linear infinite alternate}
+@keyframes ionMove{from{left:8%}to{left:88%}}
+.wire{height:42px;background:#222;border-radius:22px;position:relative;max-width:700px;margin:10px auto}
+.electron{position:absolute;top:13px;width:14px;height:14px;border-radius:50%;background:#ffd43b}
+.wire.run .electron{animation:electronMove 2s linear infinite}
+@keyframes electronMove{from{left:2%}to{left:96%}}
+.battery-model{display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap;min-height:130px}
+.mini-cell{width:70px;height:105px;border:2px solid #496579;border-radius:8px;background:#f4f8fb;display:flex;align-items:center;justify-content:center;position:relative}
+.mini-cell:after{content:"";position:absolute;top:-10px;width:30px;height:8px;background:#496579;border-radius:3px}
+.charge-bar{height:24px;background:#e2e8f0;border-radius:12px;overflow:hidden;margin:12px 0}
+.charge-fill{height:100%;width:0;background:#16805a;transition:width .2s}
+.generator-wrap{display:flex;justify-content:center;align-items:center;gap:35px;flex-wrap:wrap;margin:20px 0}
+.magnet{width:90px;height:145px;display:flex;flex-direction:column;border-radius:10px;overflow:hidden;border:2px solid #374151}
+.magnet div{flex:1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:25px;font-weight:bold}
+.magnet .n{background:#c43b3b}.magnet .s{background:#315d9c}
+.coil{width:145px;height:145px;border:10px solid #c88a31;border-radius:50%;position:relative;transition:transform .1s}
+.coil:after{content:"";position:absolute;inset:22px;border:7px solid #e0ad56;border-radius:50%}
+.coil.spin{animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lamp{font-size:65px;filter:grayscale(1);transition:.25s}
+.lamp.on{filter:none;text-shadow:0 0 24px #ffd43b}
+.speed-read{font-weight:bold;color:#174f7c}
+.sun-panel{display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap;padding:20px}
+.sun{font-size:75px;transition:.2s;filter:grayscale(1);opacity:.45}
+.sun.on{filter:none;opacity:1;animation:pulseSun 1.2s infinite alternate}
+@keyframes pulseSun{to{transform:scale(1.08)}}
+.rays{display:flex;gap:10px;align-items:center;flex-direction:column}
+.ray{height:7px;width:0;background:#f59e0b;border-radius:5px;transition:width .4s}
+.sun.on+.rays .ray{width:100px;animation:rayFlow .8s linear infinite}
+@keyframes rayFlow{50%{transform:translateX(12px)}}
+.panel{width:155px;height:95px;background:#356c9a;border:8px solid #233f5a;border-radius:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;padding:5px}
+.panel span{background:#9fc6dd}
+.wire-line{width:70px;height:5px;background:#333}
+.common{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.source-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.source-btn{background:#fff;color:#174f7c;border:2px solid #aac1d3}
+.source-btn.active{background:#1769aa;color:#fff}
+.common-lamp{font-size:100px;text-align:center;filter:grayscale(1);transition:.3s}
+.common-lamp.on{filter:none;text-shadow:0 0 30px #ffd43b}
+.quiz{border:1px solid #d7e1ea;border-radius:12px;padding:16px;margin-top:16px;background:#fbfdff}
+.option{display:block;padding:8px 10px;border-radius:7px;margin:5px 0}
+.option:hover{background:#eef6ff}
+.result{margin-top:12px;font-size:18px;font-weight:700;min-height:28px}
+.correct{color:#16805a}.wrong{color:#c53b3b}
+.test-question{padding:14px;border:1px solid #d8e2ea;border-radius:10px;margin:12px 0}
+footer{text-align:center;color:#526579;padding:25px 10px}
+@media(max-width:800px){
+ .energy-grid{grid-template-columns:1fr}
+ .source-grid{grid-template-columns:repeat(2,1fr)}
+ .common{grid-template-columns:1fr}
+ .source-buttons{grid-template-columns:repeat(2,1fr)}
+ .cell-model{transform:scale(.9);transform-origin:center}
+}
+@media(max-width:520px){
+ main{padding:12px 8px 35px}
+ section{padding:16px 12px}
+ .source-grid{grid-template-columns:1fr}
+ .nav a,button{font-size:13px;padding:9px 10px}
+ .flow-box{min-width:120px}
+ .generator-wrap{gap:16px}
+ .cell-model{transform:none}
+ .electrode{width:82px;font-size:13px}
+ .sun{font-size:58px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>8-SINF FIZIKA — 10-MAVZU: TOK MANBALARI</h1>
+<nav class="nav">
+<a href="#reja1">1-REJA</a>
+<a href="#reja2">2-REJA</a>
+<a href="#reja3">3-REJA</a>
+<a href="#umumiy">UMUMIY SIMULYATSIYA</a>
+<a href="#test">TEST</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section id="reja1">
+<h2>1. Tok manbalarida elektr energiyasining hosil bo‘lishi</h2>
+<p>Tok manbai — boshqa turdagi energiyani elektr energiyasiga aylantirib, elektr zanjirida tok hosil bo‘lishini ta’minlaydigan qurilma.</p>
+<p>Elektr toki manbai elektr zaryadlarini ajratib turadi va elektr zanjirida kuchlanish hosil qiladi.</p>
+<div class="info">
+<strong>Energiya almashinuvi:</strong> kimyoviy energiya → elektr energiyasi; mexanik energiya → elektr energiyasi; yorug‘lik energiyasi → elektr energiyasi.
+</div>
+<p>Galvanik elementda kimyoviy energiya, generatorlarda mexanik energiya, quyosh elementida esa yorug‘lik energiyasi elektr energiyasiga aylantiriladi. Tok manbai bo‘lmasa, oddiy elektr zanjirida uzluksiz tok hosil bo‘lmaydi.</p>
+
+<h3>Simulyatsiya: Elektr energiyasining hosil bo‘lishi</h3>
+<div class="energy-grid">
+<div class="card"><strong>⚗️ Kimyoviy energiya</strong><span>Galvanik element</span></div>
+<div class="card"><strong>⚙️ Mexanik energiya</strong><span>Generator</span></div>
+<div class="card"><strong>☀️ Yorug‘lik energiyasi</strong><span>Quyosh elementi</span></div>
+</div>
+<div class="flow-area">
+<div class="flow">
+<div id="energySource" class="flow-box">Energiya manbai</div><div class="arrow">→</div>
+<div class="flow-box">ELEKTR ENERGIYASI</div>
+</div>
+<div class="animation-track"><div id="energyDot" class="energy-dot"></div></div>
+<div class="controls">
+<button onclick="selectEnergy('Kimyoviy energiya','⚗️')">KIMYOVIY ENERGIYA</button>
+<button onclick="selectEnergy('Mexanik energiya','⚙️')">MEXANIK ENERGIYA</button>
+<button onclick="selectEnergy('Yorug‘lik energiyasi','☀️')">YORUG‘LIK ENERGIYASI</button>
+<button class="green" onclick="startEnergy()">BOSHLASH</button>
+<button class="secondary" onclick="stopEnergy()">TO‘XTATISH</button>
+<button class="orange" onclick="resetEnergy()">QAYTA BOSHLASH</button>
+</div>
+<div id="energyStatus" class="status">Tok manbai boshqa turdagi energiyani elektr energiyasiga aylantiradi.</div>
+</div>
+
+<div class="quiz">
+<h3>Kichik topshiriq</h3>
+<p><strong>Tok manbaining asosiy vazifasi nima?</strong></p>
+<label class="option"><input type="radio" name="q1" value="A"> A) Faqat simni isitish</label>
+<label class="option"><input type="radio" name="q1" value="B"> B) Boshqa turdagi energiyani elektr energiyasiga aylantirib, tok hosil bo‘lishini ta’minlash</label>
+<label class="option"><input type="radio" name="q1" value="C"> C) Faqat yorug‘lik chiqarish</label>
+<button onclick="checkMini('q1','B','r1')">JAVOBNI TEKSHIRISH</button>
+<div id="r1" class="result"></div>
+</div>
+</section>
+
+<section id="reja2">
+<h2>2. Galvanik element, batareya va akkumulyatorlarning tuzilishi</h2>
+<p>Galvanik element kimyoviy energiyani elektr energiyasiga aylantiradigan tok manbaidir.</p>
+<p>Galvanik elementning asosiy qismlari: <strong>musbat elektrod, manfiy elektrod va elektrolit</strong>. Kimyoviy reaksiyalar natijasida elektr zaryadlari ajraladi va kuchlanish hosil bo‘ladi.</p>
+<p><strong>Batareya</strong> — bir nechta galvanik elementlarning birgalikda ulanishidan tashkil topgan tok manbai.</p>
+<p><strong>Akkumulyator</strong> — elektr energiyasini kimyoviy energiya ko‘rinishida to‘plashi va keyinchalik yana elektr energiyasiga aylantirib berishi mumkin bo‘lgan tok manbai. Akkumulyatorni qayta zaryadlash mumkin.</p>
+<div class="info">Misollar: telefon batareyasi, avtomobil akkumulyatori, noutbuk batareyasi.</div>
+
+<h3>Simulyatsiya: Galvanik elementning ishlashi</h3>
+<div class="cell-model">
+<div class="electrode positive">[+]<br>Musbat<br>elektrod</div>
+<div class="electrolyte"><strong>ELEKTROLIT</strong><div id="ions" class="ions">
+<span class="ion a" style="top:12%;left:10%"></span><span class="ion" style="top:40%;left:35%"></span>
+<span class="ion a" style="top:65%;left:60%"></span><span class="ion" style="top:25%;left:75%"></span>
+<span class="ion" style="top:72%;left:25%"></span></div><small>Ionlar harakati</small></div>
+<div class="electrode negative">[-]<br>Manfiy<br>elektrod</div>
+</div>
+<div class="wire"><span class="electron" style="top:7px"></span><span class="electron" style="top:7px;left:35%"></span><span class="electron" style="top:7px;left:68%"></span></div>
+<div class="controls">
+<button class="green" onclick="startCell()">BOSHLASH</button>
+<button class="secondary" onclick="stopCell()">TO‘XTATISH</button>
+<button class="orange" onclick="resetCell()">QAYTA BOSHLASH</button>
+</div>
+<div id="cellStatus" class="status">Simulyatsiyani boshlash uchun tugmani bosing.</div>
+
+<h3>Interaktiv model: Galvanik element → Batareya → Akkumulyator</h3>
+<div class="controls">
+<button onclick="showSource('cell')">GALVANIK ELEMENT</button>
+<button onclick="showSource('battery')">BATAREYA</button>
+<button onclick="showSource('acc')">AKKUMULYATOR</button>
+<button class="green" onclick="chargeBattery()">ZARYADLASH</button>
+<button class="orange" onclick="resetBattery()">QAYTA BOSHLASH</button>
+</div>
+<div id="sourceDisplay" class="battery-model">
+<div class="mini-cell">1 ta<br>element</div>
+</div>
+<div class="charge-bar"><div id="chargeFill" class="charge-fill"></div></div>
+<div id="sourceStatus" class="status">Bitta galvanik element tasvirlangan.</div>
+
+<div class="quiz">
+<h3>Kichik topshiriq</h3>
+<p><strong>Qaysi tok manbaini qayta zaryadlash mumkin?</strong></p>
+<label class="option"><input type="radio" name="q2" value="A"> A) Oddiy bir martalik galvanik element</label>
+<label class="option"><input type="radio" name="q2" value="B"> B) Akkumulyator</label>
+<label class="option"><input type="radio" name="q2" value="C"> C) Oddiy sim</label>
+<button onclick="checkMini('q2','B','r2')">JAVOBNI TEKSHIRISH</button>
+<div id="r2" class="result"></div>
+</div>
+</section>
+
+<section id="reja3">
+<h2>3. Generator va quyosh elementlari — zamonaviy tok manbalari</h2>
+<p>Generator — mexanik energiyani elektr energiyasiga aylantiradigan qurilma. Generatorning ishlashida mexanik harakat va magnit maydon muhim ahamiyatga ega. Generatorlarda elektromagnit induksiya hodisasidan foydalaniladi.</p>
+<p>Generatorlar elektr stansiyalarida, avtomobillarda va turli texnik qurilmalarda ishlatiladi.</p>
+<p>Quyosh elementi — quyosh nuri energiyasini elektr energiyasiga aylantiruvchi qurilma. Quyosh panellari ko‘plab quyosh elementlaridan tashkil topadi. Quyosh energiyasi ekologik toza va qayta tiklanuvchi energiya manbalaridan biridir.</p>
+
+<h3>Simulyatsiya: Generatorning ishlash prinsipi</h3>
+<div class="generator-wrap">
+<div class="magnet"><div class="n">N</div><div class="s">S</div></div>
+<div id="coil" class="coil"></div>
+<div class="lamp" id="genLamp">💡</div>
+</div>
+<div class="info" style="text-align:center"><strong>Mexanik energiya → Elektr energiyasi</strong></div>
+<div class="controls">
+<button class="green" onclick="startGenerator()">BOSHLASH</button>
+<button class="orange" onclick="increaseSpeed()">TEZLIKNI OSHIRISH</button>
+<button onclick="decreaseSpeed()">TEZLIKNI KAMAYTIRISH</button>
+<button class="secondary" onclick="stopGenerator()">TO‘XTATISH</button>
+<button class="red" onclick="resetGenerator()">QAYTA BOSHLASH</button>
+</div>
+<div class="speed-read">Aylanish tezligi: <span id="speedValue">1</span> daraja</div>
+<div id="genStatus" class="status">Generator harakati to‘xtagan.</div>
+
+<h3>Simulyatsiya: Quyosh elementi qanday ishlaydi?</h3>
+<div class="sun-panel">
+<div id="sun" class="sun">☀️</div>
+<div class="rays">
+<div class="ray"></div><div class="ray"></div><div class="ray"></div>
+</div>
+<div class="panel" id="solarPanel">
+<span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span>
+</div>
+<div class="wire-line"></div>
+<div class="lamp" id="solarLamp">💡</div>
+</div>
+<div class="flow" style="margin-bottom:12px">
+<div class="flow-box">☀️ Quyosh</div><div class="arrow">→</div>
+<div class="flow-box">Quyosh paneli</div><div class="arrow">→</div>
+<div class="flow-box">Elektr energiyasi</div><div class="arrow">→</div>
+<div class="flow-box">💡 Lampochka</div>
+</div>
+<div class="controls">
+<button class="green" onclick="sunOn()">QUYOSHNI YOQISH</button>
+<button class="secondary" onclick="sunOff()">QUYOSHNI O‘CHIRISH</button>
+<button class="orange" onclick="resetSun()">QAYTA BOSHLASH</button>
+</div>
+<div id="sunStatus" class="status">Quyosh elementi faol emas.</div>
+
+<div class="quiz">
+<h3>Kichik topshiriq</h3>
+<p><strong>Generator qanday energiyani elektr energiyasiga aylantiradi?</strong></p>
+<label class="option"><input type="radio" name="q3" value="A"> A) Mexanik energiyani</label>
+<label class="option"><input type="radio" name="q3" value="B"> B) Faqat issiqlik energiyasini</label>
+<label class="option"><input type="radio" name="q3" value="C"> C) Faqat yorug‘lik energiyasini</label>
+<button onclick="checkMini('q3','A','r3')">JAVOBNI TEKSHIRISH</button>
+<div id="r3" class="result"></div>
+</div>
+</section>
+
+<section id="umumiy">
+<h2>UMUMIY SIMULYATSIYA: TOK MANBALARI</h2>
+<p>Quyidagi tok manbalaridan birini tanlang. Tanlangan manbaning energiya aylanishi va lampochkaga ta’siri ko‘rsatiladi.</p>
+<div class="source-buttons">
+<button class="source-btn" onclick="commonSource('galvanik',this)">🔋 Galvanik element</button>
+<button class="source-btn" onclick="commonSource('batareya',this)">🔋 Batareya</button>
+<button class="source-btn" onclick="commonSource('akkumulyator',this)">🔋 Akkumulyator</button>
+<button class="source-btn" onclick="commonSource('generator',this)">⚙️ Generator</button>
+<button class="source-btn" onclick="commonSource('quyosh',this)">☀️ Quyosh elementi</button>
+</div>
+<div class="common">
+<div class="flow-area">
+<div id="commonFlow" class="flow">
+<div class="flow-box">Tok manbai tanlang</div>
+</div>
+<div class="animation-track"><div id="commonDot" class="energy-dot"></div></div>
+<div id="commonStatus" class="status">Tok manbai tanlang.</div>
+</div>
+<div id="commonLamp" class="common-lamp">💡</div>
+</div>
+<div class="controls">
+<button class="green" onclick="startCommon()">BOSHLASH</button>
+<button class="secondary" onclick="stopCommon()">TO‘XTATISH</button>
+<button class="orange" onclick="resetCommon()">QAYTA BOSHLASH</button>
+</div>
+</section>
+
+<section id="test">
+<h2>YAKUNIY TEST</h2>
+<p>5 ta savolga javob bering va natijani avtomatik hisoblang.</p>
+<div class="test-question">
+<strong>1. Tok manbai nima?</strong>
+<label class="option"><input type="radio" name="t1" value="A"> A) Boshqa turdagi energiyani elektr energiyasiga aylantirib, tok hosil bo‘lishini ta’minlaydigan qurilma</label>
+<label class="option"><input type="radio" name="t1" value="B"> B) Faqat elektr energiyasini iste’mol qiladigan qurilma</label>
+<label class="option"><input type="radio" name="t1" value="C"> C) Oddiy o‘tkazgich</label>
+</div>
+<div class="test-question">
+<strong>2. Galvanik elementda qanday energiya elektr energiyasiga aylanadi?</strong>
+<label class="option"><input type="radio" name="t2" value="A"> A) Mexanik energiya</label>
+<label class="option"><input type="radio" name="t2" value="B"> B) Kimyoviy energiya</label>
+<label class="option"><input type="radio" name="t2" value="C"> C) Yorug‘lik energiyasi</label>
+</div>
+<div class="test-question">
+<strong>3. Qaysi tok manbaini qayta zaryadlash mumkin?</strong>
+<label class="option"><input type="radio" name="t3" value="A"> A) Akkumulyator</label>
+<label class="option"><input type="radio" name="t3" value="B"> B) Oddiy sim</label>
+<label class="option"><input type="radio" name="t3" value="C"> C) Chizg‘ich</label>
+</div>
+<div class="test-question">
+<strong>4. Generator qanday energiyani elektr energiyasiga aylantiradi?</strong>
+<label class="option"><input type="radio" name="t4" value="A"> A) Mexanik energiyani</label>
+<label class="option"><input type="radio" name="t4" value="B"> B) Faqat yorug‘lik energiyasini</label>
+<label class="option"><input type="radio" name="t4" value="C"> C) Faqat kimyoviy energiyani</label>
+</div>
+<div class="test-question">
+<strong>5. Quyosh elementi qanday energiyani elektr energiyasiga aylantiradi?</strong>
+<label class="option"><input type="radio" name="t5" value="A"> A) Mexanik energiyani</label>
+<label class="option"><input type="radio" name="t5" value="B"> B) Yorug‘lik energiyasini</label>
+<label class="option"><input type="radio" name="t5" value="C"> C) Kimyoviy energiyani</label>
+</div>
+<button class="green" onclick="checkTest()">TESTNI TEKSHIRISH</button>
+<div id="testResult" class="result"></div>
+</section>
+
+<section>
+<h2>XULOSA</h2>
+<p>Tok manbai boshqa turdagi energiyani elektr energiyasiga aylantirib, elektr zanjirida tok hosil bo‘lishini ta’minlaydi.</p>
+<p>Galvanik element va batareyalarda kimyoviy energiya elektr energiyasiga aylanadi.</p>
+<p>Akkumulyator elektr energiyasini saqlash va qayta foydalanish imkonini beradi.</p>
+<p>Generator mexanik energiyani elektr energiyasiga aylantiradi.</p>
+<p>Quyosh elementi yorug‘lik energiyasini elektr energiyasiga aylantiradi.</p>
+<p>Tok manbalari zamonaviy elektr qurilmalari va energetika tizimlarining muhim qismidir.</p>
+</section>
+</main>
+
+<footer>
+<strong>E’tiboringiz uchun rahmat!</strong>
+</footer>
+
+<script>
+let energyMode='Kimyoviy energiya';
+let cellRunning=false, genRunning=false, sunActive=false, commonRunning=false;
+let genSpeed=1, genTimer=null, chargeTimer=null;
+
+function selectEnergy(name,icon){
+ energyMode=name;
+ document.getElementById('energySource').textContent=icon+' '+name;
+ document.getElementById('energyStatus').textContent=name+' → Elektr energiyasi. Tok manbai boshqa turdagi energiyani elektr energiyasiga aylantiradi.';
+}
+function startEnergy(){
+ document.getElementById('energyDot').classList.add('run');
+ document.getElementById('energyStatus').textContent=energyMode+' → Elektr energiyasi: energiya aylanishi boshlandi.';
+}
+function stopEnergy(){
+ document.getElementById('energyDot').classList.remove('run');
+ document.getElementById('energyStatus').textContent='Jarayon to‘xtatildi.';
+}
+function resetEnergy(){
+ stopEnergy(); selectEnergy('Kimyoviy energiya','⚗️');
+ document.getElementById('energyStatus').textContent='Tok manbai boshqa turdagi energiyani elektr energiyasiga aylantiradi.';
+}
+
+function startCell(){
+ cellRunning=true;
+ document.getElementById('ions').classList.add('run');
+ document.querySelectorAll('.wire')[0].classList.add('run');
+ document.getElementById('cellStatus').textContent='Kimyoviy energiya elektr energiyasiga aylanmoqda. Ionlar va elektronlar harakatlanmoqda; kuchlanish mavjud.';
+}
+function stopCell(){
+ cellRunning=false;
+ document.getElementById('ions').classList.remove('run');
+ document.querySelectorAll('.wire')[0].classList.remove('run');
+ document.getElementById('cellStatus').textContent='Animatsiya to‘xtatildi.';
+}
+function resetCell(){stopCell();document.getElementById('cellStatus').textContent='Simulyatsiyani boshlash uchun tugmani bosing.'}
+
+function showSource(type){
+ const d=document.getElementById('sourceDisplay'), s=document.getElementById('sourceStatus');
+ d.innerHTML='';
+ if(type==='cell'){
+  d.innerHTML='<div class="mini-cell">1 ta<br>element</div>';
+  s.textContent='Galvanik element: kimyoviy energiya elektr energiyasiga aylanadi.';
+ }
+ if(type==='battery'){
+  for(let i=0;i<4;i++)d.innerHTML+='<div class="mini-cell">'+(i+1)+'</div>';
+  s.textContent='Batareya: bir nechta galvanik element birgalikda ulangan.';
+ }
+ if(type==='acc'){
+  d.innerHTML='<div class="mini-cell">🔋<br>Akkumulyator</div>';
+  s.textContent='Akkumulyator: elektr energiyasini kimyoviy energiya ko‘rinishida to‘playdi va qayta ishlatish mumkin.';
+ }
+}
+function chargeBattery(){
+ clearInterval(chargeTimer);
+ let v=0;
+ document.getElementById('sourceStatus').textContent='Zaryadlanish: energiya akkumulyatorda to‘planmoqda.';
+ chargeTimer=setInterval(()=>{
+  v+=5; document.getElementById('chargeFill').style.width=v+'%';
+  if(v>=100){clearInterval(chargeTimer);document.getElementById('sourceStatus').textContent='Zaryadlash yakunlandi: akkumulyator energiya to‘pladi.'}
+ },100);
+}
+function resetBattery(){
+ clearInterval(chargeTimer);document.getElementById('chargeFill').style.width='0%';showSource('cell');
+}
+
+function updateGenerator(){
+ document.getElementById('speedValue').textContent=genSpeed;
+ const lamp=document.getElementById('genLamp');
+ if(genRunning){
+  document.getElementById('coil').style.animationDuration=Math.max(.18,0.9/genSpeed)+'s';
+  lamp.classList.add('on');
+  document.getElementById('genStatus').textContent='Generator aylanmoqda: mexanik energiya elektr energiyasiga aylanmoqda.';
+ }else lamp.classList.remove('on');
+}
+function startGenerator(){genRunning=true;document.getElementById('coil').classList.add('spin');updateGenerator()}
+function stopGenerator(){genRunning=false;document.getElementById('coil').classList.remove('spin');updateGenerator();document.getElementById('genStatus').textContent='Generator harakati to‘xtadi.'}
+function increaseSpeed(){genSpeed=Math.min(5,genSpeed+1);updateGenerator();document.getElementById('genStatus').textContent='Aylanish tezligi oshdi. Elektr energiyasi hosil bo‘lishi kuchaydi.'}
+function decreaseSpeed(){genSpeed=Math.max(1,genSpeed-1);updateGenerator();document.getElementById('genStatus').textContent='Aylanish tezligi kamaydi.'}
+function resetGenerator(){genSpeed=1;stopGenerator();document.getElementById('speedValue').textContent='1';document.getElementById('genStatus').textContent='Generator harakati to‘xtagan.'}
+
+function sunOn(){
+ sunActive=true;document.getElementById('sun').classList.add('on');document.getElementById('solarLamp').classList.add('on');
+ document.getElementById('sunStatus').textContent='Quyosh nurlari panelga tushmoqda: yorug‘lik energiyasi elektr energiyasiga aylanmoqda.';
+}
+function sunOff(){
+ sunActive=false;document.getElementById('sun').classList.remove('on');document.getElementById('solarLamp').classList.remove('on');
+ document.getElementById('sunStatus').textContent='Quyosh o‘chirildi: energiya oqimi to‘xtadi va lampochka o‘chdi.';
+}
+function resetSun(){sunOff();document.getElementById('sunStatus').textContent='Quyosh elementi faol emas.'}
+
+const commonData={
+ galvanik:['Kimyoviy energiya','Elektr energiyasi'],batareya:['Kimyoviy energiya','Elektr energiyasi'],
+ akkumulyator:['Kimyoviy energiya','Elektr energiyasi'],generator:['Mexanik energiya','Elektr energiyasi'],
+ quyosh:['Yorug‘lik energiyasi','Elektr energiyasi']
+};
+let commonChoice=null;
+function commonSource(type,btn){
+ commonChoice=type;
+ document.querySelectorAll('.source-btn').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+ document.getElementById('commonFlow').innerHTML='<div class="flow-box">'+commonData[type][0]+'</div><div class="arrow">→</div><div class="flow-box">Elektr energiyasi</div><div class="arrow">→</div><div class="flow-box">💡 Lampochka</div>';
+ document.getElementById('commonStatus').textContent='Tanlandi: '+btn.textContent.trim()+'. Boshlash tugmasini bosing.';
+}
+function startCommon(){
+ if(!commonChoice){document.getElementById('commonStatus').textContent='Avval tok manbai tanlang.';return}
+ commonRunning=true;document.getElementById('commonDot').classList.add('run');document.getElementById('commonLamp').classList.add('on');
+ document.getElementById('commonStatus').textContent='Elektr energiyasi hosil bo‘lmoqda. Elektr zanjirida tok oqmoqda.';
+}
+function stopCommon(){
+ commonRunning=false;document.getElementById('commonDot').classList.remove('run');document.getElementById('commonLamp').classList.remove('on');
+ document.getElementById('commonStatus').textContent='Jarayon to‘xtatildi.';
+}
+function resetCommon(){
+ stopCommon();commonChoice=null;document.querySelectorAll('.source-btn').forEach(x=>x.classList.remove('active'));
+ document.getElementById('commonFlow').innerHTML='<div class="flow-box">Tok manbai tanlang</div>';
+ document.getElementById('commonStatus').textContent='Tok manbai tanlang.';
+}
+
+function checkMini(name,correct,resultId){
+ const picked=document.querySelector('input[name="'+name+'"]:checked');
+ const r=document.getElementById(resultId);
+ if(!picked){r.className='result wrong';r.textContent='Javobni tanlang.';return}
+ if(picked.value===correct){r.className='result correct';r.textContent='To‘g‘ri! Barakalla.'}
+ else{r.className='result wrong';r.textContent='Noto‘g‘ri. To‘g‘ri javob: '+correct+'.'}
+}
+function checkTest(){
+ const answers=['A','B','A','A','B'];let score=0;
+ answers.forEach((a,i)=>{const x=document.querySelector('input[name="t'+(i+1)+'"]:checked');if(x&&x.value===a)score++});
+ const r=document.getElementById('testResult');
+ if(score===5){r.className='result correct';r.textContent='5/5 — A’lo!'}
+ else if(score===4){r.className='result correct';r.textContent='4/5 — Juda yaxshi!'}
+ else if(score===3){r.className='result';r.textContent='3/5 — Yaxshi, mavzuni yana bir bor takrorlang.'}
+ else{r.className='result wrong';r.textContent=score+'/5 — Mavzuni qayta o‘rganish tavsiya etiladi.'}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-SINF FIZIKA — 9-MAVZU: ELEKTR TOKI HAQIDA TUSHUNCHA</title>
+<style>
+:root{
+  --blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--red:#dc2626;
+  --yellow:#f59e0b;--ink:#172033;--muted:#5b6475;--bg:#f7f9fc;--card:#fff;
+  --line:#dce3ee;--shadow:0 5px 18px rgba(30,55,90,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;overflow-x:hidden}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.header-inner{max-width:1150px;margin:auto;padding:16px 18px}
+h1{font-size:clamp(20px,3vw,30px);margin:0 0 12px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+button,.navbtn{border:1px solid #cbd5e1;background:#fff;color:var(--ink);padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:700;transition:.2s}
+button:hover,.navbtn:hover{transform:translateY(-1px);border-color:var(--blue)}
+button.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+button.green{background:var(--green);color:#fff;border-color:var(--green)}
+button.red{background:var(--red);color:#fff;border-color:var(--red)}
+main{max-width:1150px;margin:auto;padding:22px 16px 50px}
+section{scroll-margin-top:130px;margin:26px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+h2{font-size:clamp(21px,3vw,28px);margin-top:0}
+h3{margin-bottom:8px}
+p{margin:9px 0}
+ul,ol{padding-left:23px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sim{margin-top:16px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.status{padding:11px 13px;border-radius:9px;background:#eef4ff;border-left:4px solid var(--blue);font-weight:700}
+.task{background:#fffaf0;border:1px solid #f1d48b}
+.answer{margin-top:10px;font-weight:700;min-height:25px}
+.option{display:block;width:100%;text-align:left;margin:7px 0}
+.option.selected{border-color:var(--blue);background:var(--blue2)}
+.small{color:var(--muted);font-size:14px}
+.formula{font-size:20px;font-weight:700;text-align:center;padding:12px;background:#f3f6fb;border-radius:9px;margin:12px 0}
+.conductor{height:210px;background:#eef5ff;border:2px solid #93b4e8;border-radius:12px;position:relative;overflow:hidden}
+.wire{position:absolute;left:8%;right:8%;top:50%;height:34px;margin-top:-17px;border-radius:20px;background:#b7c4d8}
+.electron{position:absolute;width:16px;height:16px;border-radius:50%;background:#2563eb;box-shadow:0 0 0 3px #bfdbfe;z-index:2}
+.electron:after{content:"−";position:absolute;color:#fff;font-size:12px;font-weight:bold;left:4px;top:-1px}
+.eLabel{position:absolute;top:15px;left:15px;font-weight:700}
+.directionBox{position:relative;height:170px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.dirline{position:absolute;left:8%;right:8%;height:3px;background:#334155}
+.arrow{position:absolute;font-weight:800;font-size:25px}
+.arrow.current{top:35px;color:var(--green)}
+.arrow.electrons{top:100px;color:var(--blue)}
+.effects{min-height:220px;position:relative;overflow:hidden;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:20px}
+.effect-icon{font-size:56px;text-align:center;margin:25px 0}
+.heat{animation:heat 1s infinite alternate}
+.lightbulb{animation:glow 1s infinite alternate}
+@keyframes heat{from{transform:scale(1);filter:none}to{transform:scale(1.06);filter:drop-shadow(0 0 10px #f59e0b)}}
+@keyframes glow{from{filter:brightness(.75);transform:scale(1)}to{filter:brightness(1.8) drop-shadow(0 0 15px #f59e0b);transform:scale(1.06)}}
+.emag{display:flex;justify-content:center;gap:35px;align-items:center;height:130px}
+.iron{width:28px;height:45px;background:#64748b;border-radius:5px;animation:none}
+.magnet{font-size:55px}
+.attract .iron{transform:translateX(-22px);transition:.6s}
+.ions{height:130px;position:relative;background:#dff7ff;border-radius:10px;overflow:hidden}
+.ion{position:absolute;width:18px;height:18px;border-radius:50%;background:#ef4444;color:white;text-align:center;font-size:12px}
+.ion.i1{left:10%;top:55%;}.ion.i2{left:35%;top:25%;}.ion.i3{left:60%;top:65%;}.ion.i4{left:80%;top:35%}
+.ions.run .ion{animation:ionmove 2s linear infinite}
+@keyframes ionmove{from{transform:translateX(0)}to{transform:translateX(100px)}}
+.circuit{position:relative;height:310px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.battery{position:absolute;left:8%;top:36%;font-size:54px}
+.lamp{position:absolute;right:9%;top:31%;font-size:58px;filter:grayscale(1);transition:.3s}
+.lamp.on{filter:none;animation:glow 1s infinite alternate}
+.switch{position:absolute;left:47%;top:40%;font-size:42px;cursor:pointer}
+.cwire{position:absolute;background:#475569;height:5px}
+.w1{left:20%;right:48%;top:47%}.w2{left:52%;right:18%;top:47%}.w3{left:12%;width:5px;top:47%;bottom:23%}.w4{right:12%;width:5px;top:47%;bottom:23%}.w5{left:12%;right:12%;bottom:23%}
+.flowDot{position:absolute;width:12px;height:12px;border-radius:50%;background:#2563eb;display:none}
+.flowing .flowDot{display:block;animation:flow 2.5s linear infinite}
+@keyframes flow{0%{left:13%;bottom:23%}25%{left:86%;bottom:23%}50%{left:86%;top:48%}75%{left:13%;top:48%}100%{left:13%;bottom:23%}}
+.parts{display:flex;flex-wrap:wrap;gap:8px}
+.part.selected{background:var(--blue2);border-color:var(--blue)}
+.builder-result{margin-top:12px;padding:12px;border-radius:9px;background:#f3f6fb;font-weight:700}
+.general .circuit{height:360px}
+.legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:10px;font-size:14px}
+.badge{padding:5px 9px;border-radius:20px;background:#eef2ff}
+.test-question{padding:15px;border:1px solid var(--line);border-radius:10px;margin:12px 0}
+.score{font-size:22px;font-weight:800;margin-top:15px;padding:14px;border-radius:10px;background:#eef6ff}
+footer{text-align:center;padding:30px 15px;color:var(--muted)}
+@media(max-width:720px){
+  .grid{grid-template-columns:1fr}
+  .card{padding:15px}
+  nav button{flex:1 1 42%}
+  .conductor{height:180px}
+  .circuit{height:280px}
+  .battery{font-size:43px}.lamp{font-size:46px}.switch{font-size:34px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>8-SINF FIZIKA — 9-MAVZU: ELEKTR TOKI HAQIDA TUSHUNCHA</h1>
+<nav>
+<button class="navbtn" onclick="go('reja1')">1-REJA</button>
+<button class="navbtn" onclick="go('reja2')">2-REJA</button>
+<button class="navbtn" onclick="go('reja3')">3-REJA</button>
+<button class="navbtn" onclick="go('umumiy')">UMUMIY SIMULYATSIYA</button>
+<button class="navbtn" onclick="go('test')">TEST</button>
+</nav>
+</div>
+</header>
+
+<main>
+<section id="reja1">
+<div class="card">
+<h2>1. Elektr toki va uning hosil bo‘lish shartlari</h2>
+<p><b>Elektr toki</b> — zaryadlangan zarrachalarning tartibli yo‘nalgan harakatidir.</p>
+<p>Metallarda elektr tokini asosan erkin elektronlarning tartibli harakati hosil qiladi.</p>
+<p>Elektr toki hosil bo‘lishi uchun ikkita asosiy shart kerak:</p>
+<ol><li>Moddada erkin zaryad tashuvchilar bo‘lishi.</li><li>Zaryad tashuvchilarni tartibli harakatga keltiradigan elektr maydoni yoki kuchlanish mavjud bo‘lishi.</li></ol>
+<p>Elektr toki o‘tishi uchun elektr zanjiri <b>yopiq</b> bo‘lishi kerak. Zanjir uzilgan bo‘lsa, uzluksiz tartibli harakat bo‘lmaydi.</p>
+<p>Turli muhitlarda zaryad tashuvchilar ham turlicha: metallarda — elektronlar, elektrolitlarda — ionlar, gazlarda — elektronlar va ionlar.</p>
+</div>
+
+<div class="card sim">
+<h3>Simulyatsiya: Elektr tokining hosil bo‘lishi</h3>
+<div class="conductor" id="cond">
+<div class="eLabel" id="motionLabel">Boshlang‘ich holat</div><div class="wire"></div>
+</div>
+<div class="controls">
+<button onclick="randomMotion()">HARAKATNI BOSHLASH</button>
+<button class="primary" onclick="turnCurrentOn()">TOKNI YOQISH</button>
+<button class="red" onclick="turnCurrentOff()">TOKNI O‘CHIRISH</button>
+<button onclick="resetConductor()">QAYTA BOSHLASH</button>
+</div>
+<div class="status" id="condStatus">Zaryad tashuvchilar hozircha harakat qilmayapti.</div>
+</div>
+
+<div class="card task">
+<h3>1-reja kichik topshirig‘i</h3>
+<p><b>Elektr toki hosil bo‘lishi uchun qaysi shart zarur?</b></p>
+<div id="task1">
+<button class="option" onclick="chooseTask(1,'A',this)">A) Faqat o‘tkazgich bo‘lishi</button>
+<button class="option" onclick="chooseTask(1,'B',this)">B) Erkin zaryad tashuvchilar va ularni tartibli harakatga keltiruvchi sharoit bo‘lishi</button>
+<button class="option" onclick="chooseTask(1,'C',this)">C) Faqat lampochka bo‘lishi</button>
+<button class="primary" onclick="checkTask(1,'B')">JAVOBNI TEKSHIRISH</button>
+<div class="answer" id="ans1"></div>
+</div>
+</div>
+</section>
+
+<section id="reja2">
+<div class="card">
+<h2>2. Elektr tokining yo‘nalishi va ta’sirlari</h2>
+<p>Elektr tokining yo‘nalishi shartli ravishda musbat zaryadlarning harakat yo‘nalishi bilan bir xil deb qabul qilingan.</p>
+<p>Metallarda elektronlar manfiy zaryadga ega bo‘lgani uchun ular elektr tokining shartli yo‘nalishiga <b>qarama-qarshi</b> harakat qiladi.</p>
+<p>Elektr toki quyidagi ta’sirlarga ega:</p>
+<ol><li>Issiqlik ta’siri.</li><li>Magnit ta’siri.</li><li>Kimyoviy ta’siri.</li><li>Fiziologik ta’siri.</li><li>Yorug‘lik ta’siri.</li></ol>
+<p>Masalan, elektr plitasi va isitkich — issiqlik; elektromagnit — magnit; elektroliz — kimyoviy; elektr lampalari va LED — yorug‘lik ta’siriga misol bo‘ladi.</p>
+</div>
+
+<div class="card sim">
+<h3>Simulyatsiya: Elektr tokining yo‘nalishi</h3>
+<div class="directionBox" id="directionBox">
+<div class="dirline"></div>
+<div class="arrow current" id="currentArrow" style="left:12%">→</div>
+<div class="arrow electrons" id="electronArrow" style="left:78%">←</div>
+</div>
+<div class="legend"><span class="badge">Yashil: tokning shartli yo‘nalishi</span><span class="badge">Ko‘k: elektronlar harakati</span></div>
+<div class="controls">
+<button class="primary" onclick="directionOn()">TOKNI YOQISH</button>
+<button onclick="showCurrentDirection()">TOK YO‘NALISHINI KO‘RSATISH</button>
+<button onclick="showElectronDirection()">ELEKTRON YO‘NALISHINI KO‘RSATISH</button>
+<button onclick="resetDirection()">QAYTA BOSHLASH</button>
+</div>
+<div class="status" id="directionStatus">Yo‘nalishlarni ko‘rsatish uchun tugmalardan foydalaning.</div>
+</div>
+
+<div class="card sim">
+<h3>Ta’sirlar simulyatsiyasi: Elektr tokining ta’sirini kuzating</h3>
+<div class="effects" id="effects">
+<div id="effectTitle"><b>Ta’sir turini tanlang.</b></div>
+<div class="effect-icon" id="effectVisual">⚡</div>
+</div>
+<div class="controls">
+<button onclick="effect('heat')">ISSIQLIK</button>
+<button onclick="effect('magnet')">MAGNIT</button>
+<button onclick="effect('chemical')">KIMYOVIY</button>
+<button onclick="effect('physio')">FIZIOLOGIK</button>
+<button onclick="effect('light')">YORUG‘LIK</button>
+<button onclick="stopEffect()">TO‘XTATISH</button>
+</div>
+</div>
+
+<div class="card task">
+<h3>2-reja kichik topshirig‘i</h3>
+<p><b>Elektr toki metallarda asosan qaysi zarrachalarning tartibli harakati orqali hosil bo‘ladi?</b></p>
+<div>
+<button class="option" onclick="chooseTask(2,'A',this)">A) Protonlar</button>
+<button class="option" onclick="chooseTask(2,'B',this)">B) Neytronlar</button>
+<button class="option" onclick="chooseTask(2,'C',this)">C) Erkin elektronlar</button>
+<button class="primary" onclick="checkTask(2,'C')">JAVOBNI TEKSHIRISH</button>
+<div class="answer" id="ans2"></div>
+</div>
+</div>
+</section>
+
+<section id="reja3">
+<div class="card">
+<h2>3. Elektr toki manbalari va elektr zanjiri</h2>
+<p><b>Elektr toki manbai</b> — elektr zaryadlarini ajratib, elektr zanjirida tok hosil bo‘lishini ta’minlaydigan qurilma.</p>
+<p>Elektr toki manbalariga galvanik element, batareya, akkumulyator, generator va quyosh elementi kiradi.</p>
+<p>Oddiy elektr zanjiri asosiy qismlari: <b>tok manbai, o‘tkazgich, iste’molchi va kalit</b>.</p>
+<div class="formula">Batareya → kalit → lampochka → o‘tkazgich → batareya</div>
+<p>Zanjir yopilganda tok oqadi va lampochka yonadi. Zanjir ochilganda tok oqimi to‘xtaydi va lampochka o‘chadi.</p>
+</div>
+
+<div class="card sim">
+<h3>Simulyatsiya: Oddiy elektr zanjiri</h3>
+<div class="circuit" id="circuit1">
+<div class="battery">🔋</div><div class="lamp" id="lamp1">💡</div><div class="switch" onclick="toggleCircuit()">🔘</div>
+<div class="cwire w1"></div><div class="cwire w2"></div><div class="cwire w3"></div><div class="cwire w4"></div><div class="cwire w5"></div>
+<div class="flowDot"></div>
+</div>
+<div class="controls">
+<button class="primary" onclick="turnCircuitOn()">TOKNI YOQISH</button>
+<button class="red" onclick="turnCircuitOff()">TOKNI O‘CHIRISH</button>
+<button onclick="toggleCircuit()">KALITNI BOSISH</button>
+<button onclick="resetCircuit()">QAYTA BOSHLASH</button>
+</div>
+<div class="status" id="circuitStatus">Zanjir ochiq. Tok o‘tmayapti.</div>
+</div>
+
+<div class="card sim">
+<h3>Zanjirni o‘zingiz yig‘ing</h3>
+<p>Kerakli elementlarni tanlang. To‘g‘ri zanjir uchun batareya, kalit, lampochka va simlarning barchasi kerak.</p>
+<div class="parts">
+<button class="part" id="pBattery" onclick="pickPart('battery')">BATAREYA</button>
+<button class="part" id="pSwitch" onclick="pickPart('switch')">KALIT</button>
+<button class="part" id="pLamp" onclick="pickPart('lamp')">LAMPOCHKA</button>
+<button class="part" id="pWire" onclick="pickPart('wire')">SIM</button>
+</div>
+<div class="controls"><button class="primary" onclick="checkBuilder()">ZANJIRNI TEKSHIRISH</button><button onclick="resetBuilder()">QAYTA BOSHLASH</button></div>
+<div class="builder-result" id="builderResult">Elementlarni tanlang.</div>
+</div>
+
+<div class="card task">
+<h3>3-reja kichik topshirig‘i</h3>
+<p><b>Oddiy elektr zanjirining asosiy qismlaridan qaysi biri tokni iste’mol qiladi?</b></p>
+<div>
+<button class="option" onclick="chooseTask(3,'A',this)">A) Lampochka</button>
+<button class="option" onclick="chooseTask(3,'B',this)">B) Sim</button>
+<button class="option" onclick="chooseTask(3,'C',this)">C) Kalit</button>
+<button class="primary" onclick="checkTask(3,'A')">JAVOBNI TEKSHIRISH</button>
+<div class="answer" id="ans3"></div>
+</div>
+</div>
+</section>
+
+<section id="umumiy" class="general">
+<div class="card">
+<h2>UMUMIY SIMULYATSIYA: ELEKTR ZANJIRIDA TOKNING OQISHI</h2>
+<p>To‘liq zanjirni boshqaring. Tok yoqilganda elektronlar harakati va tokning shartli yo‘nalishini kuzating.</p>
+<div class="circuit" id="generalCircuit">
+<div class="battery">🔋</div><div class="lamp" id="generalLamp">💡</div><div class="switch">🔘</div>
+<div class="cwire w1"></div><div class="cwire w2"></div><div class="cwire w3"></div><div class="cwire w4"></div><div class="cwire w5"></div>
+<div class="flowDot"></div>
+<div id="gArrow1" class="arrow current" style="display:none;left:34%;top:55%">→</div>
+<div id="gArrow2" class="arrow electrons" style="display:none;right:32%;top:70%">←</div>
+</div>
+<div class="controls">
+<button class="primary" onclick="generalOn()">TOKNI YOQISH</button>
+<button class="red" onclick="generalOff()">TOKNI O‘CHIRISH</button>
+<button onclick="generalReset()">QAYTA BOSHLASH</button>
+</div>
+<div class="status" id="generalStatus">Zanjir ochiq — tok oqmayapti.</div>
+</div>
+</section>
+
+<section id="test">
+<div class="card">
+<h2>YAKUNIY TEST</h2>
+<div class="test-question"><b>1. Elektr toki nima?</b>
+<label><button class="option" data-q="1" data-a="A" onclick="selectTest(this)">A) Zaryadlangan zarrachalarning tartibli harakati</button></label>
+<label><button class="option" data-q="1" data-a="B" onclick="selectTest(this)">B) Jismlarning issiqlik harakati</button></label>
+<label><button class="option" data-q="1" data-a="C" onclick="selectTest(this)">C) Yorug‘likning tarqalishi</button></label></div>
+<div class="test-question"><b>2. Metallarda elektr tokini asosan nima hosil qiladi?</b>
+<button class="option" data-q="2" data-a="A" onclick="selectTest(this)">A) Protonlar</button>
+<button class="option" data-q="2" data-a="B" onclick="selectTest(this)">B) Erkin elektronlar</button>
+<button class="option" data-q="2" data-a="C" onclick="selectTest(this)">C) Neytronlar</button></div>
+<div class="test-question"><b>3. Elektr toki hosil bo‘lishi uchun nima zarur?</b>
+<button class="option" data-q="3" data-a="A" onclick="selectTest(this)">A) Faqat lampochka</button>
+<button class="option" data-q="3" data-a="B" onclick="selectTest(this)">B) Faqat sim</button>
+<button class="option" data-q="3" data-a="C" onclick="selectTest(this)">C) Erkin zaryad tashuvchilar va ularni tartibli harakatga keltiruvchi sharoit</button></div>
+<div class="test-question"><b>4. Oddiy elektr zanjirining asosiy qismlaridan biri qaysi?</b>
+<button class="option" data-q="4" data-a="A" onclick="selectTest(this)">A) Kalit</button>
+<button class="option" data-q="4" data-a="B" onclick="selectTest(this)">B) Termometr</button>
+<button class="option" data-q="4" data-a="C" onclick="selectTest(this)">C) Chizg‘ich</button></div>
+<div class="test-question"><b>5. Zanjir yopilganda nima sodir bo‘ladi?</b>
+<button class="option" data-q="5" data-a="A" onclick="selectTest(this)">A) Tok oqishi mumkin va lampochka yonadi</button>
+<button class="option" data-q="5" data-a="B" onclick="selectTest(this)">B) Tok har doim to‘xtaydi</button>
+<button class="option" data-q="5" data-a="C" onclick="selectTest(this)">C) Batareya yo‘qoladi</button></div>
+<button class="primary" onclick="checkTest()">TESTNI TEKSHIRISH</button>
+<div class="score" id="score">Natijani ko‘rish uchun barcha savollarga javob bering.</div>
+</div>
+</section>
+
+<section>
+<div class="card">
+<h2>XULOSA</h2>
+<p>Elektr toki — zaryadlangan zarrachalarning tartibli yo‘nalgan harakatidir.</p>
+<p>Elektr toki hosil bo‘lishi uchun erkin zaryad tashuvchilar va ularni tartibli harakatga keltiruvchi sharoit kerak.</p>
+<p>Elektr toki issiqlik, magnit, kimyoviy, fiziologik va yorug‘lik ta’sirlariga ega.</p>
+<p>Elektr toki manbalari elektr zanjirida tok hosil bo‘lishini ta’minlaydi.</p>
+<p>Elektr zanjiri yopiq bo‘lsa, tok oqishi mumkin.</p>
+</div>
+</section>
+</main>
+<footer><b>E’tiboringiz uchun rahmat!</b></footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+const cond=document.getElementById('cond'), condStatus=document.getElementById('condStatus'), motionLabel=document.getElementById('motionLabel');
+let electrons=[], condMode='off';
+function createElectrons(){
+  cond.querySelectorAll('.electron').forEach(e=>e.remove()); electrons=[];
+  for(let i=0;i<22;i++){
+    const e=document.createElement('div');e.className='electron';
+    e.style.left=(5+Math.random()*88)+'%';e.style.top=(35+Math.random()*30)+'%';
+    cond.appendChild(e);electrons.push(e);
+  }
+}
+function moveRandom(){
+  electrons.forEach((e,i)=>{
+    const x=5+Math.random()*88,y=35+Math.random()*30;
+    e.style.transition='left .55s linear, top .55s linear';e.style.left=x+'%';e.style.top=y+'%';
+  });
+}
+function randomMotion(){
+  condMode='random';motionLabel.textContent='Tartibsiz harakat';condStatus.textContent='Zaryad tashuvchilar tartibsiz harakat qilmoqda.';
+  clearInterval(window.randomTimer);window.randomTimer=setInterval(moveRandom,600);moveRandom();
+}
+function turnCurrentOn(){
+  condMode='current';clearInterval(window.randomTimer);
+  motionLabel.textContent='Elektr maydoni mavjud — tartibli harakat';condStatus.textContent='Elektr toki mavjud.';
+  electrons.forEach((e,i)=>{e.style.transition='left 2s linear';e.style.top=(42+(i%4)*4)+'%';});
+  let start=5; electrons.forEach((e,i)=>{e.style.left=((start+(i*4.1))%90+4)+'%';});
+  window.currentTimer=setInterval(()=>electrons.forEach(e=>{let x=parseFloat(e.style.left);e.style.left=(x+1.4>94?4:x+1.4)+'%'}),80);
+}
+function turnCurrentOff(){
+  clearInterval(window.currentTimer);clearInterval(window.randomTimer);condMode='off';
+  motionLabel.textContent='Elektr toki o‘chirilgan';condStatus.textContent='Elektr toki o‘chirilgan.';createElectrons();
+}
+function resetConductor(){clearInterval(window.currentTimer);clearInterval(window.randomTimer);motionLabel.textContent='Boshlang‘ich holat';condStatus.textContent='Zaryad tashuvchilar hozircha harakat qilmayapti.';createElectrons()}
+createElectrons();
+
+function directionOn(){showCurrentDirection();showElectronDirection();document.getElementById('directionStatus').textContent='Elektronlar va tokning shartli yo‘nalishi qarama-qarshi.'}
+function showCurrentDirection(){document.getElementById('currentArrow').style.display='block';document.getElementById('directionStatus').textContent='Tokning shartli yo‘nalishi musbat zaryadlar yo‘nalishi bilan bir xil deb qabul qilinadi.'}
+function showElectronDirection(){document.getElementById('electronArrow').style.display='block';document.getElementById('directionStatus').textContent='Metallarda elektronlar tokning shartli yo‘nalishiga qarama-qarshi harakat qiladi.'}
+function resetDirection(){document.getElementById('currentArrow').style.display='none';document.getElementById('electronArrow').style.display='none';document.getElementById('directionStatus').textContent='Yo‘nalishlarni ko‘rsatish uchun tugmalardan foydalaning.'}
+
+const effectTitle=document.getElementById('effectTitle'), effectVisual=document.getElementById('effectVisual'), effects=document.getElementById('effects');
+function effect(type){
+  effects.className='effects';
+  if(type==='heat'){effectTitle.innerHTML='<b>Issiqlik ta’siri:</b> elektr isitkich qizmoqda.';effectVisual.innerHTML='♨️';effectVisual.className='effect-icon heat'}
+  if(type==='magnet'){effectTitle.innerHTML='<b>Magnit ta’siri:</b> elektromagnit temir jismlarni tortmoqda.';effectVisual.innerHTML='<div class="emag"><span class="magnet">🧲</span><span class="iron">Fe</span><span class="iron">Fe</span></div>';effects.classList.add('attract')}
+  if(type==='chemical'){effectTitle.innerHTML='<b>Kimyoviy ta’sir:</b> elektrolizda ionlar harakatlanmoqda.';effectVisual.innerHTML='<div class="ions run"><span class="ion i1">+</span><span class="ion i2">−</span><span class="ion i3">+</span><span class="ion i4">−</span></div>'}
+  if(type==='physio'){effectTitle.innerHTML='<b>Fiziologik ta’sir:</b> elektr toki inson organizmiga zarar yetkazishi mumkin. Elektr bilan tajribalarda xavfsizlik qoidalariga rioya qiling.';effectVisual.innerHTML='⚠️';effectVisual.className='effect-icon'}
+  if(type==='light'){effectTitle.innerHTML='<b>Yorug‘lik ta’siri:</b> lampochka yonmoqda.';effectVisual.innerHTML='💡';effectVisual.className='effect-icon lightbulb'}
+}
+function stopEffect(){effects.className='effects';effectTitle.innerHTML='<b>Ta’sir turini tanlang.</b>';effectVisual.innerHTML='⚡';effectVisual.className='effect-icon'}
+
+let taskChoices={};
+function chooseTask(n,a,el){taskChoices[n]=a;el.parentElement.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
+function checkTask(n,correct){
+  const out=document.getElementById('ans'+n), choice=taskChoices[n];
+  if(!choice){out.textContent='Avval javob variantini tanlang.';out.style.color='var(--red)';return}
+  if(choice===correct){out.textContent='To‘g‘ri!';out.style.color='var(--green)'}
+  else{out.textContent='Noto‘g‘ri. To‘g‘ri javob: '+correct+'. Mavzudagi izohni qayta o‘qing.';out.style.color='var(--red)'}
+}
+
+let circuitOn=false;
+function turnCircuitOn(){circuitOn=true;document.getElementById('circuit1').classList.add('flowing');document.getElementById('lamp1').classList.add('on');document.getElementById('circuitStatus').textContent='Zanjir yopiq. Elektr toki oqmoqda.'}
+function turnCircuitOff(){circuitOn=false;document.getElementById('circuit1').classList.remove('flowing');document.getElementById('lamp1').classList.remove('on');document.getElementById('circuitStatus').textContent='Zanjir ochiq. Tok o‘tmayapti.'}
+function toggleCircuit(){circuitOn?turnCircuitOff():turnCircuitOn()}
+function resetCircuit(){turnCircuitOff()}
+
+let parts={battery:false,switch:false,lamp:false,wire:false};
+function pickPart(p){parts[p]=!parts[p];const id={battery:'pBattery',switch:'pSwitch',lamp:'pLamp',wire:'pWire'}[p];document.getElementById(id).classList.toggle('selected',parts[p])}
+function checkBuilder(){
+  const ok=Object.values(parts).every(Boolean);
+  document.getElementById('builderResult').textContent=ok?'Tabriklaymiz! Elektr zanjiri to‘g‘ri yig‘ildi.':'Zanjir to‘liq emas. Tok oqishi uchun yopiq zanjir kerak.';
+  document.getElementById('builderResult').style.color=ok?'var(--green)':'var(--red)';
+}
+function resetBuilder(){parts={battery:false,switch:false,lamp:false,wire:false};['pBattery','pSwitch','pLamp','pWire'].forEach(id=>document.getElementById(id).classList.remove('selected'));document.getElementById('builderResult').textContent='Elementlarni tanlang.';document.getElementById('builderResult').style.color='inherit'}
+
+function generalOn(){document.getElementById('generalCircuit').classList.add('flowing');document.getElementById('generalLamp').classList.add('on');document.getElementById('gArrow1').style.display='block';document.getElementById('gArrow2').style.display='block';document.getElementById('generalStatus').textContent='Elektr toki oqmoqda. Tokning shartli yo‘nalishi va elektronlar harakati ko‘rsatilgan.'}
+function generalOff(){document.getElementById('generalCircuit').classList.remove('flowing');document.getElementById('generalLamp').classList.remove('on');document.getElementById('gArrow1').style.display='none';document.getElementById('gArrow2').style.display='none';document.getElementById('generalStatus').textContent='Zanjir ochiq — tok oqmayapti.'}
+function generalReset(){generalOff()}
+
+let answers={};
+function selectTest(el){const q=el.dataset.q;answers[q]=el.dataset.a;el.closest('.test-question').querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
+function checkTest(){
+  if(Object.keys(answers).length<5){document.getElementById('score').textContent='Iltimos, barcha 5 ta savolga javob bering.';return}
+  const correct={1:'A',2:'B',3:'C',4:'A',5:'A'};let s=0;for(let i=1;i<=5;i++)if(answers[i]===correct[i])s++;
+  let msg=s===5?'A’lo!':s===4?'Juda yaxshi!':s===3?'Yaxshi, mavzuni yana bir bor takrorlang.':'Mavzuni qayta o‘rganish tavsiya etiladi.';
+  document.getElementById('score').textContent=s+'/5 — '+msg;
+}
+</script>
+</body>
+</html>

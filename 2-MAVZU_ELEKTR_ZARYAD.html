@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2-MAVZU. ELEKTR ZARYAD</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#182338;line-height:1.55}
+header{background:linear-gradient(135deg,#2563eb,#4f46e5);color:white;padding:28px 16px;text-align:center}
+header h1{margin:0 0 6px;font-size:clamp(28px,6vw,46px)}
+header p{margin:0;font-size:17px}
+.container{max-width:1050px;margin:auto;padding:18px}
+nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0 22px}
+nav button,.btn{border:0;border-radius:12px;padding:12px 16px;background:#fff;color:#1e40af;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #0001}
+nav button:hover,.btn:hover{transform:translateY(-1px)}
+.section{background:white;border-radius:20px;padding:22px;margin-bottom:22px;box-shadow:0 5px 18px #0000000d}
+.section h2{margin-top:0;color:#1d4ed8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:18px}
+.formula{font-size:clamp(22px,5vw,34px);font-weight:800;text-align:center;background:#eef2ff;color:#312e81;border-radius:14px;padding:15px;margin:15px 0}
+.pill{display:inline-block;padding:5px 10px;border-radius:99px;background:#e0e7ff;color:#3730a3;font-weight:bold;margin:3px}
+.controls{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}
+.btn.plus{background:#fee2e2;color:#b91c1c}.btn.minus{background:#dbeafe;color:#1d4ed8}.btn.dark{background:#1f2937;color:#fff}
+.result{padding:13px;border-radius:12px;background:#ecfdf5;color:#166534;font-weight:700;margin-top:12px}
+.warn{background:#fff7ed;color:#9a3412}
+.sim{min-height:250px;border-radius:18px;background:radial-gradient(circle at center,#fff 0,#eef4ff 65%,#e0e7ff 100%);position:relative;overflow:hidden;border:1px solid #dbeafe}
+.particle{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900}
+.proton{width:60px;height:60px;background:#fecaca;color:#991b1b;box-shadow:0 0 18px #ef444466}
+.electron{width:48px;height:48px;background:#bfdbfe;color:#1d4ed8;box-shadow:0 0 16px #3b82f666}
+.p1{left:18%;top:42%;animation:float1 3s ease-in-out infinite}
+.e1{right:18%;top:42%;animation:float2 2.6s ease-in-out infinite}
+@keyframes float1{50%{transform:translate(35px,-25px) rotate(8deg)}} 
+@keyframes float2{50%{transform:translate(-35px,25px) rotate(-8deg)}}
+.atom{height:310px;position:relative;background:radial-gradient(circle,#fde68a 0 16%,transparent 17%),#f8fafc;border-radius:18px;overflow:hidden}
+.nucleus{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:105px;height:105px;border-radius:50%;background:#fde68a;border:4px solid #f59e0b;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:4px;padding:8px;z-index:3}
+.nuc{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold}
+.nuc.p{background:#fca5a5;color:#991b1b}.nuc.n{background:#d1d5db;color:#374151}
+.orbit{position:absolute;left:50%;top:50%;border:2px dashed #94a3b8;border-radius:50%;transform:translate(-50%,-50%) rotate(-20deg)}
+.o1{width:170px;height:100px}.o2{width:250px;height:155px}
+.eorbit{position:absolute;width:22px;height:22px;border-radius:50%;background:#60a5fa;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px #3b82f6}
+.ea{left:calc(50% + 74px);top:calc(50% - 11px);animation:orbit1 3s linear infinite}
+.eb{left:calc(50% - 125px);top:calc(50% - 11px);animation:orbit2 4.5s linear infinite}
+@keyframes orbit1{from{transform:rotate(0deg) translateX(0)}50%{transform:rotate(180deg) translateX(-145px)}to{transform:rotate(360deg) translateX(0)}}
+@keyframes orbit2{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.charge-stage{height:300px;position:relative;background:#f8fafc;border-radius:16px;overflow:hidden}
+.ball{position:absolute;top:120px;width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900;transition:all 1s cubic-bezier(.2,.8,.2,1);box-shadow:0 8px 20px #0002}
+.leftball{left:calc(50% - 145px)}.rightball{left:calc(50% + 75px)}
+.rep .leftball{left:12%}.rep .rightball{left:78%}
+.attr .leftball{left:calc(50% - 60px)}.attr .rightball{left:calc(50% - 10px)}
+.distance-wrap{margin-top:12px}
+input[type=range]{width:100%;accent-color:#2563eb}
+.test{border-top:1px solid #e5e7eb;padding:16px 0}
+.option{display:block;padding:10px 12px;margin:7px 0;border:1px solid #dbe2ea;border-radius:10px;cursor:pointer;background:#fff}
+.option:hover{background:#eff6ff}
+.feedback{font-weight:700;margin-top:8px}
+.score{font-size:22px;font-weight:800;text-align:center;background:#eef2ff;padding:16px;border-radius:14px}
+footer{text-align:center;padding:20px;color:#64748b}
+.small{color:#64748b;font-size:14px}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.section{padding:16px}.card{padding:14px}.sim{min-height:230px}.charge-stage{height:260px}.ball{top:100px;width:62px;height:62px}.leftball{left:10%}.rightball{left:70%}}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ 2-MAVZU. ELEKTR ZARYAD</h1>
+<p>8-sinf fizika fani uchun interaktiv va animatsiyali dars simulyatsiyasi</p>
+</header>
+
+<div class="container">
+<nav>
+<button onclick="go('r1')">1. Zaryad tushunchasi</button>
+<button onclick="go('r2')">2. Asosiy xususiyatlar</button>
+<button onclick="go('r3')">3. O‘zaro ta’sir</button>
+<button onclick="go('test')">📝 O‘zingizni sinang</button>
+</nav>
+
+<section class="section" id="r1">
+<h2>1-reja. Elektr zaryadi tushunchasi va uning turlari</h2>
+<div class="grid">
+<div class="card">
+<h3>📘 Qisqa nazariya</h3>
+<p><b>Elektr zaryad</b> — jismlarning elektr ta’sirlashishini belgilovchi fizik kattalik.</p>
+<p>Elektr zaryadning ikki turi bor:</p>
+<span class="pill">+ Musbat</span><span class="pill">− Manfiy</span>
+<ul>
+<li><b>Proton</b> — musbat (+) zaryadli.</li>
+<li><b>Elektron</b> — manfiy (−) zaryadli.</li>
+<li><b>Neytral jismda</b> musbat va manfiy zaryadlar miqdori teng.</li>
+<li>SI dagi birligi — <b>Kulon (C)</b>.</li>
+</ul>
+</div>
+<div class="card">
+<h3>🎞️ Animatsiya: proton va elektron</h3>
+<div class="sim">
+<div class="particle proton p1">+</div>
+<div class="particle electron e1">−</div>
+</div>
+<p class="small">Proton va elektronning zaryad belgilariga e’tibor bering.</p>
+</div>
+</div>
+<div class="card" style="margin-top:18px">
+<h3>🎮 Zaryad turini tanlang</h3>
+<div class="controls">
+<button class="btn plus" onclick="chooseCharge('+')">＋ Musbat</button>
+<button class="btn minus" onclick="chooseCharge('-')">− Manfiy</button>
+</div>
+<div id="chargeResult" class="result">Tugmalardan birini tanlang.</div>
+</div>
+</section>
+
+<section class="section" id="r2">
+<h2>2-reja. Elektr zaryadining asosiy xususiyatlari</h2>
+<div class="grid">
+<div class="card">
+<h3>📘 Asosiy tushunchalar</h3>
+<ul>
+<li>Elektr zaryadi <b>saqlanish</b> xususiyatiga ega.</li>
+<li>Zaryad musbat yoki manfiy bo‘lishi mumkin.</li>
+<li>Zaryad <b>elementar zaryadga karrali</b> bo‘ladi.</li>
+</ul>
+<div class="formula">e = 1,6 × 10⁻¹⁹ C</div>
+<p><b>Elektron:</b> qₑ = −1,6 × 10⁻¹⁹ C</p>
+<p><b>Proton:</b> qₚ = +1,6 × 10⁻¹⁹ C</p>
+</div>
+<div class="card">
+<h3>🎞️ Animatsiya: atom modeli</h3>
+<div class="atom">
+<div class="orbit o1"></div><div class="orbit o2"></div>
+<div class="nucleus"><span class="nuc p">p+</span><span class="nuc n">n</span><span class="nuc p">p+</span><span class="nuc n">n</span></div>
+<div class="eorbit ea">−</div><div class="eorbit eb">−</div>
+</div>
+<p class="small">Elektronlar yadro atrofida harakatlanadi.</p>
+</div>
+</div>
+
+<div class="card" style="margin-top:18px">
+<h3>🎮 Elektronlar sonini o‘zgartiring</h3>
+<label><b>Elektronlar soni: <span id="nVal">1</span> ta</b></label>
+<input id="nSlider" type="range" min="1" max="10" value="1" oninput="calcCharge()">
+<div class="formula" id="qFormula">q = −ne = −1,6 × 10⁻¹⁹ C</div>
+<div id="calcText" class="result">1 ta elektron → −1,6 × 10⁻¹⁹ C</div>
+</div>
+</section>
+
+<section class="section" id="r3">
+<h2>3-reja. Elektr zaryadlarining o‘zaro ta’siri</h2>
+<div class="grid">
+<div class="card">
+<h3>📘 Qonuniyat</h3>
+<p><b>Bir xil ishorali zaryadlar</b> bir-birini <b>itaradi</b>.</p>
+<p><b>Har xil ishorali zaryadlar</b> bir-birini <b>tortadi</b>.</p>
+<div class="formula">Bir xil → ITARILISH<br>Har xil → TORTISHISH</div>
+</div>
+<div class="card">
+<h3>🎮 Simulyatsiya</h3>
+<div class="controls">
+<button class="btn plus" onclick="setInteraction('+','+')">＋ ＋</button>
+<button class="btn minus" onclick="setInteraction('-','-')">− −</button>
+<button class="btn" onclick="setInteraction('+','-')">＋ −</button>
+<button class="btn" onclick="setInteraction('-','+')">− ＋</button>
+<button class="btn dark" onclick="resetInteraction()">↻ Qayta boshlash</button>
+</div>
+</div>
+</div>
+
+<div class="card" style="margin-top:18px">
+<div id="chargeStage" class="charge-stage">
+<div id="ball1" class="ball leftball" style="background:#fecaca;color:#991b1b">+</div>
+<div id="ball2" class="ball rightball" style="background:#fecaca;color:#991b1b">+</div>
+</div>
+<div id="interactionResult" class="result">＋ ＋ tanlang: bir xil ishorali zaryadlar itariladi.</div>
+<div class="distance-wrap">
+<label><b>Masofa:</b> <span id="distVal">50</span> birlik</label>
+<input id="distSlider" type="range" min="20" max="90" value="50" oninput="changeDistance()">
+<p class="small">Masofa kamayganda zaryadlarning o‘zaro ta’siri kuchliroq, ortganda esa kuchsizroq tasvirlanadi.</p>
+</div>
+</div>
+</section>
+
+<section class="section" id="test">
+<h2>📝 O‘zingizni sinang</h2>
+<p>Har bir savolga javobni tanlang. Natija darhol ko‘rsatiladi.</p>
+<div id="questions"></div>
+<div id="score" class="score">Hozircha javob berilmadi.</div>
+</section>
+</div>
+
+<footer>⚡ 8-sinf Fizika • Elektr zaryad • Interaktiv HTML simulyatsiya</footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function chooseCharge(x){
+ const box=document.getElementById('chargeResult');
+ if(x==='+') box.innerHTML='✓ Bu <b>musbat zaryad</b>. Musbat zaryad “+” belgisi bilan ifodalanadi.';
+ else box.innerHTML='✓ Bu <b>manfiy zaryad</b>. Manfiy zaryad “−” belgisi bilan ifodalanadi.';
+}
+function calcCharge(){
+ const n=+document.getElementById('nSlider').value;
+ document.getElementById('nVal').textContent=n;
+ const e=1.6;
+ const val=e*n;
+ let sci;
+ if(n===10) sci='1,6 × 10⁻¹⁸';
+ else sci=val.toFixed(1).replace('.',',')+' × 10⁻¹⁹';
+ document.getElementById('qFormula').textContent='q = −ne = −'+sci+' C';
+ document.getElementById('calcText').textContent=n+' ta elektron → −'+sci+' C';
+}
+function setInteraction(a,b){
+ const stage=document.getElementById('chargeStage');
+ const b1=document.getElementById('ball1'),b2=document.getElementById('ball2');
+ b1.textContent=a;b2.textContent=b;
+ [b1,b2].forEach(x=>{x.style.background=x.textContent==='+'?'#fecaca':'#bfdbfe';x.style.color=x.textContent==='+'?'#991b1b':'#1d4ed8'});
+ stage.classList.remove('rep','attr'); void stage.offsetWidth;
+ if(a===b){
+   stage.classList.add('rep');
+   document.getElementById('interactionResult').textContent='✓ Bir xil ishorali zaryadlar — ITARILISH.';
+ }else{
+   stage.classList.add('attr');
+   document.getElementById('interactionResult').textContent='✓ Har xil ishorali zaryadlar — TORTISHISH.';
+ }
+}
+function resetInteraction(){
+ const stage=document.getElementById('chargeStage');
+ stage.classList.remove('rep','attr');
+ document.getElementById('ball1').textContent='+';
+ document.getElementById('ball2').textContent='+';
+ document.getElementById('interactionResult').textContent='Simulyatsiya qayta boshlandi. Zaryadlarni tanlang.';
+}
+function changeDistance(){
+ const d=+document.getElementById('distSlider').value;
+ document.getElementById('distVal').textContent=d;
+ const b1=document.getElementById('ball1'),b2=document.getElementById('ball2');
+ const center=50, gap=d/2;
+ b1.style.left='calc(50% - '+(gap+35)+'px)';
+ b2.style.left='calc(50% + '+(gap-35)+'px)';
+ const strength=Math.round(1000/(d*d));
+ document.getElementById('interactionResult').textContent += '  (Masofa: '+d+' birlik; ta’sir kuchi shartli ko‘rsatkich: '+strength+').';
+}
+const qs=[
+['Elektr zaryadining nechta turi mavjud?',['1 ta','2 ta','3 ta','4 ta'],1],
+['Elektron qanday zaryadga ega?',['Musbat','Manfiy','Neytral','Zaryadsiz'],1],
+['Bir xil ishorali zaryadlar qanday ta’sirlashadi?',['Tortishadi','Itarishadi','Ta’sirlashmaydi','Yo‘qoladi'],1],
+['Elementar zaryadning qiymati qancha?',['1,6 × 10⁻¹⁹ C','9,8 C','6,02 × 10²³ C','3 × 10⁸ C'],0],
+['Har xil ishorali zaryadlar qanday ta’sirlashadi?',['Itarishadi','Tortishadi','Ta’sirlashmaydi','Zaryadsizlanadi'],1]
+];
+let answers=Array(qs.length).fill(null);
+function renderTests(){
+ const wrap=document.getElementById('questions');
+ wrap.innerHTML='';
+ qs.forEach((q,i)=>{
+   const div=document.createElement('div');div.className='test';
+   let h='<h3>'+(i+1)+'. '+q[0]+'</h3>';
+   q[1].forEach((o,j)=>h+='<button class="option" onclick="answer('+i+','+j+')">'+String.fromCharCode(65+j)+') '+o+'</button>');
+   h+='<div id="fb'+i+'" class="feedback"></div>';div.innerHTML=h;wrap.appendChild(div);
+ });
+}
+function answer(i,j){
+ answers[i]=j;
+ const fb=document.getElementById('fb'+i);
+ if(j===qs[i][2]) fb.innerHTML='✓ To‘g‘ri javob!'; else fb.innerHTML='✗ Noto‘g‘ri. Qayta urinib ko‘ring.';
+ fb.style.color=j===qs[i][2]?'#15803d':'#dc2626';
+ const count=answers.reduce((s,a,k)=>s+(a===qs[k][2]?1:0),0);
+ const done=answers.filter(x=>x!==null).length;
+ document.getElementById('score').textContent=done===0?'Hozircha javob berilmadi.':'Siz 5 ta savoldan '+count+' tasiga to‘g‘ri javob berdingiz.';
+}
+renderTests(); calcCharge(); resetInteraction();
+</script>
+</body>
+</html>

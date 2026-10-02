@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5-MAVZU_ELEKTR_MAYDON</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f9fc;color:#172033;line-height:1.55}
+header{background:#fff;border-bottom:1px solid #dfe5ee;padding:24px 16px;text-align:center;position:sticky;top:0;z-index:20}
+header h1{margin:0 0 14px;font-size:clamp(20px,4vw,31px);color:#173b70}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+button,.navbtn{border:0;border-radius:9px;padding:10px 14px;background:#1d5fa7;color:#fff;font-weight:700;cursor:pointer;font-size:14px}
+button:hover,.navbtn:hover{background:#164b85}
+button.secondary{background:#64748b}
+button.green{background:#16835a}
+button.red{background:#c63d3d}
+button.active{outline:3px solid #a9c8ea}
+main{max-width:1150px;margin:auto;padding:20px 14px 50px}
+section{background:#fff;border:1px solid #dfe5ee;border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 2px 8px #17203310}
+h2{color:#173b70;margin-top:0;font-size:clamp(21px,4vw,28px)}
+h3{color:#245b91}
+.theory{background:#f4f8fd;border-left:5px solid #1d5fa7;padding:14px;border-radius:8px}
+.example{background:#fff8e8;border-left:5px solid #e0a300;padding:14px;border-radius:8px}
+.sim{border:1px solid #ccd7e5;border-radius:12px;padding:18px;background:#fbfdff;margin-top:18px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.badge{display:inline-block;background:#e8f1fb;padding:5px 9px;border-radius:20px;font-size:13px}
+.message{margin-top:10px;font-weight:700;min-height:24px}
+.correct{color:#087443}.wrong{color:#b3261e}
+.quiz{margin-top:16px;padding:16px;background:#f8fafc;border-radius:10px}
+.option{display:block;width:100%;text-align:left;background:#eef3f8;color:#172033;margin:7px 0}
+.option:hover{background:#dce8f4}
+.formula{font-size:clamp(28px,7vw,48px);font-weight:800;text-align:center;margin:16px 0;color:#173b70;letter-spacing:.5px}
+.formula-box{background:#eef5fc;border-radius:12px;padding:15px}
+.inputs{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.field{display:flex;flex-direction:column;gap:4px}
+input[type=number]{width:150px;max-width:100%;padding:11px;border:1px solid #aebdce;border-radius:8px;font-size:16px}
+input[type=range]{width:min(500px,100%)}
+canvas{display:block;width:100%;max-width:760px;height:auto;border:1px solid #d4dce7;border-radius:12px;background:#fff;margin:12px auto}
+.lab-status{text-align:center;font-weight:700;min-height:26px}
+.formula-choice{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.step{padding:9px;margin:6px 0;background:#f2f5f9;border-radius:8px}
+.hidden{display:none!important}
+.solution{margin-top:10px}
+details{background:#f5f7fa;border-radius:8px;padding:10px;margin:8px 0}
+details summary{cursor:pointer;font-weight:700}
+.small{font-size:14px;color:#536174}
+.task{background:#f9fbfd;border:1px solid #dce4ee;border-radius:10px;padding:14px;margin:10px 0}
+.score{font-size:20px;font-weight:800;color:#173b70;text-align:center;margin-top:15px}
+footer{text-align:center;color:#64748b;padding:25px}
+@media(max-width:600px){
+ header{position:static;padding:18px 10px}
+ section{padding:16px;margin:14px 0}
+ .inputs .field{width:100%}
+ input[type=number]{width:100%}
+ button,.navbtn{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>8-SINF FIZIKA — 5-MAVZU: ELEKTR MAYDON</h1>
+<nav>
+<a class="navbtn" href="#reja1">1-REJA</a>
+<a class="navbtn" href="#reja2">2-REJA</a>
+<a class="navbtn" href="#reja3">3-REJA</a>
+<a class="navbtn" href="#laboratoriya">SIMULYATSIYA</a>
+<a class="navbtn" href="#test">TEST</a>
+</nav>
+</header>
+
+<main>
+<section id="reja1">
+<h2>1-REJA. Elektr maydon haqida tushuncha va uning hosil bo‘lishi</h2>
+<div class="theory">
+<p><b>Elektr maydon</b> — elektr zaryadlari atrofida mavjud bo‘ladigan va boshqa zaryadlarga ta’sir ko‘rsatadigan fizik maydondir.</p>
+<p>Elektr maydon zaryadlangan jismlar atrofida hosil bo‘ladi. Uni bevosita ko‘z bilan ko‘rib bo‘lmaydi, lekin uning zaryadlarga ta’siri orqali mavjudligini aniqlash mumkin.</p>
+<p>Elektr zaryadlar <b>musbat (+)</b> va <b>manfiy (−)</b> bo‘lishi mumkin. Elektr maydonning mavjudligini kichik sinov zaryadi yordamida tekshirish mumkin.</p>
+</div>
+<div class="example"><b>Misol:</b> Musbat zaryadlangan jism atrofida elektr maydon hosil bo‘ladi. Uning yoniga boshqa musbat zaryad olib kelinsa, ular bir-biridan itariladi.</div>
+
+<div class="sim">
+<h3>Interaktiv simulyatsiya: “Elektr maydonni kuzatamiz”</h3>
+<canvas id="canvas1" width="760" height="430"></canvas>
+<div class="controls">
+<button onclick="setSource1(1)">Musbat zaryad</button>
+<button onclick="setSource1(-1)">Manfiy zaryad</button>
+<button onclick="addTest1()">Sinov zaryadini qo‘shish</button>
+<button onclick="toggleLines1()">Maydon chiziqlarini ko‘rsatish</button>
+<button class="green" onclick="start1()">Harakatni boshlash</button>
+<button class="secondary" onclick="reset1()">Qayta boshlash</button>
+</div>
+<div id="status1" class="lab-status">Markaziy zaryad: +</div>
+</div>
+
+<div class="quiz">
+<b>Topshiriq:</b> Elektr maydon qayerda hosil bo‘ladi?
+<button class="option" onclick="answer(this,true,'q1')">A) Faqat suv ichida</button>
+<button class="option" onclick="answer(this,false,'q1')">B) Zaryadlangan jismlar atrofida</button>
+<button class="option" onclick="answer(this,false,'q1')">C) Faqat vakuumda</button>
+<button class="option" onclick="answer(this,false,'q1')">D) Faqat metall ichida</button>
+<div id="q1" class="message"></div>
+</div>
+</section>
+
+<section id="reja2">
+<h2>2-REJA. Elektr maydonning asosiy xususiyatlari va kuchlanganligi</h2>
+<div class="theory">
+<p>Elektr maydonning asosiy xususiyatlaridan biri — uning zaryadlangan jismlarga kuch bilan ta’sir qilishidir.</p>
+<p>Elektr maydon kuchlanganligi maydonning berilgan nuqtasiga qo‘yilgan birlik musbat sinov zaryadiga ta’sir qiluvchi kuch bilan aniqlanadi.</p>
+<div class="formula">E = F / q</div>
+<p><b>E</b> — elektr maydon kuchlanganligi; <b>F</b> — zaryadga ta’sir qiluvchi kuch; <b>q</b> — sinov zaryadi.</p>
+<p>Kuchlanganlikning SI dagi birligi: <b>N/C (N/Kl)</b>. Elektr maydon kuchlanganligi vektor kattalik.</p>
+</div>
+
+<div class="sim">
+<h3>Formula animatsiyasi</h3>
+<div id="formulaAnim" class="formula-box">
+<div class="formula">E = F / q</div>
+<div id="formulaSteps" class="step">Boshlash uchun tugmani bosing.</div>
+</div>
+<button class="green" onclick="runFormula2()">Animatsiyani boshlash</button>
+<button class="secondary" onclick="resetFormula2()">Qayta boshlash</button>
+</div>
+
+<div class="sim">
+<h3>“Elektr maydon kuchlanganligini hisoblaymiz”</h3>
+<div class="inputs">
+<div class="field"><label>F (N)</label><input id="force2" type="number" step="any" placeholder="10"></div>
+<div class="field"><label>q (C)</label><input id="charge2" type="number" step="any" placeholder="2"></div>
+<button class="green" onclick="calcE()">Hisoblash</button>
+</div>
+<div id="calc2" class="message"></div>
+</div>
+
+<div class="sim">
+<h3>Maydon kuchlanganligi animatsiyasi</h3>
+<canvas id="canvas2" width="760" height="430"></canvas>
+<label><b>Kuchlanganlik:</b> <input id="strength" type="range" min="1" max="10" value="5" oninput="drawStrength()"></label>
+<p class="small">Maydon chiziqlari zichligi maydon kuchlanganligi haqida tasavvur beradi.</p>
+</div>
+
+<div class="sim">
+<h3>Formulani tanlang</h3>
+div class="formula-choice">
+<button onclick="showFormula('E = F / q')">E = F/q</button>
+<button onclick="showFormula('F = E · q')">F = Eq</button>
+<button onclick="showFormula('q = F / E')">q = F/E</button>
+</div>
+<div id="chosenFormula" class="formula">E = F / q</div>
+</div>
+
+<div class="quiz">
+<b>Topshiriq:</b> Elektr maydon kuchlanganligi qaysi formula bilan aniqlanadi?
+<button class="option" onclick="answer(this,true,'q2')">A) E = F/q</button>
+<button class="option" onclick="answer(this,false,'q2')">B) F = ma</button>
+<button class="option" onclick="answer(this,false,'q2')">C) v = s/t</button>
+<button class="option" onclick="answer(this,false,'q2')">D) ρ = m/V</button>
+<div id="q2" class="message"></div>
+</div>
+</section>
+
+<section id="reja3">
+<h2>3-REJA. Elektr maydonning zaryadlangan jismlarga ta’siri</h2>
+<div class="theory">
+<p>Elektr maydon zaryadlangan jismlarga kuch bilan ta’sir qiladi.</p>
+<p>Musbat va manfiy zaryadlar elektr maydonda turlicha yo‘nalishda harakatlanadi. <b>Musbat zaryad</b>ga ta’sir qiluvchi kuch maydon yo‘nalishida, <b>manfiy zaryad</b>ga ta’sir qiluvchi kuch esa maydon yo‘nalishiga qarama-qarshi bo‘ladi.</p>
+<div class="formula">F = E · q</div>
+</div>
+
+<div class="sim">
+<h3>“Zaryadga elektr maydonining ta’siri”</h3>
+<canvas id="canvas3" width="760" height="430"></canvas>
+<div class="controls">
+<button onclick="setTest3(1)">Musbat sinov zaryadi</button>
+<button onclick="setTest3(-1)">Manfiy sinov zaryadi</button>
+<button class="green" onclick="start3()">Harakatni boshlash</button>
+<button class="red" onclick="stop3()">To‘xtatish</button>
+<button class="secondary" onclick="reset3()">Qayta boshlash</button>
+</div>
+<div id="status3" class="lab-status">Sinov zaryadi: +</div>
+</div>
+
+<div class="sim">
+<h3>Formula animatsiyasi</h3>
+<div id="formula3" class="formula-box">
+<div class="formula">F = E · q</div>
+<div id="steps3" class="step">Boshlash uchun tugmani bosing.</div>
+</div>
+<button class="green" onclick="runFormula3()">Animatsiyani boshlash</button>
+<button class="secondary" onclick="resetFormula3()">Qayta boshlash</button>
+</div>
+
+<div class="quiz">
+<b>Topshiriq:</b> Musbat zaryadga elektr maydon qanday ta’sir qiladi?
+<button class="option" onclick="answer(this,true,'q3')">A) Maydon yo‘nalishida</button>
+<button class="option" onclick="answer(this,false,'q3')">B) Har doim yuqoriga</button>
+<button class="option" onclick="answer(this,false,'q3')">C) Har doim pastga</button>
+<button class="option" onclick="answer(this,false,'q3')">D) Hech qanday ta’sir qilmaydi</button>
+<div id="q3" class="message"></div>
+</div>
+</section>
+
+<section id="laboratoriya">
+<h2>Yakuniy interaktiv simulyatsiya: “Elektr maydon laboratoriyasi”</h2>
+<div class="sim">
+<canvas id="lab" width="820" height="470"></canvas>
+<div class="controls">
+<button onclick="setLabSource(1)">[+] Musbat zaryad</button>
+<button onclick="setLabSource(-1)">[−] Manfiy zaryad</button>
+<button onclick="toggleLabLines()">Maydon chiziqlari</button>
+<button onclick="setLabTest(1)">Musbat sinov zaryadi</button>
+<button onclick="setLabTest(-1)">Manfiy sinov zaryadi</button>
+<button class="green" onclick="startLab()">Harakat</button>
+<button class="red" onclick="stopLab()">To‘xtatish</button>
+<button class="secondary" onclick="resetLab()">Qayta boshlash</button>
+</div>
+<p id="labStatus" class="lab-status"></p>
+<p class="small">Maydon chiziqlari musbat zaryaddan tashqariga, manfiy zaryadga esa ichkariga yo‘naladi. Sinov zaryadining kuch yo‘nalishi uning ishorasiga bog‘liq.</p>
+</div>
+</section>
+
+<section id="masalalar">
+<h2>O‘zingiz yeching — 5 ta masala</h2>
+<div id="problems"></div>
+</section>
+
+<section id="test">
+<h2>Yakuniy test</h2>
+<div id="finalQuiz"></div>
+<div id="finalScore" class="score"></div>
+</section>
+</main>
+<footer>8-sinf Fizika • 5-mavzu: Elektr maydon</footer>
+
+<script>
+'use strict';
+
+function answer(btn, correct, id){
+  const box=document.getElementById(id);
+  box.className='message '+(correct?'correct':'wrong');
+  box.textContent=correct?'✓ To‘g‘ri!':'✗ Noto‘g‘ri, qayta urinib ko‘ring.';
+}
+function safeNum(id){
+  const v=document.getElementById(id).value.trim();
+  if(v==='') return null;
+  const n=Number(v);
+  return Number.isFinite(n)?n:null;
+}
+
+/* 1-reja */
+const c1=document.getElementById('canvas1'),x1=c1.getContext('2d');
+let src1=1, lines1=false, test1=false, run1=false, t1=0;
+function setSource1(s){src1=s;test1=false;run1=false;draw1();document.getElementById('status1').textContent='Markaziy zaryad: '+(s>0?'+':'−');}
+function addTest1(){test1=true;draw1();document.getElementById('status1').textContent='Sinov zaryadi qo‘shildi. Harakatni boshlashingiz mumkin.';}
+function toggleLines1(){lines1=!lines1;draw1();}
+function start1(){test1=true;run1=true;requestAnimationFrame(anim1);}
+function reset1(){src1=1;lines1=false;test1=false;run1=false;t1=0;document.getElementById('status1').textContent='Markaziy zaryad: +';draw1();}
+function fieldLines(ctx,cx,cy,positive,count=12,r=180){
+ ctx.save();ctx.strokeStyle='#4c82b8';ctx.lineWidth=1.7;
+ for(let i=0;i<count;i++){
+  let a=i*2*Math.PI/count;
+  ctx.beginPath();
+  if(positive){ctx.moveTo(cx+28*Math.cos(a),cy+28*Math.sin(a));ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}
+  else{ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a));ctx.lineTo(cx+28*Math.cos(a),cy+28*Math.sin(a));}
+  ctx.stroke();
+  let rr=positive?r*.68:r*.68;
+  let ax=cx+rr*Math.cos(a),ay=cy+rr*Math.sin(a);
+  let dir=positive?1:-1, px=-Math.sin(a)*dir,py=Math.cos(a)*dir;
+  ctx.beginPath();ctx.moveTo(ax-7*px,ay-7*py);ctx.lineTo(ax+7*px,ay+7*py);ctx.stroke();
+ }
+ ctx.restore();
+}
+function drawCharge(ctx,cx,cy,s,label=''){
+ ctx.beginPath();ctx.arc(cx,cy,28,0,Math.PI*2);ctx.fillStyle=s>0?'#d94a4a':'#3d72c9';ctx.fill();
+ ctx.fillStyle='#fff';ctx.font='bold 28px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s>0?'+':'−',cx,cy);
+ if(label){ctx.fillStyle='#172033';ctx.font='14px Arial';ctx.fillText(label,cx,cy+48);}
+}
+function draw1(){
+ x1.clearRect(0,0,c1.width,c1.height);
+ const cx=380,cy=215;
+ if(lines1)fieldLines(x1,cx,cy,src1,12,180);
+ drawCharge(x1,cx,cy,src1,'manba zaryadi');
+ if(test1){
+  const a=run1?Math.min(t1,1):.72, tx=cx+220*a, ty=cy;
+  drawCharge(x1,tx,ty,1,'sinov zaryadi');
+  x1.strokeStyle='#e08a00';x1.lineWidth=3;x1.beginPath();
+  const dir=src1>0?1:-1;x1.moveTo(tx,ty);x1.lineTo(tx+50*dir,ty);x1.stroke();
+  x1.fillStyle='#e08a00';x1.font='bold 18px Arial';x1.fillText('ta’sir yo‘nalishi',tx+dir*55,ty-10);
+ }
+}
+function anim1(){if(!run1)return;t1+=.006;if(t1>1)t1=0;draw1();requestAnimationFrame(anim1)}
+draw1();
+
+/* 2-reja */
+let fTimer=null;
+function runFormula2(){
+ clearInterval(fTimer);let i=0;
+ const arr=['E = F / q','F = 10 N','q = 2 C','E = 10 / 2','E = 5 N/C'];
+ fTimer=setInterval(()=>{document.getElementById('formulaSteps').textContent=arr[i++];if(i>=arr.length)clearInterval(fTimer)},650);
+}
+function resetFormula2(){clearInterval(fTimer);document.getElementById('formulaSteps').textContent='Boshlash uchun tugmani bosing.';}
+function calcE(){
+ const F=safeNum('force2'),q=safeNum('charge2'),out=document.getElementById('calc2');
+ if(F===null||q===null||q===0){out.className='message wrong';out.textContent=q===0?'Qiymatni tekshiring. Zaryad 0 ga teng bo‘lishi mumkin emas.':'Qiymatni tekshiring.';return}
+ const E=F/q;
+ if(!Number.isFinite(E)){out.className='message wrong';out.textContent='Qiymatni tekshiring.';return}
+ out.className='message correct';out.textContent='Natija: E = '+E+' N/C';
+}
+function showFormula(s){document.getElementById('chosenFormula').textContent=s}
+const c2=document.getElementById('canvas2'),x2=c2.getContext('2d');
+function drawStrength(){
+ x2.clearRect(0,0,c2.width,c2.height);const n=Number(document.getElementById('strength').value);
+ fieldLines(x2,380,215,true,6+n,70+n*15);drawCharge(x2,380,215,1);
+ x2.fillStyle='#172033';x2.font='16px Arial';x2.textAlign='center';x2.fillText('Kuchlanganlik: '+n+' N/C (shartli ko‘rsatkich)',380,390);
+}
+drawStrength();
+
+/* 3-reja */
+const c3=document.getElementById('canvas3'),x3=c3.getContext('2d');
+let test3=1,run3=false,p3=0;
+function setTest3(s){test3=s;run3=false;draw3();document.getElementById('status3').textContent='Sinov zaryadi: '+(s>0?'+':'−');}
+function start3(){run3=true;requestAnimationFrame(anim3)}
+function stop3(){run3=false}
+function reset3(){run3=false;p3=0;test3=1;document.getElementById('status3').textContent='Sinov zaryadi: +';draw3()}
+function draw3(){
+ x3.clearRect(0,0,c3.width,c3.height);fieldLines(x3,380,215,true,12,175);drawCharge(x3,380,215,1,'manba +');
+ const dx=test3>0?p3:-p3,tx=380+dx,ty=215;
+ drawCharge(x3,tx,ty,test3,'sinov');
+ x3.strokeStyle='#e08a00';x3.lineWidth=4;x3.beginPath();x3.moveTo(tx,ty);x3.lineTo(tx+test3*55,ty);x3.stroke();
+ x3.fillStyle='#e08a00';x3.font='bold 18px Arial';x3.fillText(test3>0?'F →':'F ←',tx+test3*65,ty-10);
+}
+function anim3(){if(!run3)return;p3+=1.5;if(p3>280){p3=0}draw3();requestAnimationFrame(anim3)}
+draw3();
+let f3timer=null;
+function runFormula3(){
+ clearInterval(f3timer);let i=0,arr=['F = E · q','E = 5 N/C','q = 2 C','F = 5 · 2','F = 10 N'];
+ f3timer=setInterval(()=>{document.getElementById('steps3').textContent=arr[i++];if(i>=arr.length)clearInterval(f3timer)},650);
+}
+function resetFormula3(){clearInterval(f3timer);document.getElementById('steps3').textContent='Boshlash uchun tugmani bosing.'}
+
+/* Laboratoriya */
+const cl=document.getElementById('lab'),xl=cl.getContext('2d');
+let labS=1,labT=1,labLines=true,labRun=false,labP=0;
+function setLabSource(s){labS=s;labP=0;drawLab()}
+function setLabTest(s){labT=s;labP=0;drawLab()}
+function toggleLabLines(){labLines=!labLines;drawLab()}
+function startLab(){labRun=true;requestAnimationFrame(animLab)}
+function stopLab(){labRun=false}
+function resetLab(){labS=1;labT=1;labLines=true;labRun=false;labP=0;drawLab()}
+function drawLab(){
+ xl.clearRect(0,0,cl.width,cl.height);const cx=410,cy=235;
+ if(labLines)fieldLines(xl,cx,cy,labS,14,200);
+ drawCharge(xl,cx,cy,labS,'manba');
+ let tx=cx+(labS>0?1:-1)*labP*labT,ty=cy;
+ drawCharge(xl,tx,ty,labT,'sinov');
+ const dir=labS*labT;
+ xl.strokeStyle='#e08a00';xl.lineWidth=4;xl.beginPath();xl.moveTo(tx,ty);xl.lineTo(tx+dir*60,ty);xl.stroke();
+ xl.fillStyle='#e08a00';xl.font='bold 18px Arial';xl.textAlign='center';xl.fillText(dir>0?'F →':'F ←',tx+dir*78,ty-12);
+ document.getElementById('labStatus').textContent='Manba: '+(labS>0?'+':'−')+' | Sinov: '+(labT>0?'+':'−')+' | Kuch yo‘nalishi: '+(dir>0?'o‘ngga →':'chapga ←');
+}
+function animLab(){if(!labRun)return;labP+=.012;if(labP>2.8)labP=0;drawLab();requestAnimationFrame(animLab)}
+drawLab();
+
+/* Masalalar */
+const probs=[
+['Elektr maydondagi zaryadga 10 N kuch ta’sir qilmoqda. Zaryad 2 C bo‘lsa, elektr maydon kuchlanganligini toping.','E = F/q','10 / 2','E = 5 N/C'],
+['Elektr maydon kuchlanganligi 4 N/C, zaryad 3 C. Zaryadga ta’sir qiluvchi kuchni toping.','F = E·q','4 · 3','F = 12 N'],
+['Elektr maydon kuchlanganligi 10 N/C, zaryad 2 C. Kuchni toping.','F = E·q','10 · 2','F = 20 N'],
+['Zaryadga 15 N kuch ta’sir qilmoqda. Elektr maydon kuchlanganligi 5 N/C. Zaryadni toping.','q = F/E','15 / 5','q = 3 C'],
+['Elektr maydon kuchlanganligi 8 N/C bo‘lgan maydonga 2 C zaryad joylashtirildi. Unga qanday kuch ta’sir qiladi?','F = E·q','8 · 2','F = 16 N']
+];
+const pc=document.getElementById('problems');
+probs.forEach((p,i)=>{
+ const d=document.createElement('div');d.className='task';
+ d.innerHTML='<b>'+(i+1)+'-masala.</b> '+p[0]+
+ '<details><summary>Berilgan</summary>'+(['F = 10 N; q = 2 C','E = 4 N/C; q = 3 C','E = 10 N/C; q = 2 C','F = 15 N; E = 5 N/C','E = 8 N/C; q = 2 C'][i])+'</details>'+
+ '<details><summary>Topish kerak</summary>Kerakli fizik kattalikni topish.</details>'+
+ '<details><summary>Formula</summary>'+p[1]+'</details>'+
+ '<details><summary>Hisoblash</summary>'+p[2]+'</details>'+
+ '<details><summary>Javob</summary><b>'+p[3]+'</b></details>';
+ pc.appendChild(d);
+});
+
+/* Yakuniy test */
+const tests=[
+['Elektr maydon nima?',['A) Faqat mexanik harakat','B) Zaryadlar atrofida hosil bo‘ladigan va zaryadlarga ta’sir qiladigan maydon','C) Issiqlik hodisasi','D) Yorug‘lik hodisasi'],1],
+['Elektr maydon kuchlanganligi formulasi qaysi?',['A) E = F/q','B) F = ma','C) v = s/t','D) ρ = m/V'],0],
+['Elektr maydon kuchlanganligining SI dagi birligi qaysi?',['A) J','B) W','C) N/C','D) kg'],2],
+['Musbat zaryadga ta’sir qiluvchi elektr kuchining yo‘nalishi qanday?',['A) Elektr maydon yo‘nalishida','B) Har doim pastga','C) Har doim yuqoriga','D) Maydonga qarama-qarshi'],0],
+['Elektr maydon kuchlanganligi 5 N/C, zaryad 2 C. Zaryadga ta’sir qiluvchi kuch qancha?',['A) 2,5 N','B) 7 N','C) 10 N','D) 25 N'],2]
+];
+let finalScore=0,answered=new Set();
+const fq=document.getElementById('finalQuiz');
+tests.forEach((t,i)=>{
+ const d=document.createElement('div');d.className='quiz';
+ const title=document.createElement('div');title.innerHTML='<b>'+(i+1)+'. '+t[0]+'</b>';d.appendChild(title);
+ t[1].forEach((op,j)=>{
+  const b=document.createElement('button');b.className='option';b.textContent=op;
+  b.onclick=()=>{
+   if(answered.has(i))return;
+   answered.add(i);
+   const m=document.createElement('div');m.className='message '+(j===t[2]?'correct':'wrong');
+   m.textContent=j===t[2]?'✓ To‘g‘ri javob!':'✗ Noto‘g‘ri. Qayta urinib ko‘ring.';
+   d.appendChild(m);
+   if(j===t[2])finalScore++;
+   document.getElementById('finalScore').textContent='Siz 5 ta savoldan '+finalScore+' tasiga to‘g‘ri javob berdingiz.';
+  };
+  d.appendChild(b);
+ });
+ fq.appendChild(d);
+});
+</script>
+</body>
+</html>

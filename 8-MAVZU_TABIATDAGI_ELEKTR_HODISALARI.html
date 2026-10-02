@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-MAVZU_TABIATDAGI_ELEKTR_HODISALARI</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f9fc;color:#172033;line-height:1.6}
+header{background:#fff;border-bottom:1px solid #dfe5ee;position:sticky;top:0;z-index:20}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}
+.header-inner{padding:18px 0}
+h1{font-size:clamp(20px,4vw,32px);margin:0 0 14px;color:#163a63}
+.subtitle{color:#58677a;margin:0 0 14px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+button{border:1px solid #b9c7d8;background:#fff;color:#17395e;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;transition:.2s}
+button:hover{background:#edf5ff}
+button:active{transform:scale(.98)}
+button.primary{background:#1d5f9f;color:#fff;border-color:#1d5f9f}
+main{padding:24px 0 50px}
+section{background:#fff;border:1px solid #dfe5ee;border-radius:14px;padding:22px;margin:18px 0;box-shadow:0 3px 12px rgba(20,50,80,.05)}
+h2{color:#164e80;margin-top:0;font-size:clamp(20px,3vw,27px)}
+h3{color:#205d8e;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{border:1px solid #e0e6ee;border-radius:12px;padding:16px;background:#fbfcfe}
+ul{padding-left:22px}
+.note{background:#eef6ff;border-left:4px solid #3b82c4;padding:12px 14px;border-radius:7px}
+.sim{background:#f3f7fb;border:1px solid #d7e0ea;border-radius:12px;padding:16px;margin-top:16px}
+.sim-area{position:relative;min-height:260px;border-radius:12px;overflow:hidden;background:linear-gradient(#dcecf9 0 63%,#d7ead4 63% 100%);display:flex;align-items:flex-start;justify-content:center;padding-top:28px}
+.cloud{position:relative;width:280px;height:130px;margin-top:20px}
+.puff{position:absolute;background:#fff;border:2px solid #b8c8d7;border-radius:50%;width:100px;height:65px}
+.p1{left:20px;top:40px}.p2{left:85px;top:15px}.p3{left:145px;top:38px}.p4{left:75px;top:60px;width:145px;height:50px}
+.charge{position:absolute;font-weight:bold;font-size:20px;transition:.7s}
+.charge.plus{color:#c62828}.charge.minus{color:#1769aa}
+.c1{left:72px;top:67px}.c2{left:112px;top:48px}.c3{left:155px;top:70px}.c4{left:98px;top:91px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.status{font-weight:700;margin-top:10px;color:#244a6b}
+.task{margin-top:14px;background:#fffdf0;border:1px solid #eadb93;padding:14px;border-radius:10px}
+.task select,.task input{padding:9px;border:1px solid #bcc9d7;border-radius:7px;margin:5px 0;max-width:100%}
+.result{font-weight:700;margin-top:8px}
+.flash{animation:flash .8s ease}
+@keyframes flash{0%{filter:brightness(1)}50%{filter:brightness(1.8)}100%{filter:brightness(1)}}
+.lightning{position:absolute;left:50%;top:155px;transform:translateX(-50%);font-size:75px;color:#f0ad00;opacity:0;transition:.25s;text-shadow:0 0 15px #fff}
+.lightning.on{opacity:1;animation:bolt .6s infinite alternate}
+@keyframes bolt{from{opacity:.45}to{opacity:1}}
+.rain{position:absolute;inset:120px 0 0;pointer-events:none}
+.drop{position:absolute;width:2px;height:18px;background:#4c9be8;animation:rain 1s linear infinite;opacity:.65}
+@keyframes rain{from{transform:translateY(-20px)}to{transform:translateY(150px);opacity:0}}
+.field{height:220px;position:relative;background:#eef7ff;border-radius:10px;border:1px solid #cbdceb;overflow:hidden}
+.field-charge{position:absolute;left:18%;top:43%;width:55px;height:55px;border-radius:50%;display:grid;place-items:center;font-weight:bold;font-size:22px;background:#fff;border:3px solid #d04444;color:#c22}
+.test-q{border:1px solid #dce3ec;border-radius:10px;padding:14px;margin:10px 0;background:#fcfdff}
+label{display:block;margin:7px 0;cursor:pointer}
+.correct{color:#177245}.wrong{color:#a52a2a}
+footer{text-align:center;color:#66778b;padding:20px}
+.big-sim{min-height:360px}
+.ground{position:absolute;left:0;right:0;bottom:0;height:24px;background:#7aa96b}
+.building{position:absolute;bottom:24px;left:12%;width:105px;height:85px;background:#d8a36d;border:2px solid #815b35}
+.roof{position:absolute;bottom:109px;left:calc(12% - 8px);width:121px;height:20px;background:#9c5c4d;transform:skew(-35deg)}
+.rod{position:absolute;bottom:109px;left:calc(12% + 48px);height:80px;width:4px;background:#555}
+.safe-zone{position:absolute;bottom:24px;right:13%;width:180px;height:110px;border:3px dashed #2f7d50;border-radius:90px 90px 0 0}
+.person{position:absolute;bottom:24px;right:26%;font-size:48px}
+.tip{padding:10px;border-radius:8px;background:#edf8f0;border-left:4px solid #39915c}
+@media(max-width:720px){
+ section{padding:16px;margin:14px 0}.grid{grid-template-columns:1fr}
+ .sim-area{min-height:240px}.cloud{transform:scale(.86)}
+ .controls button{flex:1 1 45%}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap header-inner">
+<h1>8-SINF FIZIKA — 8-MAVZU: TABIATDAGI ELEKTR HODISALARI</h1>
+<p class="subtitle">Interaktiv va animatsiyali o‘quv simulyatsiyasi</p>
+<nav>
+<button onclick="go('r1')">1-REJA</button>
+<button onclick="go('r2')">2-REJA</button>
+<button onclick="go('r3')">3-REJA</button>
+<button onclick="go('overall')">UMUMIY SIMULYATSIYA</button>
+<button onclick="go('test')">TEST</button>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+<section id="r1">
+<h2>1. Tabiatdagi elektr hodisalari haqida umumiy tushuncha</h2>
+<div class="grid">
+<div class="card">
+<h3>Nazariya</h3>
+<p>Tabiatda elektr hodisalari juda ko‘p uchraydi. Elektr hodisalari jismlarda elektr zaryadlarining hosil bo‘lishi, ajralishi, to‘planishi va harakati bilan bog‘liq.</p>
+<p>Tabiatdagi elektr hodisalariga <b>chaqmoq, momaqaldiroq, bulutlarda elektr zaryadlarining to‘planishi, Yer bilan bulut orasidagi elektr razryadi</b> va ayrim hayvonlarda kuzatiladigan bioelektr hodisalar misol bo‘ladi.</p>
+<p>Elektr zaryadlari ikki xil: <b>musbat (+)</b> va <b>manfiy (−)</b>. Bir xil ishorali zaryadlar bir-birini itaradi, har xil ishorali zaryadlar esa bir-birini tortadi.</p>
+<div class="note">Bulutlarda zaryadlar ko‘payib ajralganda kuchli elektr maydoni hosil bo‘lishi mumkin.</div>
+</div>
+<div class="card">
+<h3>Asosiy tushunchalar</h3>
+<ul>
+<li>Elektr zaryadi</li><li>Musbat va manfiy zaryad</li>
+<li>Elektr maydoni</li><li>Elektr razryadi</li>
+<li>Tabiatdagi bioelektr hodisalar</li>
+</ul>
+</div>
+</div>
+
+<div class="sim">
+<h3>Simulyatsiya: Bulutlarda elektr zaryadlarining to‘planishi</h3>
+<div class="sim-area" id="cloudArea">
+<div class="cloud" id="cloud">
+<div class="puff p1"></div><div class="puff p2"></div><div class="puff p3"></div><div class="puff p4"></div>
+<span class="charge plus c1">+</span><span class="charge plus c2">+</span>
+<span class="charge minus c3">−</span><span class="charge minus c4">−</span>
+</div>
+</div>
+<div class="controls">
+<button class="primary" onclick="collectCharges()">ZARYADLARNI TO‘PLASH</button>
+<button onclick="separateCharges()">ZARYADLARNI AJRATISH</button>
+<button onclick="clearCharges()">BOSHLANG‘ICH HOLAT</button>
+</div>
+<div class="status" id="chargeStatus">Holat: bulutdagi zaryadlar aralash joylashgan.</div>
+</div>
+
+<div class="task">
+<b>Kichik topshiriq:</b> Bir xil ishorali zaryadlar qanday ta’sirlashadi?
+<select id="task1">
+<option value="">Javobni tanlang</option><option value="tort">Tortadi</option><option value="itar">Itaradi</option>
+</select>
+<button onclick="checkTask1()">Tekshirish</button>
+<div id="task1r" class="result"></div>
+</div>
+</section>
+
+<section id="r2">
+<h2>2. Chaqmoq va momaqaldiroqning hosil bo‘lishi</h2>
+<div class="grid">
+<div class="card">
+<h3>Nazariya</h3>
+<p>Momaqaldiroq paytida bulut ichidagi suv tomchilari va muz kristallari harakatlanib, to‘qnashadi. Natijada elektr zaryadlari ajralishi va bulutning turli qismlarida to‘planishi mumkin.</p>
+<p>Bulut bilan Yer yoki bulutning turli qismlari orasidagi elektr maydoni juda kuchayganda <b>elektr razryadi</b> sodir bo‘ladi. Biz bu yorqin razryadni <b>chaqmoq</b> deb ko‘ramiz.</p>
+<p>Chaqmoq kanalidagi havo juda tez qiziydi va kengayadi. Hosil bo‘lgan kuchli tovush to‘lqini <b>momaqaldiroq</b> sifatida eshitiladi.</p>
+<div class="note"><b>Nima uchun chaqmoqni avval ko‘ramiz, momaqaldiroqni keyin eshitamiz?</b> Chunki yorug‘lik tovushga qaraganda ancha katta tezlikda tarqaladi.</div>
+</div>
+<div class="card">
+<h3>Jarayon ketma-ketligi</h3>
+<ol>
+<li>Bulutlarda zaryadlar ajraladi.</li>
+<li>Zaryadlar to‘planadi.</li>
+<li>Elektr maydoni kuchayadi.</li>
+<li>Elektr razryadi — chaqmoq hosil bo‘ladi.</li>
+<li>Havoning keskin qizishi tovush to‘lqinini hosil qiladi.</li>
+<li>Bu tovush momaqaldiroq sifatida eshitiladi.</li>
+</ol>
+</div>
+</div>
+
+<div class="sim">
+<h3>Animatsiya: Chaqmoq hosil bo‘lishi</h3>
+<div class="sim-area" id="stormArea">
+<div class="cloud"><div class="puff p1"></div><div class="puff p2"></div><div class="puff p3"></div><div class="puff p4"></div>
+<span class="charge plus c1">+</span><span class="charge plus c2">+</span>
+<span class="charge minus c3">−</span><span class="charge minus c4">−</span></div>
+<div class="lightning" id="bolt">ϟ</div><div class="rain" id="rain"></div>
+</div>
+<div class="controls">
+<button class="primary" onclick="startStorm()">CHAQMOQNI BOSHLASH</button>
+<button onclick="stopStorm()">TO‘XTATISH</button>
+</div>
+<div id="stormStatus" class="status">Holat: chaqmoq kuzatilmayapti.</div>
+</div>
+
+<div class="task">
+<b>Kichik topshiriq:</b> Chaqmoqdan keyin momaqaldiroqning eshitilishi nimaga bog‘liq?
+<select id="task2">
+<option value="">Javobni tanlang</option><option value="tezlik">Yorug‘lik va tovush tezliklari farqiga</option>
+<option value="rang">Chaqmoq rangiga</option><option value="bulut">Faqat bulut rangiga</option>
+</select>
+<button onclick="checkTask2()">Tekshirish</button>
+<div id="task2r" class="result"></div>
+</div>
+</section>
+
+<section id="r3">
+<h2>3. Elektr hodisalarining tabiatdagi ahamiyati va xavfsizlik qoidalari</h2>
+<div class="grid">
+<div class="card">
+<h3>Tabiatdagi ahamiyati</h3>
+<p>Elektr hodisalari tabiatdagi jarayonlarning muhim qismidir. Chaqmoq atmosferadagi elektr zaryadlarining qayta taqsimlanishida ishtirok etadi. Chaqmoq vaqtida yuqori haroratli jarayonlar sodir bo‘ladi va atmosferadagi ayrim moddalar o‘zgarishlarga uchraydi.</p>
+<p>Bioelektr hodisalar esa ayrim tirik organizmlarda elektr signallari va elektr zaryadlari bilan bog‘liq jarayonlarni ko‘rsatadi.</p>
+</div>
+<div class="card">
+<h3>Momaqaldiroq paytida xavfsizlik</h3>
+<ul>
+<li>Ochiq va baland joyda turmang.</li>
+<li>Yolg‘iz daraxt tagida panohlanmang.</li>
+<li>Suv havzalaridan uzoqlashing.</li>
+<li>Uyda deraza va eshiklardan uzoqroq turing.</li>
+<li>Elektr jihozlarini ehtiyotkorlik bilan ishlating.</li>
+<li>Imkon bo‘lsa, xavfsiz bino ichida bo‘ling.</li>
+</ul>
+<div class="tip"><b>Muhim:</b> Chaqmoq vaqtida metall buyumlar va ochiq joylar xavfni oshirishi mumkin. Eng to‘g‘ri yo‘l — xavfsiz bino ichiga kirish.</div>
+</div>
+</div>
+
+<div class="sim">
+<h3>Interaktiv simulyatsiya: Xavfsiz joyni tanlang</h3>
+<div class="sim-area" id="safeArea">
+<div class="ground"></div><div class="building"></div><div class="roof"></div><div class="rod"></div>
+<div class="safe-zone"></div><div class="person" id="person">🧍</div>
+<div class="lightning" id="safeBolt">ϟ</div>
+</div>
+<div class="controls">
+<button onclick="chooseSafe('building')">BINO ICHIGA</button>
+<button onclick="chooseSafe('tree')">DARAXT TAGIGA</button>
+<button onclick="chooseSafe('open')">OCHIQ JOYGA</button>
+</div>
+<div id="safeStatus" class="status">Variantni tanlang.</div>
+</div>
+
+<div class="task">
+<b>Kichik topshiriq:</b> Momaqaldiroq vaqtida qaysi joy xavfsizroq?
+<select id="task3">
+<option value="">Javobni tanlang</option><option value="bino">Yopiq va xavfsiz bino</option>
+<option value="daraxt">Yolg‘iz baland daraxt tagi</option><option value="ochiq">Ochiq maydon</option>
+</select>
+<button onclick="checkTask3()">Tekshirish</button>
+<div id="task3r" class="result"></div>
+</div>
+</section>
+
+<section id="overall">
+<h2>Umumiy simulyatsiya: Bulutdan chaqmoqqacha</h2>
+<p>Quyidagi tugma orqali jarayonni ketma-ket kuzating: zaryadlarning ajralishi → to‘planishi → elektr maydonining kuchayishi → chaqmoq.</p>
+<div class="sim big-sim">
+<div class="sim-area" id="overallArea">
+<div class="cloud" id="overallCloud">
+<div class="puff p1"></div><div class="puff p2"></div><div class="puff p3"></div><div class="puff p4"></div>
+<span class="charge plus c1">+</span><span class="charge plus c2">+</span>
+<span class="charge minus c3">−</span><span class="charge minus c4">−</span>
+</div>
+<div class="lightning" id="overallBolt">ϟ</div><div class="rain" id="overallRain"></div>
+</div>
+<div class="controls">
+<button class="primary" onclick="runOverall()">JARAYONNI BOSHLASH</button>
+<button onclick="resetOverall()">QAYTA BOSHLASH</button>
+</div>
+<div id="overallStatus" class="status">Boshlash tugmasini bosing.</div>
+</div>
+</section>
+
+<section id="test">
+<h2>Yakuniy test</h2>
+<p>Har bir savol uchun bitta javobni belgilang va natijani tekshiring.</p>
+
+<div class="test-q"><b>1. Elektr zaryadlari necha xil bo‘ladi?</b>
+<label><input type="radio" name="q1" value="a"> A) Bir xil</label>
+<label><input type="radio" name="q1" value="b"> B) Ikki xil: musbat va manfiy</label>
+<label><input type="radio" name="q1" value="c"> C) Uch xil</label></div>
+
+<div class="test-q"><b>2. Bir xil ishorali zaryadlar qanday ta’sirlashadi?</b>
+<label><input type="radio" name="q2" value="a"> A) Itarishadi</label>
+<label><input type="radio" name="q2" value="b"> B) Tortishadi</label>
+<label><input type="radio" name="q2" value="c"> C) Ta’sirlashmaydi</label></div>
+
+<div class="test-q"><b>3. Chaqmoq nima?</b>
+<label><input type="radio" name="q3" value="a"> A) Faqat yorug‘likning aks etishi</label>
+<label><input type="radio" name="q3" value="b"> B) Elektr razryadi natijasida yuzaga keladigan yorqin hodisa</label>
+<label><input type="radio" name="q3" value="c"> C) Oddiy yomg‘ir</label></div>
+
+<div class="test-q"><b>4. Momaqaldiroq nimaning natijasida hosil bo‘ladi?</b>
+<label><input type="radio" name="q4" value="a"> A) Havoning chaqmoq kanali atrofida tez qizib-kengayishi natijasidagi tovush to‘lqini</label>
+<label><input type="radio" name="q4" value="b"> B) Quyosh nuri</label>
+<label><input type="radio" name="q4" value="c"> C) Shamolning o‘zi</label></div>
+
+<div class="test-q"><b>5. Momaqaldiroq vaqtida qaysi variant xavfsizroq?</b>
+<label><input type="radio" name="q5" value="a"> A) Yolg‘iz daraxt tagida turish</label>
+<label><input type="radio" name="q5" value="b"> B) Ochiq maydonda turish</label>
+<label><input type="radio" name="q5" value="c"> C) Xavfsiz yopiq bino ichida bo‘lish</label></div>
+
+<button class="primary" onclick="checkTest()">TESTNI TEKSHIRISH</button>
+<button onclick="resetTest()">QAYTA ISHLASH</button>
+<div id="testResult" class="result"></div>
+</section>
+</main>
+
+<footer>8-sinf fizika • Tabiatdagi elektr hodisalari • Interaktiv ta’limiy simulyatsiya</footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+function collectCharges(){
+ document.querySelectorAll('#cloud .charge').forEach((x,i)=>{
+   x.style.transform='translateY('+(i%2?28:-28)+'px) scale(1.15)';
+ });
+ document.getElementById('chargeStatus').textContent='Holat: zaryadlar bulutning turli qismlarida ko‘proq to‘plandi. Elektr maydoni kuchaymoqda.';
+}
+function separateCharges(){
+ const arr=document.querySelectorAll('#cloud .charge');
+ arr.forEach((x,i)=>x.style.transform='translateY('+(i<2?-42:42)+'px) scale(1.25)');
+ document.getElementById('chargeStatus').textContent='Holat: musbat va manfiy zaryadlar ajralgan. Kuchli elektr maydoni hosil bo‘lishi mumkin.';
+}
+function clearCharges(){
+ document.querySelectorAll('#cloud .charge').forEach(x=>x.style.transform='translateY(0) scale(1)');
+ document.getElementById('chargeStatus').textContent='Holat: bulutdagi zaryadlar aralash joylashgan.';
+}
+function checkTask1(){
+ const v=document.getElementById('task1').value, r=document.getElementById('task1r');
+ r.textContent=v==='itar'?'To‘g‘ri! Bir xil ishorali zaryadlar bir-birini itaradi.':'Noto‘g‘ri. Bir xil ishorali zaryadlar itaradi.';
+ r.className='result '+(v==='itar'?'correct':'wrong');
+}
+
+let stormTimer=null;
+function makeRain(id){
+ const box=document.getElementById(id); box.innerHTML='';
+ for(let i=0;i<28;i++){
+   const d=document.createElement('span');d.className='drop';
+   d.style.left=(5+Math.random()*90)+'%';d.style.animationDelay=(Math.random()*1.5)+'s';
+   box.appendChild(d);
+ }
+}
+function startStorm(){
+ const b=document.getElementById('bolt'),s=document.getElementById('stormStatus');
+ makeRain('rain');b.classList.add('on');
+ s.textContent='Holat: elektr maydoni kuchaydi — chaqmoq hosil bo‘ldi! Momaqaldiroq esa tovush sifatida keyinroq eshitiladi.';
+ document.getElementById('stormArea').classList.add('flash');
+ clearTimeout(stormTimer);
+ stormTimer=setTimeout(()=>document.getElementById('stormArea').classList.remove('flash'),800);
+}
+function stopStorm(){
+ document.getElementById('bolt').classList.remove('on');
+ document.getElementById('rain').innerHTML='';
+ document.getElementById('stormStatus').textContent='Holat: animatsiya to‘xtatildi.';
+}
+function checkTask2(){
+ const v=document.getElementById('task2').value,r=document.getElementById('task2r');
+ r.textContent=v==='tezlik'?'To‘g‘ri! Yorug‘lik tovushdan ancha tez tarqaladi.':'Noto‘g‘ri. Asosiy sabab — yorug‘lik va tovush tezliklarining farqi.';
+ r.className='result '+(v==='tezlik'?'correct':'wrong');
+}
+
+function chooseSafe(v){
+ const p=document.getElementById('person'),s=document.getElementById('safeStatus');
+ if(v==='building'){p.style.right='76%';s.textContent='To‘g‘ri tanlov. Momaqaldiroq paytida xavfsiz yopiq bino ichida bo‘lish ma’qul.';s.className='status correct'}
+ else if(v==='tree'){p.style.right='42%';s.textContent='Noto‘g‘ri. Yolg‘iz baland daraxt tagi chaqmoq vaqtida xavfli bo‘lishi mumkin.';s.className='status wrong'}
+ else{p.style.right='25%';s.textContent='Noto‘g‘ri. Ochiq joyda turish xavfni oshirishi mumkin.';s.className='status wrong'}
+}
+function checkTask3(){
+ const v=document.getElementById('task3').value,r=document.getElementById('task3r');
+ r.textContent=v==='bino'?'To‘g‘ri! Xavfsiz yopiq bino eng ma’qul joylardan biridir.':'Noto‘g‘ri. Momaqaldiroq paytida xavfsiz yopiq bino ichiga kirish kerak.';
+ r.className='result '+(v==='bino'?'correct':'wrong');
+}
+
+let overallTimer=null;
+function runOverall(){
+ resetOverall();
+ const s=document.getElementById('overallStatus'),c=document.getElementById('overallCloud'),b=document.getElementById('overallBolt');
+ const steps=[
+  [0,'1-bosqich: Bulut ichida zaryadlar ajralmoqda.'],
+  [1200,'2-bosqich: Musbat va manfiy zaryadlar to‘planmoqda.'],
+  [2500,'3-bosqich: Elektr maydoni kuchaymoqda.'],
+  [3800,'4-bosqich: Elektr razryadi — CHAQMOQ!'],
+  [5200,'5-bosqich: Chaqmoq kanali havoni keskin qizdiradi va momaqaldiroq tovushi hosil bo‘ladi.']
+ ];
+ steps.forEach(([t,msg])=>setTimeout(()=>{
+   s.textContent=msg;
+   if(t===1200)c.style.transform='scale(1.08)';
+   if(t===2500)c.style.filter='brightness(1.18)';
+   if(t===3800){b.classList.add('on');makeRain('overallRain');document.getElementById('overallArea').classList.add('flash')}
+ },t));
+ overallTimer=setTimeout(()=>{b.classList.remove('on');document.getElementById('overallArea').classList.remove('flash')},6000);
+}
+function resetOverall(){
+ clearTimeout(overallTimer);
+ document.getElementById('overallBolt').classList.remove('on');
+ document.getElementById('overallRain').innerHTML='';
+ document.getElementById('overallCloud').style.transform='scale(1)';
+ document.getElementById('overallCloud').style.filter='none';
+ document.getElementById('overallArea').classList.remove('flash');
+ document.getElementById('overallStatus').textContent='Boshlash tugmasini bosing.';
+}
+
+function checkTest(){
+ const ans={q1:'b',q2:'a',q3:'b',q4:'a',q5:'c'};let score=0;
+ Object.keys(ans).forEach(q=>{
+   const x=document.querySelector('input[name="'+q+'"]:checked');
+   if(x&&x.value===ans[q])score++;
+ });
+ const r=document.getElementById('testResult');
+ r.textContent='Natija: '+score+'/5 ta to‘g‘ri javob.';
+ r.className='result '+(score>=4?'correct':'wrong');
+}
+function resetTest(){
+ document.querySelectorAll('#test input').forEach(x=>x.checked=false);
+ document.getElementById('testResult').textContent='';
+}
+</script>
+</body>
+</html>

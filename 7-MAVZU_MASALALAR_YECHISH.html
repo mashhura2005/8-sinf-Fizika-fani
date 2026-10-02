@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-MAVZU_MASALALAR_YECHISH</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fa;color:#172033;line-height:1.6;overflow-x:hidden}
+header{background:#fff;border-bottom:1px solid #dfe5ec;position:sticky;top:0;z-index:20}
+.header-inner{max-width:1100px;margin:auto;padding:16px 18px}
+h1{font-size:clamp(22px,4vw,34px);margin:0 0 12px;color:#102a43}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;background:#1769aa;color:white;transition:.2s;box-shadow:0 2px 5px #0001}
+button:hover{transform:translateY(-1px);background:#0d568e}
+button.secondary{background:#e8eef5;color:#17324d}
+button.success{background:#258a4b}
+button.warn{background:#c77b00}
+main{max-width:1100px;margin:auto;padding:22px 16px 60px}
+section{background:#fff;border:1px solid #dfe5ec;border-radius:14px;padding:22px;margin:18px 0;box-shadow:0 4px 14px #1b365d0a}
+h2{font-size:clamp(21px,3vw,29px);color:#12558a;margin-top:0}
+h3{color:#174a70}
+.card{border:1px solid #dce4ed;border-radius:12px;padding:16px;background:#fbfcfe;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}section{padding:16px}.header-inner{padding:12px}.grid.three{grid-template-columns:1fr}}
+.box{background:#f1f6fa;border-left:4px solid #1769aa;padding:13px;border-radius:8px}
+.formula{font-size:clamp(28px,5vw,42px);font-weight:800;text-align:center;background:#eef5fb;border-radius:10px;padding:14px;margin:12px 0;color:#0d4d78}
+.data-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #dbe3eb;padding:8px 0}
+.step{padding:12px;border:1px solid #d9e2ea;border-radius:10px;margin:8px 0;background:#fff}
+.step.active{border-color:#1769aa;background:#edf6fd;animation:pop .35s ease}
+@keyframes pop{from{opacity:.2;transform:translateY(7px)}to{opacity:1;transform:none}}
+.fade{animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+.highlight{animation:glow 1s ease infinite alternate;border-radius:5px}
+@keyframes glow{from{background:#fff1a8}to{background:#ffd84d}}
+.sim-controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+input,select{width:100%;padding:11px;border:1px solid #b9c7d5;border-radius:8px;font-size:16px;background:#fff}
+label{font-weight:700;display:block;margin-bottom:5px}
+.feedback{font-weight:700;margin-top:10px;min-height:26px}
+.correct{color:#16803c}.wrong{color:#b42318}.info{color:#175c8c}
+.options{display:grid;gap:8px}.options button{text-align:left;background:#f3f6f9;color:#1d2d3d;border:1px solid #ccd7e2;box-shadow:none}
+.options button:hover{background:#e6f1fa}
+.options button.chosen.correct-opt{background:#dff5e7;border-color:#45a66a;color:#155d2e}
+.options button.chosen.wrong-opt{background:#fde4e1;border-color:#d65c4f;color:#8a2117}
+.road{position:relative;height:110px;background:#eef2f5;border:1px solid #d2dbe4;border-radius:12px;overflow:hidden;margin:15px 0}
+.road:after{content:"";position:absolute;left:0;right:0;top:68px;border-top:4px dashed #7b8794}
+.car{position:absolute;left:2%;top:42px;font-size:32px;z-index:2;transition:left 2.5s linear}
+.marker{position:absolute;top:10px;font-size:13px;font-weight:700}
+.marker.start{left:2%}.marker.end{right:2%}
+.progress{height:12px;background:#e1e7ed;border-radius:20px;overflow:hidden;margin:8px 0}
+.progress span{display:block;height:100%;width:0;background:#1769aa;transition:width 2.5s linear}
+.animation-box{min-height:145px;display:flex;flex-direction:column;justify-content:center}
+.calc-result{font-size:clamp(24px,5vw,38px);font-weight:800;text-align:center;padding:14px;border-radius:10px;background:#edf7f0;color:#176333;margin-top:12px}
+.big-check{font-size:24px;font-weight:800;text-align:center;margin:15px 0}
+.pill{display:inline-block;background:#e8f2fa;border-radius:30px;padding:4px 10px;font-size:13px;font-weight:700;margin:3px}
+footer{text-align:center;color:#64748b;padding:20px}
+.hidden{display:none!important}
+.small{font-size:14px;color:#5d6b7a}
+.score{font-size:25px;font-weight:800;text-align:center}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>8-SINF FIZIKA — 7-MAVZU: MASALALAR YECHISH</h1>
+<nav>
+<button onclick="goTo('reja1')">1-REJA</button>
+<button onclick="goTo('reja2')">2-REJA</button>
+<button onclick="goTo('reja3')">3-REJA</button>
+<button onclick="goTo('umumiy')">UMUMIY SIMULYATSIYA</button>
+<button onclick="goTo('test')">TEST</button>
+</nav>
+</div>
+</header>
+
+<main>
+<section id="reja1">
+<h2>1. Fizik masalalarning turlari va ularni tahlil qilish</h2>
+<p><b>Fizik masala</b> — fizik hodisa yoki jarayonni fizik qonunlar, formulalar va kattaliklar yordamida yechishni talab qiladigan topshiriq.</p>
+<p>Fizik masalalar turli xil bo‘lishi mumkin: <span class="pill">sifat</span><span class="pill">hisoblash</span><span class="pill">grafik</span><span class="pill">tajribaviy</span>.</p>
+<div class="grid">
+<div class="box"><b>Berilgan:</b><div class="data-row"><span>s</span><b>100 m</b></div><div class="data-row"><span>t</span><b>20 s</b></div></div>
+<div class="box"><b>Topish kerak:</b><div class="formula">v = ?</div></div>
+</div>
+<div class="card">
+<h3>Misol</h3>
+<p>Jism 20 sekund davomida 100 metr masofa bosib o‘tdi. Jismning tezligini toping.</p>
+<p><b>Tahlil:</b> 1) berilgan kattaliklarni aniqlash; 2) topiladigan kattalikni aniqlash; 3) mos formula yoki qonunni tanlash.</p>
+</div>
+
+<div class="card">
+<h3>Simulyatsiya: Masalani tahlil qilish</h3>
+<div class="animation-box" id="analysisAnim"><p>Masala sharti: “Jism 20 s davomida 100 m yo‘l bosib o‘tdi. Uning tezligini toping.”</p></div>
+<div class="sim-controls">
+<button onclick="analysisStep(1)">Berilganlarni aniqlash</button>
+<button onclick="analysisStep(2)">Topiladigan kattalik</button>
+<button onclick="analysisStep(3)">Formula tanlash</button>
+<button class="success" onclick="analysisStep(4)">Masalani tahlil qilish</button>
+</div>
+<div class="card"><b>Bosqichlar:</b><div id="analysisSteps"></div></div>
+</div>
+
+<div class="card">
+<h3>1-reja topshirig‘i</h3>
+<p>Masalani yechishni boshlashda birinchi navbatda nima qilinadi?</p>
+<div class="options" id="q1">
+<button onclick="answer(this, false, 'q1fb')">A) Darhol javob yoziladi.</button>
+<button onclick="answer(this, false, 'q1fb')">B) Faqat kalkulyator ishlatiladi.</button>
+<button onclick="answer(this, true, 'q1fb')">C) Masala sharti tahlil qilinib, berilgan kattaliklar aniqlanadi.</button>
+<button onclick="answer(this, false, 'q1fb')">D) Formulalar yoddan yoziladi.</button>
+</div>
+<div id="q1fb" class="feedback"></div>
+</div>
+</section>
+
+<section id="reja2">
+<h2>2. Masalalarni yechishda formulalar va fizik kattaliklardan foydalanish</h2>
+<p>Fizik masalani yechishda fizik kattalikning <b>belgisi, qiymati va o‘lchov birligi</b> aniqlanadi. So‘ng mos fizik formula tanlanadi.</p>
+<div class="formula">v = s / t</div>
+<div class="grid">
+<div class="box"><b>v</b> — tezlik</div><div class="box"><b>s</b> — bosib o‘tilgan yo‘l</div><div class="box"><b>t</b> — vaqt</div><div class="box"><b>SI birligi:</b> m/s</div>
+</div>
+<div class="card">
+<p><b>Birliklarni almashtirish:</b></p>
+<p>1 km = 1000 m &nbsp; | &nbsp; 1 min = 60 s &nbsp; | &nbsp; 1 soat = 3600 s</p>
+<p><b>Misol:</b> s = 120 m, t = 20 s → v = 120 / 20 = <b>6 m/s</b>.</p>
+</div>
+
+<div class="card">
+<h3>Simulyatsiya: Formula tanlash va hisoblash</h3>
+<div class="grid">
+<div><label>Masofa (m)</label><input id="distance2" type="number" value="120" step="any"></div>
+<div><label>Vaqt (s)</label><input id="time2" type="number" value="20" step="any"></div>
+</div>
+<div class="sim-controls">
+<button onclick="calcSpeed()">TEZLIKNI HISOBLASH</button>
+<button class="secondary" onclick="clearCalc2()">Hisoblashni tozalash</button>
+<button class="secondary" onclick="resetCalc2()">Qayta boshlash</button>
+</div>
+<div id="formulaAnimation" class="animation-box">
+<div class="formula">v = s / t</div><p class="small" style="text-align:center">Qiymatlarni kiriting va hisoblang.</p>
+</div>
+<div id="speedResult"></div>
+</div>
+
+<div class="card">
+<h3>2-reja topshirig‘i</h3>
+<p>Tezlikni hisoblash formulasi qaysi?</p>
+<div class="options" id="q2">
+<button onclick="answer(this,true,'q2fb')">A) v = s / t</button>
+<button onclick="answer(this,false,'q2fb')">B) v = s · t</button>
+<button onclick="answer(this,false,'q2fb')">C) v = t / s</button>
+<button onclick="answer(this,false,'q2fb')">D) v = s + t</button>
+</div>
+<div id="q2fb" class="feedback"></div>
+</div>
+</section>
+
+<section id="reja3">
+<h2>3. Masalani yechish bosqichlari va javobni tekshirish</h2>
+<p>Fizik masalani yechishda ketma-ketlikka rioya qilish xatolarni kamaytiradi:</p>
+<div class="grid">
+<div class="step">1. Shartni o‘qish</div><div class="step">2. Berilganlarni yozish</div>
+<div class="step">3. Topish kerak</div><div class="step">4. SI birliklari</div>
+<div class="step">5. Formula</div><div class="step">6. Qiymatlarni qo‘yish</div>
+<div class="step">7. Hisoblash</div><div class="step">8. Javob</div>
+<div class="step">9. Tekshirish</div>
+</div>
+<div class="card">
+<h3>Misol</h3>
+<p>Avtomobil 180 km masofani 3 soatda bosib o‘tdi. Uning o‘rtacha tezligini km/soat da toping.</p>
+<p><b>Berilgan:</b> s = 180 km, t = 3 soat</p>
+<div class="formula">v = s / t</div>
+<p class="formula">v = 180 / 3 = 60 km/soat</p>
+<p><b>Javob:</b> Avtomobilning o‘rtacha tezligi 60 km/soat.</p>
+</div>
+
+<div class="card">
+<h3>Simulyatsiya: Masalani bosqichma-bosqich yechish</h3>
+<p><b>Masala:</b> “Avtomobil 180 km masofani 3 soatda bosib o‘tdi. Uning o‘rtacha tezligini toping.”</p>
+<div id="stepDisplay" class="animation-box"></div>
+<div class="sim-controls">
+<button class="secondary" onclick="startSteps()">BOSHLASH</button>
+<button onclick="nextStep()">KEYINGI BOSQICH</button>
+<button class="secondary" onclick="prevStep()">OLDINGI BOSQICH</button>
+<button class="secondary" onclick="resetSteps()">QAYTA BOSHLASH</button>
+</div>
+<div id="stepCounter" class="small"></div>
+</div>
+
+<div class="card">
+<h3>Interaktiv tekshiruv</h3>
+<p>Jism 150 m masofani 30 sekundda bosib o‘tdi. Tezligini toping.</p>
+<div class="grid">
+<div><label>Masofa (m)</label><input id="checkS" type="number" value="150"></div>
+<div><label>Vaqt (s)</label><input id="checkT" type="number" value="30"></div>
+</div>
+<div class="grid" style="margin-top:10px">
+<div><label>Sizning javobingiz (m/s)</label><input id="checkAnswer" type="number" step="any"></div>
+<div style="display:flex;align-items:end"><button style="width:100%" onclick="checkAnswer()">TEKSHIRISH</button></div>
+</div>
+<div id="checkFeedback" class="feedback"></div>
+</div>
+</section>
+
+<section id="umumiy">
+<h2>UMUMIY MASALA YECHISH SIMULYATSIYASI</h2>
+<div class="card">
+<p><b>Masala:</b> Jism 240 metr masofani 40 sekundda bosib o‘tdi. Jismning tezligini toping.</p>
+<div class="road">
+<span class="marker start">0 m</span><span class="marker end">240 m</span>
+<div class="car" id="car">🚗</div>
+</div>
+<div class="progress"><span id="roadProgress"></span></div>
+<div class="grid">
+<div class="box"><b>Masofa:</b> <span id="roadS">240 m</span></div>
+<div class="box"><b>Vaqt:</b> <span id="roadT">40 s</span></div>
+</div>
+<div id="generalArea" class="animation-box"><p>Har bir bosqichni navbat bilan bajaring.</p></div>
+<div class="sim-controls">
+<button onclick="generalStep(1)">1. Berilganlarni topish</button>
+<button onclick="generalStep(2)">2. Topish kerak</button>
+<button onclick="generalStep(3)">3. Formula</button>
+<button onclick="generalStep(4)">4. Sonlarni qo‘yish</button>
+<button onclick="generalStep(5)">5. Hisoblash</button>
+<button onclick="generalStep(6)">6. Javobni tekshirish</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv formula hisoblagich</h3>
+<div class="grid">
+<div>
+<label>Formula</label>
+<select id="calcType" onchange="changeCalcType()">
+<option value="v">Tezlik</option><option value="s">Masofa</option><option value="t">Vaqt</option>
+</select>
+</div>
+<div id="unitInfo" class="box">Tezlik: v = s / t</div>
+</div>
+<div id="calcInputs" class="grid" style="margin-top:12px"></div>
+<div class="sim-controls">
+<button onclick="formulaCalc()">HISOBLASH</button>
+<button class="secondary" onclick="resetFormulaCalc()">TOZALASH</button>
+</div>
+<div id="formulaCalcResult"></div>
+<p class="small">Xatolar boshqariladi: bo‘sh maydon, noto‘g‘ri son, nolga bo‘lish va manfiy vaqt qiymatlari.</p>
+</div>
+</section>
+
+<section id="test">
+<h2>YAKUNIY TEST</h2>
+<div class="card">
+<p>Har bir savol uchun bitta javobni tanlang.</p>
+<div id="testContainer"></div>
+<button onclick="finishTest()">TESTNI YAKUNLASH</button>
+<div id="testResult" class="score"></div>
+</div>
+</section>
+</main>
+<footer>8-sinf fizika • 7-mavzu: Masalalar yechish • Offline interaktiv dars</footer>
+
+<script>
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+function analysisStep(n){
+ const a=document.getElementById('analysisAnim'), s=document.getElementById('analysisSteps');
+ let text='';
+ if(n===1) text='<div class="fade"><b>BERILGAN:</b><br><span class="highlight">s = 100 m</span><br><span class="highlight">t = 20 s</span></div>';
+ if(n===2) text='<div class="fade"><b>TOPISH KERAK:</b><div class="formula">v = ?</div></div>';
+ if(n===3) text='<div class="fade"><b>FORMULA:</b><div class="formula">v = s / t</div></div>';
+ if(n===4) text='<div class="fade"><b>Masala tahlili:</b> masofa va vaqt berilgan, tezlik topiladi. Mos formula — v = s / t.</div>';
+ a.innerHTML=text;
+ s.innerHTML='<div class="step active">1. Berilgan kattaliklarni aniqlash</div><div class="step '+(n>=2?'active':'')+'">2. Topiladigan kattalikni aniqlash</div><div class="step '+(n>=3?'active':'')+'">3. Mos formulani tanlash</div>';
+}
+
+function answer(btn,correct,id){
+ const parent=btn.parentElement;
+ [...parent.children].forEach(b=>b.classList.remove('chosen','correct-opt','wrong-opt'));
+ btn.classList.add('chosen',correct?'correct-opt':'wrong-opt');
+ const f=document.getElementById(id);
+ f.className='feedback '+(correct?'correct':'wrong');
+ f.textContent=correct?'✓ To‘g‘ri!':'✗ Noto‘g‘ri, qayta urinib ko‘ring.';
+}
+
+function calcSpeed(){
+ const s=parseFloat(document.getElementById('distance2').value);
+ const t=parseFloat(document.getElementById('time2').value);
+ const anim=document.getElementById('formulaAnimation'), out=document.getElementById('speedResult');
+ if(!Number.isFinite(s)||!Number.isFinite(t)){out.innerHTML='<div class="feedback wrong">Xatolik: qiymatlarni to‘g‘ri kiriting.</div>';return}
+ if(t===0){out.innerHTML='<div class="feedback wrong">Xatolik: vaqt 0 bo‘lishi mumkin emas.</div>';return}
+ if(t<0){out.innerHTML='<div class="feedback wrong">Xatolik: vaqt manfiy bo‘lishi mumkin emas.</div>';return}
+ if(s<0){out.innerHTML='<div class="feedback wrong">Xatolik: masofa manfiy bo‘lmasligi kerak.</div>';return}
+ const v=s/t;
+ anim.innerHTML='<div class="formula fade">v = s / t</div><div class="formula fade">v = '+s+' / '+t+'</div><div class="formula fade">v = '+Number(v.toFixed(6))+' m/s</div>';
+ out.innerHTML='<div class="calc-result">Jismning tezligi '+Number(v.toFixed(6))+' m/s.</div>';
+}
+function clearCalc2(){document.getElementById('formulaAnimation').innerHTML='<div class="formula">v = s / t</div>';document.getElementById('speedResult').innerHTML=''}
+function resetCalc2(){document.getElementById('distance2').value=120;document.getElementById('time2').value=20;clearCalc2()}
+
+const steps=[
+'1-bosqich: <b>Shartni o‘qish.</b><br>Avtomobil 180 km masofani 3 soatda bosib o‘tgan.',
+'2-bosqich: <b>Berilganlarni yozish.</b><br>s = 180 km, t = 3 soat.',
+'3-bosqich: <b>Topish kerak.</b><br>v = ?',
+'4-bosqich: <b>SI birliklari.</b><br>Bu masalada javob km/soat da so‘ralgan, shuning uchun birliklarni o‘zgartirish shart emas.',
+'5-bosqich: <b>Formulani tanlash.</b><div class="formula">v = s / t</div>',
+'6-bosqich: <b>Qiymatlarni qo‘yish.</b><div class="formula">v = 180 / 3</div>',
+'7-bosqich: <b>Hisoblash.</b><div class="formula">v = 60 km/soat</div>',
+'8-bosqich: <b>Javob.</b><br>Avtomobilning o‘rtacha tezligi 60 km/soat.',
+'9-bosqich: <b>Tekshirish.</b><br>60 × 3 = 180 km. Demak, javob mantiqan to‘g‘ri.'
+];
+let stepIndex=0;
+function renderStep(){document.getElementById('stepDisplay').innerHTML='<div class="step active fade">'+(steps[stepIndex]||'')+'</div>';document.getElementById('stepCounter').textContent='Bosqich: '+(stepIndex+1)+' / 9'}
+function startSteps(){stepIndex=0;renderStep()}
+function nextStep(){if(stepIndex<8)stepIndex++;renderStep()}
+function prevStep(){if(stepIndex>0)stepIndex--;renderStep()}
+function resetSteps(){stepIndex=0;document.getElementById('stepDisplay').innerHTML='<p>Boshlash tugmasini bosing.</p>';document.getElementById('stepCounter').textContent=''}
+
+function checkAnswer(){
+ const s=parseFloat(document.getElementById('checkS').value),t=parseFloat(document.getElementById('checkT').value),a=parseFloat(document.getElementById('checkAnswer').value),f=document.getElementById('checkFeedback');
+ if(!Number.isFinite(s)||!Number.isFinite(t)||!Number.isFinite(a)||t===0){f.className='feedback wrong';f.textContent='✗ Qiymatlarni tekshiring. Vaqt 0 bo‘lmasligi kerak.';return}
+ const correct=s/t;
+ if(Math.abs(a-correct)<1e-9){f.className='feedback correct';f.textContent='✓ To‘g‘ri! Javob '+correct+' m/s.'}
+ else{f.className='feedback wrong';f.textContent='✗ Javobni qayta tekshiring.'}
+}
+
+function generalStep(n){
+ const area=document.getElementById('generalArea');
+ const car=document.getElementById('car'), prog=document.getElementById('roadProgress');
+ let t='';
+ if(n===1)t='<div class="fade"><b>BERILGAN:</b> s = 240 m, t = 40 s.</div>';
+ if(n===2)t='<div class="fade"><b>TOPISH KERAK:</b><div class="formula">v = ?</div></div>';
+ if(n===3)t='<div class="fade"><b>FORMULA:</b><div class="formula">v = s / t</div></div>';
+ if(n===4)t='<div class="fade"><b>Qiymatlarni qo‘yamiz:</b><div class="formula">v = 240 / 40</div></div>';
+ if(n===5){t='<div class="fade"><b>Hisoblash:</b><div class="formula">v = 6 m/s</div></div>';car.style.left='88%';prog.style.width='100%'}
+ if(n===6)t='<div class="fade"><div class="big-check">✓ v = 6 m/s</div>Javob mantiqan to‘g‘ri: 6 × 40 = 240 m.</div>';
+ area.innerHTML=t;
+ if(n<5){car.style.left=(n*18)+'%';prog.style.width=(n*18)+'%'}
+}
+
+function changeCalcType(){
+ const type=document.getElementById('calcType').value, info=document.getElementById('unitInfo'), box=document.getElementById('calcInputs');
+ if(type==='v'){info.textContent='Tezlik: v = s / t';box.innerHTML='<div><label>Masofa s (m)</label><input id="ciS" type="number" step="any"></div><div><label>Vaqt t (s)</label><input id="ciT" type="number" step="any"></div>'}
+ if(type==='s'){info.textContent='Masofa: s = v · t';box.innerHTML='<div><label>Tezlik v (m/s)</label><input id="ciV" type="number" step="any"></div><div><label>Vaqt t (s)</label><input id="ciT" type="number" step="any"></div>'}
+ if(type==='t'){info.textContent='Vaqt: t = s / v';box.innerHTML='<div><label>Masofa s (m)</label><input id="ciS" type="number" step="any"></div><div><label>Tezlik v (m/s)</label><input id="ciV" type="number" step="any"></div>'}
+ document.getElementById('formulaCalcResult').innerHTML='';
+}
+function formulaCalc(){
+ const type=document.getElementById('calcType').value,out=document.getElementById('formulaCalcResult');
+ const num=id=>parseFloat(document.getElementById(id)?.value);
+ let result,unit,formula;
+ if(type==='v'){const s=num('ciS'),t=num('ciT');if(!Number.isFinite(s)||!Number.isFinite(t)){out.innerHTML='<div class="feedback wrong">Xatolik: barcha maydonlarni to‘ldiring.</div>';return}if(t===0){out.innerHTML='<div class="feedback wrong">Xatolik: 0 ga bo‘lish mumkin emas.</div>';return}if(t<0){out.innerHTML='<div class="feedback wrong">Xatolik: vaqt manfiy bo‘lmasligi kerak.</div>';return}result=s/t;unit='m/s';formula='v = s / t'}
+ if(type==='s'){const v=num('ciV'),t=num('ciT');if(!Number.isFinite(v)||!Number.isFinite(t)){out.innerHTML='<div class="feedback wrong">Xatolik: barcha maydonlarni to‘ldiring.</div>';return}if(t<0){out.innerHTML='<div class="feedback wrong">Xatolik: vaqt manfiy bo‘lmasligi kerak.</div>';return}result=v*t;unit='m';formula='s = v · t'}
+ if(type==='t'){const s=num('ciS'),v=num('ciV');if(!Number.isFinite(s)||!Number.isFinite(v)){out.innerHTML='<div class="feedback wrong">Xatolik: barcha maydonlarni to‘ldiring.</div>';return}if(v===0){out.innerHTML='<div class="feedback wrong">Xatolik: tezlik 0 bo‘lsa, vaqtni bu formula bilan hisoblab bo‘lmaydi.</div>';return}result=s/v;if(result<0){out.innerHTML='<div class="feedback wrong">Xatolik: vaqt manfiy chiqmasligi kerak.</div>';return}unit='s';formula='t = s / v'}
+ out.innerHTML='<div class="calc-result">'+formula+'<br>= '+Number(result.toFixed(6))+' '+unit+'</div>';
+}
+function resetFormulaCalc(){changeCalcType()}
+
+const testData=[
+['Fizik masala nima?',['A) Faqat rasm chizish topshirig‘i','B) Fizik hodisa yoki jarayonni qonun va formulalar yordamida yechish topshirig‘i','C) Faqat tajriba o‘tkazish','D) Faqat yodlash topshirig‘i'],1],
+['Tezlikning formulasi qaysi?',['A) v = s / t','B) v = s · t','C) v = t / s','D) v = s + t'],0],
+['1 km necha metr?',['A) 10 m','B) 100 m','C) 1000 m','D) 10000 m'],2],
+['Jism 200 m yo‘lni 40 s da bosib o‘tdi. Tezlik qancha?',['A) 4 m/s','B) 5 m/s','C) 8 m/s','D) 40 m/s'],1],
+['Masala yechilgandan keyin nima qilish kerak?',['A) Javobni tekshirish','B) Masalani o‘chirib yuborish','C) Birlikni yozmaslik','D) Formulani almashtirish'],0]
+];
+function buildTest(){
+ const c=document.getElementById('testContainer');
+ c.innerHTML='';
+ testData.forEach((q,i)=>{
+  const div=document.createElement('div');div.className='card';div.innerHTML='<h3>'+(i+1)+'-savol</h3><p>'+q[0]+'</p>';
+  q[1].forEach((op,j)=>{
+   const b=document.createElement('button');b.textContent=op;b.dataset.q=i;b.dataset.a=j;b.style.margin='4px';b.style.background='#f3f6f9';b.style.color='#1d2d3d';b.style.border='1px solid #ccd7e2';b.onclick=()=>selectTest(b,i,j);div.appendChild(b);
+  });
+  div.id='testq'+i;c.appendChild(div);
+ });
+}
+let selections={};
+function selectTest(btn,q,a){selections[q]=a;[...document.querySelectorAll('#testq'+q+' button')].forEach(b=>{b.style.background='#f3f6f9';b.style.color='#1d2d3d'});btn.style.background='#dceefb';btn.style.color='#104f78'}
+function finishTest(){
+ let score=0;
+ testData.forEach((q,i)=>{if(selections[i]===q[2])score++});
+ const r=document.getElementById('testResult');r.textContent='Natija: '+score+' / 5';
+ r.className='score '+(score>=4?'correct':score>=3?'info':'wrong');
+}
+buildTest();changeCalcType();resetSteps();analysisStep(0);
+</script>
+</body>
+</html>

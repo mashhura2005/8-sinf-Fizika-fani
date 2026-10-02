@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-MAVZU — O‘tkazgichlarda elektr zaryadining taqsimlanishi</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f8fb;color:#17212b;line-height:1.55}
+header{background:#fff;border-bottom:1px solid #dbe3ea;position:sticky;top:0;z-index:20}
+.header-inner{max-width:1100px;margin:auto;padding:16px 18px}
+h1{font-size:clamp(20px,3vw,30px);margin:0 0 12px;color:#17324d}
+.subtitle{color:#536575;font-size:14px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}
+nav button,.btn{border:1px solid #b8c9d8;background:#fff;color:#17324d;border-radius:9px;padding:10px 13px;font-weight:700;cursor:pointer;white-space:nowrap}
+nav button:hover,.btn:hover{background:#edf5fb}
+nav button.active{background:#17324d;color:#fff}
+main{max-width:1100px;margin:auto;padding:22px 14px 50px}
+section{background:#fff;border:1px solid #dce5ec;border-radius:14px;padding:22px;margin-bottom:22px;box-shadow:0 3px 12px rgba(24,54,78,.05)}
+h2{margin-top:0;color:#17324d;font-size:clamp(21px,3vw,28px)}
+h3{color:#245a80;margin-bottom:8px}
+p{margin:8px 0}
+ul{padding-left:22px}
+.formula{display:block;background:#eef5fa;border-left:4px solid #245a80;padding:13px 16px;border-radius:8px;font-size:clamp(22px,4vw,30px);font-weight:700;text-align:center;margin:15px 0}
+.note{background:#f3f7f9;border:1px solid #d8e3ea;padding:12px 14px;border-radius:9px}
+.examples{display:flex;flex-wrap:wrap;gap:8px}
+.tag{padding:7px 11px;border:1px solid #cad8e3;border-radius:20px;background:#fafcfd}
+.sim{border:1px solid #cbd9e4;border-radius:12px;padding:16px;background:#fbfdff;margin-top:16px}
+.sim-title{font-weight:700;color:#17324d;margin-bottom:10px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.controls .btn{font-size:14px}
+.status{min-height:24px;font-weight:700;color:#245a80}
+.canvas{position:relative;height:280px;border:1px solid #d1dde6;border-radius:10px;background:linear-gradient(#fbfdff,#f1f6fa);overflow:hidden}
+.metal{position:absolute;left:8%;right:8%;top:80px;height:120px;border:4px solid #657886;border-radius:18px;background:linear-gradient(135deg,#e9eef2,#b9c5cc,#eef2f5);box-shadow:inset 0 0 18px rgba(70,90,105,.18)}
+.metal.round{left:30%;right:auto;width:40%;height:170px;top:45px;border-radius:50%}
+.metal.point{clip-path:polygon(0 20%,45% 20%,100% 0,58% 50%,100% 100%,45% 80%,0 80%);border-radius:4px}
+.electron,.charge{position:absolute;width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;z-index:4;user-select:none}
+.electron{background:#dcecff;border:2px solid #3976a5;color:#17486d}
+.charge{background:#fff0f0;border:2px solid #b34c4c;color:#a32121}
+.field-arrow{position:absolute;left:5%;right:5%;top:35px;text-align:center;color:#8a3f25;font-weight:700;opacity:0;transition:.3s}
+.field-arrow.show{opacity:1}
+.field-arrow::after{content:"→ → → → → → →";font-size:22px;letter-spacing:8px}
+.electron.moving{animation:drift 1.5s linear infinite}
+@keyframes drift{0%{transform:translateX(0)}50%{transform:translateX(45px)}100%{transform:translateX(0)}}
+.energy{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#526776;font-size:13px}
+.surface-msg{position:absolute;left:0;right:0;top:15px;text-align:center;font-weight:700;color:#8a3f25}
+.shape-controls{display:flex;gap:8px;flex-wrap:wrap}
+.density-meter{margin-top:12px;height:18px;background:#e5edf3;border-radius:20px;overflow:hidden}
+.density-fill{height:100%;width:35%;background:#b04a4a;transition:.4s}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.quiz{border:1px solid #d6e0e7;border-radius:10px;padding:14px;margin:12px 0}
+.option{display:block;width:100%;text-align:left;margin:7px 0;border:1px solid #cbd7df;background:#fff;padding:10px;border-radius:8px;cursor:pointer}
+.option:hover{background:#f2f7fa}
+.correct{background:#e9f7ed!important;border-color:#55a76b!important}
+.wrong{background:#fff0f0!important;border-color:#cf6a6a!important}
+.feedback{font-weight:700;min-height:22px}
+.score{font-size:20px;font-weight:700;padding:14px;background:#eef5fa;border-radius:9px}
+footer{text-align:center;color:#657684;padding:20px}
+@media(max-width:700px){
+ header{position:relative}
+ main{padding:12px 9px 35px}
+ section{padding:16px;border-radius:11px}
+ .grid{grid-template-columns:1fr}
+ .canvas{height:250px}
+ .metal{top:75px;height:105px}
+ .metal.round{height:150px;top:48px}
+ .electron,.charge{width:22px;height:22px;font-size:11px}
+ nav button{padding:9px 11px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>8-SINF FIZIKA — 6-MAVZU: O‘TKAZGICHLARDA ELEKTR ZARYADINING TAQSIMLANISHI</h1>
+<div class="subtitle">Interaktiv va animatsiyali ta’limiy simulyatsiya</div>
+<nav>
+<button onclick="goTo('r1')">1-REJA</button>
+<button onclick="goTo('r2')">2-REJA</button>
+<button onclick="goTo('r3')">3-REJA</button>
+<button onclick="goTo('general')">UMUMIY SIMULYATSIYA</button>
+<button onclick="goTo('test')">TEST</button>
+</nav>
+</div>
+</header>
+
+<main>
+<section id="r1">
+<h2>1. O‘tkazgichlar va elektr zaryadlarining harakati</h2>
+<p>O‘tkazgichlar — elektr zaryadlari, ayniqsa erkin elektronlar, nisbatan oson harakatlana oladigan moddalar.</p>
+<p>Metallar yaxshi elektr o‘tkazgich hisoblanadi. Metallarda elektr tokini asosan erkin elektronlarning tartibli harakati hosil qiladi.</p>
+<p>O‘tkazgich elektr maydon ta’siriga tushganda erkin zaryadlar harakatlana boshlaydi. Elektrostatik muvozanat holatida o‘tkazgich ichida elektr maydon kuchlanganligi nolga teng bo‘ladi.</p>
+<div class="formula">E = 0</div>
+<h3>Misollar</h3>
+<div class="examples">
+<span class="tag">Mis</span><span class="tag">Alyuminiy</span><span class="tag">Temir</span><span class="tag">Kumush</span><span class="tag">Oltin</span>
+</div>
+
+<div class="sim">
+<div class="sim-title">Simulyatsiya: O‘tkazgich ichidagi erkin zaryadlar harakati</div>
+<div class="controls">
+<button class="btn" onclick="showElectrons()">Zaryadlarni ko‘rsatish</button>
+<button class="btn" onclick="toggleField()">Elektr maydonni yoqish</button>
+<button class="btn" onclick="startElectrons()">Harakatni boshlash</button>
+<button class="btn" onclick="stopElectrons()">To‘xtatish</button>
+<button class="btn" onclick="resetR1()">Qayta boshlash</button>
+</div>
+<div class="status" id="r1status">Elektr maydon o‘chirilgan. Elektronlar tartibsiz harakat qiladi.</div>
+<div class="canvas" id="r1canvas">
+<div class="metal" id="r1metal"></div>
+<div class="field-arrow" id="fieldArrow1">Elektr maydon yo‘nalishi</div>
+<div class="energy">Elektronlar “−” belgisi bilan ko‘rsatilgan</div>
+</div>
+<p class="note" id="r1explain">Elektr maydon ta’sirida o‘tkazgichdagi erkin elektronlar tartibli harakatga keladi.</p>
+</div>
+
+<div class="quiz">
+<h3>Topshiriq</h3>
+<p><b>Metallarda elektr tokini asosan nima hosil qiladi?</b></p>
+<button class="option" onclick="answer(this,false,'r1fb')">A) Protonlarning harakati</button>
+<button class="option" onclick="answer(this,false,'r1fb')">B) Neytronlarning harakati</button>
+<button class="option" onclick="answer(this,true,'r1fb')">C) Erkin elektronlarning tartibli harakati</button>
+<button class="option" onclick="answer(this,false,'r1fb')">D) Atom yadrolarining harakati</button>
+<div class="feedback" id="r1fb"></div>
+</div>
+</section>
+
+<section id="r2">
+<h2>2. Elektr zaryadining o‘tkazgich sirtida taqsimlanishi</h2>
+<p>O‘tkazgich zaryadlanganda ortiqcha elektr zaryadlari uning ichki hajmida emas, asosan tashqi sirtida joylashadi.</p>
+<p>Elektrostatik muvozanat holatida o‘tkazgich ichida elektr maydon mavjud emas:</p>
+<div class="formula">E = 0</div>
+<p>Elektr zaryadi o‘tkazgich sirtida bir xil yoki notekis taqsimlanishi mumkin. Oddiy sferik o‘tkazgichda zaryad sirt bo‘ylab nisbatan bir tekis taqsimlanadi. O‘tkazgichning uchli yoki keskin qismlarida zaryad zichligi kattaroq bo‘ladi.</p>
+<div class="formula">σ = q / S</div>
+<p><b>σ</b> — sirt zaryad zichligi; <b>q</b> — elektr zaryadi; <b>S</b> — sirt yuzasi.</p>
+<p><b>Birligi:</b> C/m²</p>
+
+<div class="sim">
+<div class="sim-title">Simulyatsiya: Zaryadning o‘tkazgich sirtida taqsimlanishi</div>
+<div class="controls">
+<button class="btn" onclick="chargeSphere()">Zaryad berish</button>
+<button class="btn" onclick="showSurfaceCharges()">Zaryadlarni ko‘rsatish</button>
+<button class="btn" onclick="hideSurfaceCharges()">Zaryadlarni yashirish</button>
+<button class="btn" onclick="resetR2()">Qayta boshlash</button>
+</div>
+<div class="status" id="r2status">Metall shar neytral holatda.</div>
+<div class="canvas" id="r2canvas">
+<div class="metal round" id="sphere"></div>
+<div class="surface-msg" id="surfaceMsg"></div>
+</div>
+<p class="note">Zaryadlangan o‘tkazgichda ortiqcha zaryadlar sirtga chiqadi. Sferik shaklda ular nisbatan bir tekis tarqaladi.</p>
+</div>
+</section>
+
+<section id="r3">
+<h2>3. O‘tkazgich shakli va zaryad zichligining taqsimlanishi</h2>
+<p>O‘tkazgichning shakli zaryadlarning sirt bo‘ylab qanday taqsimlanishiga ta’sir qiladi. Silliq va yumaloq sirtlarda zaryad zichligi nisbatan bir tekis bo‘lishi mumkin.</p>
+<p>Uchli va keskin qavariq qismlarda sirt zaryad zichligi kattaroq bo‘ladi. Shu sababli elektr maydon ham bunday joylarda kuchliroq bo‘lishi mumkin.</p>
+<div class="formula">σ = q / S</div>
+<p>Bir xil zaryad miqdorida zaryad zichligi sirtning kichik qismida to‘plansa, <b>σ</b> kattalashadi.</p>
+
+<div class="sim">
+<div class="sim-title">Simulyatsiya: O‘tkazgich shakli va zaryad zichligi</div>
+<div class="shape-controls">
+<button class="btn" onclick="setShape('sphere')">Sfera</button>
+<button class="btn" onclick="setShape('point')">Uchli o‘tkazgich</button>
+<button class="btn" onclick="animateDensity()">Zaryad taqsimotini ko‘rsatish</button>
+<button class="btn" onclick="resetR3()">Qayta boshlash</button>
+</div>
+<div class="status" id="r3status">Sfera tanlangan: zaryad nisbatan bir tekis.</div>
+<div class="canvas" id="r3canvas">
+<div class="metal round" id="shapeMetal"></div>
+<div id="shapeCharges"></div>
+<div class="energy" id="densityText">Nisbiy zaryad zichligi: 35%</div>
+</div>
+<div class="density-meter"><div class="density-fill" id="densityFill"></div></div>
+<p class="note">Kuzatuv: o‘tkazgichning uchli qismida zaryadlar zichroq joylashadi.</p>
+</div>
+
+<div class="quiz">
+<h3>Tezkor savol</h3>
+<p><b>Qaysi joyda sirt zaryad zichligi odatda kattaroq bo‘ladi?</b></p>
+<button class="option" onclick="answer(this,false,'r3fb')">A) Keng va tekis qismda</button>
+<button class="option" onclick="answer(this,true,'r3fb')">B) Uchli yoki keskin qismda</button>
+<button class="option" onclick="answer(this,false,'r3fb')">C) O‘tkazgichning ichki markazida</button>
+<button class="option" onclick="answer(this,false,'r3fb')">D) Har doim bir xil bo‘ladi</button>
+<div class="feedback" id="r3fb"></div>
+</div>
+</section>
+
+<section id="general">
+<h2>Umumiy interaktiv simulyatsiya</h2>
+<p>Quyidagi tajribada o‘tkazgich shaklini tanlang va zaryadlarning sirt bo‘ylab taqsimlanishini kuzating.</p>
+<div class="grid">
+<div>
+<div class="sim">
+<div class="sim-title">Tajriba boshqaruvi</div>
+<div class="controls">
+<button class="btn" onclick="generalShape('sphere')">Sferik o‘tkazgich</button>
+<button class="btn" onclick="generalShape('point')">Uchli o‘tkazgich</button>
+<button class="btn" onclick="generalCharge()">Zaryadlash</button>
+<button class="btn" onclick="generalReset()">Tozalash</button>
+</div>
+<div class="status" id="gstatus">Tajriba boshlanishi uchun shakl va zaryadni tanlang.</div>
+</div>
+</div>
+<div>
+<div class="sim">
+<div class="sim-title">Fizik natija</div>
+<div id="gresult" class="note">Zaryadlar hali ko‘rsatilmagan.</div>
+<div class="formula">E = 0</div>
+<p>Elektrostatik muvozanatda o‘tkazgich ichidagi elektr maydon kuchlanganligi nolga teng.</p>
+</div>
+</div>
+</div>
+<div class="sim">
+<div class="canvas" id="gcanvas">
+<div class="metal round" id="gmetal"></div>
+<div id="gcharges"></div>
+</div>
+</div>
+</section>
+
+<section id="test">
+<h2>Yakuniy test</h2>
+<div class="score" id="score">Natija: 0 / 5</div>
+
+<div class="quiz">
+<p><b>1. Metallarda tok tashuvchilar asosan kimlar?</b></p>
+<button class="option tq" data-q="1" data-c="false">A) Protonlar</button>
+<button class="option tq" data-q="1" data-c="true">B) Erkin elektronlar</button>
+<button class="option tq" data-q="1" data-c="false">C) Neytronlar</button>
+<button class="option tq" data-q="1" data-c="false">D) Atom yadrolari</button>
+<div class="feedback" id="tf1"></div>
+</div>
+
+<div class="quiz">
+<p><b>2. Elektrostatik muvozanatda o‘tkazgich ichida E nimaga teng?</b></p>
+<button class="option tq" data-q="2" data-c="false">A) 1 ga</button>
+<button class="option tq" data-q="2" data-c="false">B) q ga</button>
+<button class="option tq" data-q="2" data-c="true">C) 0 ga</button>
+<button class="option tq" data-q="2" data-c="false">D) S ga</button>
+<div class="feedback" id="tf2"></div>
+</div>
+
+<div class="quiz">
+<p><b>3. Sirt zaryad zichligi formulasi qaysi?</b></p>
+<button class="option tq" data-q="3" data-c="true">A) σ = q / S</button>
+<button class="option tq" data-q="3" data-c="false">B) σ = q · S</button>
+<button class="option tq" data-q="3" data-c="false">C) σ = S / q</button>
+<button class="option tq" data-q="3" data-c="false">D) σ = E / q</button>
+<div class="feedback" id="tf3"></div>
+</div>
+
+<div class="quiz">
+<p><b>4. Ortiqcha zaryadlangan o‘tkazgichda zaryadlar asosan qayerda joylashadi?</b></p>
+<button class="option tq" data-q="4" data-c="false">A) Faqat markazda</button>
+<button class="option tq" data-q="4" data-c="true">B) Tashqi sirtida</button>
+<button class="option tq" data-q="4" data-c="false">C) Faqat yadrosida</button>
+<button class="option tq" data-q="4" data-c="false">D) Faqat ichki hajmida</button>
+<div class="feedback" id="tf4"></div>
+</div>
+
+<div class="quiz">
+<p><b>5. Uchli qismda zaryad zichligi qanday bo‘ladi?</b></p>
+<button class="option tq" data-q="5" data-c="false">A) Kichikroq</button>
+<button class="option tq" data-q="5" data-c="false">B) Nol</button>
+<button class="option tq" data-q="5" data-c="false">C) O‘zgarmaydi</button>
+<button class="option tq" data-q="5" data-c="true">D) Kattaroq</button>
+<div class="feedback" id="tf5"></div>
+</div>
+<button class="btn" onclick="resetTest()">Testni qayta ishlash</button>
+</section>
+</main>
+<footer>8-sinf Fizika • 6-mavzu • Interaktiv ta’limiy simulyatsiya</footer>
+
+<script>
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+const r1c=document.getElementById('r1canvas');
+const field=document.getElementById('fieldArrow1');
+let r1electrons=[], fieldOn=false, moving=false;
+
+function makeElectrons(container,count=24){
+  [...container.querySelectorAll('.electron')].forEach(e=>e.remove());
+  r1electrons=[];
+  const metal=container.querySelector('.metal');
+  const rect=container.getBoundingClientRect();
+  const mw=metal.getBoundingClientRect();
+  for(let i=0;i<count;i++){
+    const e=document.createElement('div');
+    e.className='electron';
+    e.textContent='−';
+    const x=mw.left-rect.left+10+Math.random()*(mw.width-30);
+    const y=mw.top-rect.top+10+Math.random()*(mw.height-30);
+    e.style.left=x+'px'; e.style.top=y+'px';
+    container.appendChild(e); r1electrons.push(e);
+  }
+}
+function showElectrons(){makeElectrons(r1c);document.getElementById('r1status').textContent='Erkin elektronlar ko‘rsatildi.'}
+function toggleField(){
+ fieldOn=!fieldOn; field.classList.toggle('show',fieldOn);
+ document.getElementById('r1status').textContent=fieldOn?'Elektr maydon yoqildi. Elektronlar tartibli siljiydi.':'Elektr maydon o‘chirildi. Elektronlar tartibsiz harakat qiladi.';
+ r1electrons.forEach(e=>e.classList.toggle('moving',fieldOn&&moving));
+}
+function startElectrons(){
+ if(!r1electrons.length) showElectrons();
+ moving=true;
+ r1electrons.forEach(e=>e.classList.add('moving'));
+ document.getElementById('r1status').textContent=fieldOn?'Elektronlar tartibli harakat qilmoqda.':'Elektronlar harakati boshlandi.';
+}
+function stopElectrons(){moving=false;r1electrons.forEach(e=>e.classList.remove('moving'));document.getElementById('r1status').textContent='Elektronlar harakati to‘xtatildi.'}
+function resetR1(){fieldOn=false;moving=false;field.classList.remove('show');r1electrons.forEach(e=>e.remove());r1electrons=[];document.getElementById('r1status').textContent='Elektr maydon o‘chirilgan. Elektronlar tartibsiz harakat qiladi.'}
+
+const r2c=document.getElementById('r2canvas');
+let surfaceCharges=[];
+function addSurfaceCharges(container, n=30, concentrated=false){
+ [...container.querySelectorAll('.charge')].forEach(e=>e.remove());
+ surfaceCharges=[];
+ const sphere=document.getElementById('sphere');
+ const cr=container.getBoundingClientRect(), sr=sphere.getBoundingClientRect();
+ const cx=sr.left-cr.left+sr.width/2, cy=sr.top-cr.top+sr.height/2;
+ const rx=sr.width/2-10, ry=sr.height/2-10;
+ for(let i=0;i<n;i++){
+   const ch=document.createElement('div'); ch.className='charge'; ch.textContent='+';
+   let a;
+   if(concentrated && i<18) a=(i/18)*1.2-0.6; else a=Math.random()*Math.PI*2;
+   const x=cx+rx*Math.cos(a)-12, y=cy+ry*Math.sin(a)-12;
+   ch.style.left=x+'px';ch.style.top=y+'px';container.appendChild(ch);surfaceCharges.push(ch);
+ }
+}
+function chargeSphere(){addSurfaceCharges(r2c,34,false);document.getElementById('r2status').textContent='Shar zaryadlandi. Ortiqcha zaryadlar sirtga taqsimlandi.';document.getElementById('surfaceMsg').textContent='Zaryadlar sirt bo‘ylab taqsimlangan'}
+function showSurfaceCharges(){if(!surfaceCharges.length) chargeSphere();else surfaceCharges.forEach(x=>x.style.display='flex');document.getElementById('r2status').textContent='Sirt zaryadlari ko‘rsatilmoqda.'}
+function hideSurfaceCharges(){surfaceCharges.forEach(x=>x.style.display='none');document.getElementById('r2status').textContent='Sirt zaryadlari yashirildi.'}
+function resetR2(){surfaceCharges.forEach(x=>x.remove());surfaceCharges=[];document.getElementById('surfaceMsg').textContent='';document.getElementById('r2status').textContent='Metall shar neytral holatda.'}
+
+const shapeMetal=document.getElementById('shapeMetal');
+let shape='sphere';
+function setShape(s){
+ shape=s; shapeMetal.className='metal '+(s==='sphere'?'round':'point');
+ const text=s==='sphere'?'Sfera tanlangan: zaryad nisbatan bir tekis.':'Uchli o‘tkazgich tanlandi: uchli qismda zaryad zichligi kattaroq.';
+ document.getElementById('r3status').textContent=text;
+ makeShapeCharges();
+}
+function makeShapeCharges(){
+ const c=document.getElementById('r3canvas'), old=document.getElementById('shapeCharges'); old.innerHTML='';
+ const mr=shapeMetal.getBoundingClientRect(), cr=c.getBoundingClientRect();
+ for(let i=0;i<28;i++){
+  const ch=document.createElement('div');ch.className='charge';ch.textContent='+';
+  let x,y;
+  if(shape==='sphere'){
+   const a=Math.random()*Math.PI*2;x=mr.left-cr.left+mr.width/2+(mr.width/2-10)*Math.cos(a)-11;y=mr.top-cr.top+mr.height/2+(mr.height/2-10)*Math.sin(a)-11;
+  }else{
+   if(i<14){x=mr.left-cr.left+mr.width-35+Math.random()*25;y=mr.top-cr.top+mr.height/2+(Math.random()-.5)*35}
+   else{x=mr.left-cr.left+Math.random()*mr.width*.75;y=mr.top-cr.top+15+Math.random()*(mr.height-30)}
+  }
+  ch.style.left=x+'px';ch.style.top=y+'px';old.appendChild(ch);
+ }
+}
+function animateDensity(){
+ makeShapeCharges();
+ const val=shape==='sphere'?35:90;
+ document.getElementById('densityFill').style.width=val+'%';
+ document.getElementById('densityText').textContent='Nisbiy zaryad zichligi: '+val+'%'+(shape==='point'?' (uchli qismda)':'');
+ document.getElementById('r3status').textContent=shape==='point'?'Uchli qismda zaryadlar zichroq to‘plandi.':'Sferada zaryadlar nisbatan bir tekis tarqaldi.';
+}
+function resetR3(){shape='sphere';shapeMetal.className='metal round';document.getElementById('shapeCharges').innerHTML='';document.getElementById('densityFill').style.width='35%';document.getElementById('densityText').textContent='Nisbiy zaryad zichligi: 35%';document.getElementById('r3status').textContent='Sfera tanlangan: zaryad nisbatan bir tekis.'}
+
+let gshape='sphere',gcharged=false;
+function generalShape(s){
+ gshape=s;const gm=document.getElementById('gmetal');gm.className='metal '+(s==='sphere'?'round':'point');
+ document.getElementById('gstatus').textContent=s==='sphere'?'Sferik o‘tkazgich tanlandi.':'Uchli o‘tkazgich tanlandi.';
+ if(gcharged) generalCharge();
+}
+function generalCharge(){
+ gcharged=true;const c=document.getElementById('gcanvas'), gm=document.getElementById('gmetal'), out=document.getElementById('gcharges');out.innerHTML='';
+ const mr=gm.getBoundingClientRect(),cr=c.getBoundingClientRect();
+ for(let i=0;i<30;i++){
+  const ch=document.createElement('div');ch.className='charge';ch.textContent='+';
+  let x,y;
+  if(gshape==='sphere'){const a=Math.random()*Math.PI*2;x=mr.left-cr.left+mr.width/2+(mr.width/2-10)*Math.cos(a)-11;y=mr.top-cr.top+mr.height/2+(mr.height/2-10)*Math.sin(a)-11}
+  else if(i<18){x=mr.left-cr.left+mr.width-30+Math.random()*22;y=mr.top-cr.top+mr.height/2+(Math.random()-.5)*32}
+  else{x=mr.left-cr.left+Math.random()*mr.width*.72;y=mr.top-cr.top+15+Math.random()*(mr.height-30)}
+  ch.style.left=x+'px';ch.style.top=y+'px';out.appendChild(ch);
+ }
+ document.getElementById('gstatus').textContent='O‘tkazgich zaryadlandi. Zaryadlar sirtga chiqdi.';
+ document.getElementById('gresult').textContent=gshape==='sphere'?'Sferik shaklda zaryadlar sirt bo‘ylab nisbatan bir tekis tarqaldi.':'Uchli qismda sirt zaryad zichligi kattaroq bo‘ldi.';
+}
+function generalReset(){gcharged=false;document.getElementById('gcharges').innerHTML='';document.getElementById('gstatus').textContent='Tajriba boshlanishi uchun shakl va zaryadni tanlang.';document.getElementById('gresult').textContent='Zaryadlar hali ko‘rsatilmagan.'}
+
+function answer(btn,correct,id){
+ const box=btn.parentElement;box.querySelectorAll('.option').forEach(x=>x.classList.remove('correct','wrong'));
+ btn.classList.add(correct?'correct':'wrong');
+ document.getElementById(id).textContent=correct?'✓ To‘g‘ri!':'✗ Noto‘g‘ri, qayta urinib ko‘ring.';
+}
+let score=0,done={};
+document.querySelectorAll('.tq').forEach(btn=>btn.addEventListener('click',()=>{
+ const q=btn.dataset.q, c=btn.dataset.c==='true';
+ const box=btn.parentElement;
+ if(done[q]) return;
+ done[q]=true;box.querySelectorAll('.tq').forEach(x=>x.disabled=true);
+ btn.classList.add(c?'correct':'wrong');
+ document.getElementById('tf'+q).textContent=c?'✓ To‘g‘ri!':'✗ Noto‘g‘ri.';
+ if(c)score++;
+ document.getElementById('score').textContent='Natija: '+score+' / 5';
+}));
+function resetTest(){
+ score=0;done={};document.querySelectorAll('.tq').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong')});
+ for(let i=1;i<=5;i++)document.getElementById('tf'+i).textContent='';
+ document.getElementById('score').textContent='Natija: 0 / 5';
+}
+
+window.addEventListener('load',()=>{
+ showElectrons(); resetR2(); resetR3(); generalReset();
+});
+window.addEventListener('resize',()=>{if(surfaceCharges.length)chargeSphere();if(document.getElementById('shapeCharges').children.length)makeShapeCharges();if(gcharged)generalCharge()});
+</script>
+</body>
+</html>

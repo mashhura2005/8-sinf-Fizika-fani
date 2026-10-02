@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-SINF FIZIKA — 4-MAVZU: MASALALAR YECHISH</title>
+<style>
+:root{--blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--red:#dc2626;--dark:#172033;--muted:#64748b;--bg:#f4f7fb;--card:#fff;--line:#dbe3ef;--shadow:0 8px 25px rgba(15,23,42,.08)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--dark);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.header-inner{max-width:1150px;margin:auto;padding:16px 18px}
+h1{font-size:clamp(20px,4vw,32px);margin:0 0 12px;text-align:center}
+h2{font-size:clamp(20px,3vw,28px);margin-top:0}
+h3{font-size:20px}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+button,.nav-btn{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 2px 5px rgba(0,0,0,.08)}
+button:hover,.nav-btn:hover{transform:translateY(-1px);filter:brightness(.96)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.nav-btn{background:#eef4ff;color:#1d4ed8;text-decoration:none}
+main{max-width:1150px;margin:auto;padding:24px 16px 50px}
+.section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:24px;box-shadow:var(--shadow);scroll-margin-top:120px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{border:1px solid var(--line);border-radius:14px;padding:18px;background:#fff}
+.theory{background:#f8fafc}
+.stepbox{min-height:90px;border:2px dashed #bfdbfe;border-radius:14px;padding:16px;margin:12px 0;background:#f8fbff}
+.hidden{display:none!important}
+.step{animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.result{margin-top:12px;padding:12px;border-radius:10px;font-weight:700}
+.ok{background:#dcfce7;color:#166534;border:1px solid #86efac}
+.bad{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.formula{font-size:clamp(25px,5vw,42px);font-weight:800;text-align:center;margin:12px 0;letter-spacing:.5px}
+.big{font-size:20px;font-weight:700}
+.car-stage{position:relative;height:125px;background:#eaf2ff;border-radius:14px;overflow:hidden;border:1px solid #bfdbfe;margin-top:12px}
+.road{position:absolute;left:0;right:0;bottom:28px;height:34px;background:#475569}
+.road:after{content:"";position:absolute;left:0;right:0;top:15px;border-top:4px dashed #fff}
+.car{position:absolute;bottom:50px;left:3%;font-size:42px;transition:left 2s ease}
+.distance-label{position:absolute;bottom:5px;right:10px;font-weight:700}
+meter{width:100%;height:24px}
+.choice{display:block;width:100%;text-align:left;background:#f8fafc;color:var(--dark);border:1px solid var(--line);margin:7px 0;box-shadow:none}
+.choice:hover{background:#eef4ff}
+.choice.correct{background:#dcfce7;border-color:#86efac}
+.choice.wrong{background:#fee2e2;border-color:#fca5a5}
+select,input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;margin-top:5px}
+label{font-weight:700;display:block;margin-top:10px}
+.table{width:100%;border-collapse:collapse;margin:10px 0}
+.table th,.table td{border:1px solid var(--line);padding:9px;text-align:left}
+.checklist div{margin:7px 0;padding:9px;border-radius:9px;background:#f8fafc}
+.flash{animation:flash .6s ease}
+@keyframes flash{50%{background:#dbeafe}}
+.progress{height:12px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:10px 0}
+.progress>div{height:100%;width:0;background:var(--blue);transition:width .5s}
+.small{color:var(--muted);font-size:14px}
+footer{text-align:center;color:var(--muted);padding:25px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.section{padding:18px}.header-inner{padding:12px}.controls button,.nav-btn{flex:1 1 145px}.formula{font-size:30px}.car-stage{height:115px}}
+@media(max-width:450px){main{padding:14px 9px 35px}.section{border-radius:13px;padding:14px}.controls{display:grid;grid-template-columns:1fr 1fr}.controls button{width:100%;padding:10px 7px}.car{font-size:34px}}
+</style>
+</head>
+<body>
+<header>
+<div class="header-inner">
+<h1>8-SINF FIZIKA — 4-MAVZU: MASALALAR YECHISH</h1>
+<nav>
+<a class="nav-btn" href="#reja1">1-REJA</a>
+<a class="nav-btn" href="#reja2">2-REJA</a>
+<a class="nav-btn" href="#reja3">3-REJA</a>
+<a class="nav-btn" href="#masalalar">MASALALAR</a>
+<a class="nav-btn" href="#test">TEST</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section class="section" id="reja1">
+<h2>1. Fizik masalalarning turlari va ularni tahlil qilish</h2>
+<div class="grid">
+<div class="card theory">
+<h3>Nazariya</h3>
+<p><b>Fizik masala</b> — fizik hodisa yoki jarayonni berilgan kattaliklar yordamida o‘rganish va noma’lum kattalikni aniqlashga qaratilgan topshiriq.</p>
+<p>Masalani yechishda avvalo:</p>
+<ol><li>Masala shartini diqqat bilan o‘qish.</li><li>Berilgan kattaliklarni aniqlash.</li><li>Noma’lum kattalikni aniqlash.</li><li>Kerakli formulani tanlash.</li><li>Kattaliklarni SI birliklariga keltirish.</li><li>Hisoblashni bajarish.</li><li>Javobni tekshirish.</li></ol>
+<p>Masalalar: <b>hisoblash, sifat, grafik, eksperimental va nostandart</b> turlarga bo‘linishi mumkin.</p>
+</div>
+<div class="card">
+<h3>Masalani tahlil qilamiz</h3>
+<p>Avtomobil 2 soatda 120 km masofa bosib o‘tdi. O‘rtacha tezlikni toping.</p>
+<div class="car-stage"><div class="car" id="car">🚗</div><div class="road"></div><div class="distance-label">0 km → 120 km</div></div>
+<meter id="carMeter" min="0" max="120" value="0"></meter>
+<div id="analysisSteps"></div>
+<div class="controls">
+<button onclick="analysisStep(1)">Berilganlarni ko‘rsatish</button>
+<button onclick="analysisStep(2)">Noma’lumni ko‘rsatish</button>
+<button onclick="analysisStep(3)">Formulani ko‘rsatish</button>
+<button onclick="analysisStep(4)">Hisoblash</button>
+<button onclick="analysisStep(5)">Javob</button>
+<button onclick="resetAnalysis()">Qayta boshlash</button>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Interaktiv topshiriq</h3>
+<p><b>Fizik masalani yechishda birinchi navbatda nima qilinadi?</b></p>
+<div id="q1"></div>
+<div id="q1msg"></div>
+</div>
+</section>
+
+<section class="section" id="reja2">
+<h2>2. Masalalarni yechish usullari va formulalardan foydalanish</h2>
+<div class="grid">
+<div class="card theory">
+<h3>Nazariya</h3>
+<p>Fizik masalani yechishda formula muhim ahamiyatga ega.</p>
+<ol><li>Berilgan kattaliklarni yozish.</li><li>Noma’lum kattalikni aniqlash.</li><li>Kerakli formulani tanlash.</li><li>Birliklarni tekshirish.</li><li>Formulaga qiymatlarni qo‘yish.</li><li>Hisoblash.</li><li>Javobni birlik bilan yozish.</li></ol>
+<h3>Misol</h3>
+<p><b>Berilgan:</b> m = 5 kg, a = 2 m/s². <b>Topish:</b> F = ?</p>
+<p><b>Formula:</b> F = ma</p><p><b>Hisoblash:</b> F = 5 · 2 = 10 N</p><p><b>Javob:</b> F = 10 N</p>
+</div>
+<div class="card">
+<h3>Formula animatsiyasi</h3>
+<div id="formulaStage" class="stepbox">
+<div class="formula">F = ma</div>
+</div>
+<div class="controls">
+<button onclick="formulaStep(1)">Berilgan</button>
+<button onclick="formulaStep(2)">Formula</button>
+<button onclick="formulaStep(3)">Qiymatlarni qo‘yish</button>
+<button onclick="formulaStep(4)">Hisoblash</button>
+<button onclick="formulaStep(5)">Javob</button>
+<button onclick="resetFormula()">Qayta boshlash</button>
+</div>
+<h3>Qo‘shimcha interaktiv formula</h3>
+<select id="formulaSelect" onchange="showFormula()">
+<option value="v">Tezlik</option><option value="s">Masofa</option><option value="t">Vaqt</option><option value="F">Kuch</option><option value="rho">Zichlik</option>
+</select>
+<div id="selectedFormula" class="formula">v = s / t</div>
+</div>
+</div>
+<div class="card">
+<h3>Interaktiv topshiriq</h3>
+<p><b>Kuchni hisoblash uchun qaysi formula ishlatiladi?</b></p>
+<div id="q2"></div><div id="q2msg"></div>
+</div>
+</section>
+
+<section class="section" id="reja3">
+<h2>3. Masalalarni mustaqil yechish va javoblarni tekshirish</h2>
+<div class="grid">
+<div class="card theory">
+<h3>Nazariya</h3>
+<p>Masalani mustaqil yechishda o‘quvchi shartni o‘qiydi, berilganlarni yozadi, noma’lumni aniqlaydi, formulani tanlaydi, hisoblaydi, javobni yozadi va mantiqiyligini tekshiradi.</p>
+<h3>Javobni tekshirish</h3>
+<div class="checklist"><div>✓ Birliklar to‘g‘rimi?</div><div>✓ Formula to‘g‘ri tanlanganmi?</div><div>✓ Hisoblashda xato yo‘qmi?</div><div>✓ Javob fizik jihatdan mantiqiymi?</div></div>
+</div>
+<div class="card">
+<h3>Mustaqil masala simulyatsiyasi</h3>
+<p><b>Masala:</b> Jism 5 sekund davomida 25 metr masofa bosib o‘tdi. Tezligini toping.</p>
+<p><b>Berilgan:</b> s = 25 m; t = 5 s</p><p><b>Topish kerak:</b> v = ?</p>
+<button onclick="showFormulaChoices()" id="formulaChoiceBtn">Formulani tanlash</button>
+<div id="independentChoices"></div>
+<div id="independentWork"></div>
+<div id="checkArea"></div>
+</div>
+</div>
+<div class="card">
+<h3>Interaktiv topshiriq</h3>
+<p><b>Masala yechilgandan keyin nima qilish kerak?</b></p>
+<div id="q3"></div><div id="q3msg"></div>
+</div>
+</section>
+
+<section class="section" id="masalalar">
+<h2>MASALANI O‘ZINGIZ YECHING</h2>
+<p class="small">Har bir masalada bosqichlarni o‘zingiz oching. Hisoblash va bo‘lishda nolga bo‘lishga qarshi tekshiruv mavjud.</p>
+<div id="problemList"></div>
+</section>
+
+<section class="section" id="test">
+<h2>YAKUNIY TEST</h2>
+<div class="progress"><div id="testProgress"></div></div>
+<div id="testList"></div>
+<div id="testResult"></div>
+</section>
+</main>
+<footer>8-sinf fizika • 4-mavzu: Masalalar yechish • Internet va tashqi kutubxonalarsiz ishlaydi</footer>
+
+<script>
+"use strict";
+
+function safeDiv(a,b){ if(!Number.isFinite(a)||!Number.isFinite(b)||b===0) throw new Error("Qiymatni tekshiring."); return a/b; }
+function setMsg(id,text,type){const el=document.getElementById(id);el.className="result "+type;el.textContent=text;}
+function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+const analysisData=[
+"1-bosqich — Berilgan: t = 2 soat, s = 120 km.",
+"2-bosqich — Topish kerak: v = ?",
+"3-bosqich — Formula: v = s / t",
+"4-bosqich — Hisoblash: v = 120 / 2 = 60 km/soat",
+"5-bosqich — Javob: v = 60 km/soat"
+];
+function analysisStep(n){
+ const box=document.getElementById("analysisSteps");
+ box.innerHTML=analysisData.slice(0,n).map((x,i)=>`<div class="stepbox step">${x}</div>`).join("");
+ const car=document.getElementById("car"), meter=document.getElementById("carMeter");
+ if(n>=4){car.style.left="82%";meter.value=120}
+ else if(n>=1){car.style.left=(n*18)+"%";meter.value=n===1?30:n===2?55:n===3?85:0}
+}
+function resetAnalysis(){document.getElementById("analysisSteps").innerHTML="";document.getElementById("car").style.left="3%";document.getElementById("carMeter").value=0;}
+
+function formulaStep(n){
+ const stages=[
+ '<div class="formula">m = 5 kg &nbsp;&nbsp; a = 2 m/s²</div>',
+ '<div class="formula">F = ma</div>',
+ '<div class="formula">F = 5 · 2</div>',
+ '<div class="formula">F = 10 N</div>',
+ '<div class="formula">✓ F = 10 N</div>'
+ ];
+ document.getElementById("formulaStage").innerHTML=stages[n-1];
+}
+function resetFormula(){document.getElementById("formulaStage").innerHTML='<div class="formula">F = ma</div>';}
+function showFormula(){
+ const map={v:"v = s / t",s:"s = vt",t:"t = s / v",F:"F = ma",rho:"ρ = m / V"};
+ document.getElementById("selectedFormula").textContent=map[document.getElementById("formulaSelect").value];
+}
+
+function renderChoices(id,msgId,items,correct){
+ const box=document.getElementById(id);
+ box.innerHTML=items.map((x,i)=>`<button class="choice" onclick="answerChoice('${id}','${msgId}',${i},${correct})">${escapeText(x)}</button>`).join("");
+}
+function answerChoice(id,msgId,i,correct){
+ document.querySelectorAll("#"+id+" .choice").forEach((b,j)=>{b.classList.remove("correct","wrong");if(j===i)b.classList.add(j===correct?"correct":"wrong")});
+ setMsg(msgId,i===correct?"✓ To‘g‘ri!":"✗ Noto‘g‘ri, qayta urinib ko‘ring.",i===correct?"ok":"bad");
+}
+renderChoices("q1","q1msg",["A) Darhol hisoblash boshlanadi","B) Masala sharti tahlil qilinadi","C) Javob yoziladi","D) Formula yoddan chiqariladi"],1);
+renderChoices("q2","q2msg",["A) F = ma","B) v = s/t","C) ρ = m/V","D) s = vt"],0);
+renderChoices("q3","q3msg",["A) Masalani tashlab qo‘yish","B) Javobni tekshirish","C) Formulani o‘chirish","D) Berilganlarni o‘zgartirish"],1);
+
+function showFormulaChoices(){
+ document.getElementById("independentChoices").innerHTML=
+ `<p><b>Formulani tanlang:</b></p>`+
+ ["v = s/t","F = ma","ρ = m/V","s = vt"].map((x,i)=>`<button class="choice" onclick="chooseIndependent(${i})">${String.fromCharCode(65+i)}) ${x}</button>`).join("");
+}
+function chooseIndependent(i){
+ const box=document.getElementById("independentChoices");
+ box.querySelectorAll(".choice").forEach((b,j)=>{b.classList.remove("correct","wrong");if(j===i)b.classList.add(i===0?"correct":"wrong")});
+ if(i!==0){document.getElementById("independentWork").innerHTML='<div class="result bad">✗ Noto‘g‘ri formula. Yana urinib ko‘ring.</div>';return;}
+ document.getElementById("independentWork").innerHTML=`<div class="result ok">✓ To‘g‘ri formula!</div><button onclick="putIndependentValues()">Qiymatlarni formulaga qo‘ying</button>`;
+}
+function putIndependentValues(){
+ document.getElementById("independentWork").innerHTML+=`<div class="stepbox step"><div class="formula">v = 25 / 5</div></div><button onclick="calculateIndependent()">Hisoblash</button>`;
+}
+function calculateIndependent(){
+ try{
+  const v=safeDiv(25,5);
+  document.getElementById("independentWork").innerHTML+=`<div class="stepbox step"><div class="formula">v = ${v} m/s</div></div><div class="result ok">✓ Masala to‘g‘ri yechildi!</div>`;
+  document.getElementById("checkArea").innerHTML=`<button onclick="checkIndependent()">TEKSHIRISH</button><div id="checks"></div>`;
+ }catch(e){document.getElementById("independentWork").innerHTML='<div class="result bad">'+e.message+'</div>'}
+}
+function checkIndependent(){
+ const arr=["✓ Formula to‘g‘ri","✓ Hisoblash to‘g‘ri","✓ Birlik to‘g‘ri"];
+ document.getElementById("checks").innerHTML=arr.map((x,i)=>`<div class="stepbox step" style="animation-delay:${i*.25}s">${x}</div>`).join("")+'<div class="result ok">Javob: v = 5 m/s</div>';
+}
+
+const problems=[
+ {q:"Jism 10 sekundda 50 metr masofa bosib o‘tdi. Uning tezligini toping.",given:"s = 50 m; t = 10 s",find:"v = ?",formula:"v = s/t",calc:"v = 50/10 = 5 m/s",ans:"v = 5 m/s"},
+ {q:"Jismning massasi 4 kg, unga 3 m/s² tezlanish berildi. Kuchni toping.",given:"m = 4 kg; a = 3 m/s²",find:"F = ?",formula:"F = ma",calc:"F = 4 · 3 = 12 N",ans:"F = 12 N"},
+ {q:"Massasi 2 kg, hajmi 0,5 m³ bo‘lgan jismning zichligini toping.",given:"m = 2 kg; V = 0,5 m³",find:"ρ = ?",formula:"ρ = m/V",calc:"ρ = 2/0,5 = 4 kg/m³",ans:"ρ = 4 kg/m³"},
+ {q:"Jism 20 m/s tezlik bilan 5 sekund harakatlandi. U qancha masofa bosib o‘tadi?",given:"v = 20 m/s; t = 5 s",find:"s = ?",formula:"s = vt",calc:"s = 20 · 5 = 100 m",ans:"s = 100 m"},
+ {q:"Jism 100 metr masofani 20 sekundda bosib o‘tdi. Uning tezligini toping.",given:"s = 100 m; t = 20 s",find:"v = ?",formula:"v = s/t",calc:"v = 100/20 = 5 m/s",ans:"v = 5 m/s"}
+];
+function renderProblems(){
+ const root=document.getElementById("problemList");
+ root.innerHTML=problems.map((p,i)=>`<div class="card" style="margin:12px 0">
+ <h3>${i+1}-masala</h3><p>${p.q}</p>
+ <div class="controls">
+ <button onclick="problemStep(${i},1)">Berilgan</button>
+ <button onclick="problemStep(${i},2)">Topish kerak</button>
+ <button onclick="problemStep(${i},3)">Formula</button>
+ <button onclick="problemStep(${i},4)">Hisoblash</button>
+ <button onclick="problemStep(${i},5)">Javob</button>
+ <button onclick="resetProblem(${i})">Qayta boshlash</button>
+ </div><div id="psteps${i}"></div></div>`).join("");
+}
+function problemStep(i,n){
+ const p=problems[i], arr=[`Berilgan: ${p.given}`,`Topish kerak: ${p.find}`,`Formula: ${p.formula}`,`Hisoblash: ${p.calc}`,`Javob: ${p.ans}`];
+ document.getElementById("psteps"+i).innerHTML=arr.slice(0,n).map((x,j)=>`<div class="stepbox step">${x}</div>`).join("");
+}
+function resetProblem(i){document.getElementById("psteps"+i).innerHTML="";}
+renderProblems();
+
+const tests=[
+ ["Fizik masalani yechishda birinchi navbatda nima qilinadi?",["A) Javob yoziladi","B) Masala sharti tahlil qilinadi","C) Hisoblash bajariladi","D) Formula o‘chiriladi"],1],
+ ["Tezlikni hisoblash formulasi qaysi?",["A) F = ma","B) ρ = m/V","C) v = s/t","D) s = vt"],2],
+ ["Kuchning formulasi qaysi?",["A) F = ma","B) v = s/t","C) ρ = m/V","D) t = s/v"],0],
+ ["Masala yechilgandan keyin nima qilinadi?",["A) Masala tashlab qo‘yiladi","B) Javob tekshiriladi","C) Berilganlar o‘chiriladi","D) Formula o‘zgartiriladi"],1],
+ ["Jism 20 m masofani 4 sekundda bosib o‘tdi. Uning tezligi qancha?",["A) 5 m/s","B) 8 m/s","C) 16 m/s","D) 24 m/s"],0]
+];
+let testScore=0, testAnswered=0;
+function renderTests(){
+ document.getElementById("testList").innerHTML=tests.map((t,i)=>`<div class="card" style="margin:12px 0" id="test${i}"><h3>${i+1}. ${t[0]}</h3>${t[1].map((x,j)=>`<button class="choice" onclick="answerTest(${i},${j})">${x}</button>`).join("")}<div id="tm${i}"></div></div>`).join("");
+}
+function answerTest(i,j){
+ const card=document.getElementById("test"+i);
+ if(card.dataset.done==="1")return;
+ card.dataset.done="1"; testAnswered++;
+ const correct=tests[i][2];
+ card.querySelectorAll(".choice").forEach((b,k)=>{if(k===j)b.classList.add(k===correct?"correct":"wrong");});
+ const ok=j===correct;if(ok)testScore++;
+ document.getElementById("tm"+i).innerHTML=`<div class="result ${ok?"ok":"bad"}">${ok?"✓ To‘g‘ri javob!":"✗ Noto‘g‘ri. Qayta urinib ko‘ring."}</div>`;
+ document.getElementById("testProgress").style.width=(testAnswered/tests.length*100)+"%";
+ if(testAnswered===tests.length)document.getElementById("testResult").innerHTML=`<div class="result info">Siz 5 ta savoldan <b>${testScore}</b> tasiga to‘g‘ri javob berdingiz.</div>`;
+}
+renderTests();
+</script>
+</body>
+</html>
