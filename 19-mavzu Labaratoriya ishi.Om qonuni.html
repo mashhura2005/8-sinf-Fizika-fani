@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laboratoriya ishi. Om qonuni</title>
+<style>
+:root{--bg:#fff;--fg:#1c2230;--mut:#5d6677;--card:#f2f5fa;--ac:#2563eb;--ac2:#e11d48;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185}}
+:root[data-theme="dark"]{--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px}
+section{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+canvas{width:100%;height:250px;display:block;background:var(--bg);border-radius:10px}
+label{display:block;margin-top:8px;font-size:.92rem;color:var(--mut)}
+input[type=range]{width:100%}
+button,select{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);margin:4px 4px 0 0}
+button.p{background:var(--ac);color:#fff;border:0}
+.out{font-weight:600;margin:8px 0;color:var(--ac)}
+.box{padding:10px;background:var(--bg);border-radius:10px;font-size:.95rem;margin-top:8px}
+ol,ul{padding-left:20px;margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin-top:8px}
+th,td{border:1px solid var(--mut);padding:4px 6px;text-align:center}
+.sc{overflow-x:auto}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:.85rem/1.5 ui-monospace,monospace;max-height:320px;overflow:auto}
+</style></head><body><main>
+<h1>19-mavzu. Laboratoriya ishi. Om qonuni</h1>
+
+<section><h2>Ish haqida ma'lumot</h2>
+<div class="box"><b>Maqsad:</b> zanjirning bir qismida tok kuchining kuchlanishga va qarshilikka bog'liqligini tajribada tekshirish, Om qonunini isbotlash.</div>
+<div class="box"><b>Jihozlar:</b> tok manbai, kalit, ampermetr, voltmetr, ma'lum qarshilikli rezistorlar, ulovchi simlar.</div>
+<div class="box"><b>Nazariya:</b> I = U / R. Tok kuchi kuchlanishga to'g'ri proporsional, qarshilikka teskari proporsional. Ampermetr zanjirga ketma-ket, voltmetr rezistorga parallel ulanadi.</div>
+<div class="box"><b>Ish tartibi:</b><ol>
+<li>Zanjirni sxema bo'yicha yig'ing, kalitni yoping.</li>
+<li>1-tajriba: R o'zgarmas, kuchlanishni o'zgartirib, kamida 5 marta I va U ni o'lchang.</li>
+<li>Har safar R = U / I ni hisoblang, o'rtacha qiymatni toping.</li>
+<li>2-tajriba: U = 6 V da rezistorlarni almashtirib I ni o'lchang.</li>
+<li>Grafiklarni chizing va xulosa yozing.</li></ol>
+<b>Xavfsizlik:</b> sxemani faqat kalit ochiq holatda o'zgartiring; asboblarning qutblariga e'tibor bering.</div></section>
+
+<section><h2>Virtual stend</h2>
+<canvas id="c"></canvas>
+<div style="margin-top:6px"><button id="ex1" class="p">1-tajriba: I(U)</button><button id="ex2">2-tajriba: I(R)</button><button id="sw">Kalitni ochish</button></div>
+<label>Kuchlanish U: <b id="uv"></b> V</label><input type="range" id="u" min="1" max="12" step="1" value="2">
+<label>Rezistor R:</label><select id="r"><option>2</option><option>4</option><option selected>5</option><option>10</option><option>20</option></select> Ω
+<div class="out" id="rd"></div>
+<button id="add" class="p">Natijani yozish</button><button id="clr">Tozalash</button>
+<div class="sc"><table><thead><tr><th>№</th><th>U (V)</th><th>I (A)</th><th>R = U/I (Ω)</th></tr></thead><tbody id="tb"></tbody></table></div>
+<canvas id="g" style="margin-top:8px;height:210px"></canvas>
+<div class="box" id="res">Kamida 3 ta o'lchash yozing.</div></section>
+
+<section><h2>ChatGPT uchun prompt</h2>
+<pre id="pr">Sen tajribali fizika o'qituvchisi va front-end dasturchisan. 8-sinf fizika darsi uchun "19-mavzu. Laboratoriya ishi. Om qonuni" mavzusida bitta HTML fayl (HTML + CSS + JavaScript, tashqi kutubxonasiz) yarat. Barcha matnlar o'zbek tilida bo'lsin.
+
+Sahifada bo'lishi kerak:
+1. Ish haqida ma'lumot: maqsad, jihozlar, nazariya (I = U/R), ish tartibi, xavfsizlik qoidalari.
+2. Virtual stend (canvas animatsiya): tok manbai, kalit, ampermetr (ketma-ket), voltmetr (parallel), rezistor, harakatlanuvchi elektronlar. Kalit ochiq bo'lsa tok nolga teng bo'lsin.
+3. 1-tajriba: R o'zgarmas, U slayderi bilan o'zgaradi; 2-tajriba: U = 6 V, rezistor qiymati (2, 4, 5, 10, 20 Ω) tanlanadi.
+4. "Natijani yozish" tugmasi: o'lchovlar (kichik tasodifiy xato bilan) jadvalga tushsin, R = U/I hisoblansin.
+5. I(U) va I(R) grafiklari, o'rtacha R, nisbiy xato (%) va avtomatik xulosa.
+6. Oxirida 3 ta nazorat savoli va javoblarni tekshirish.
+
+Texnik talablar: telefon va kompyuterda moslashuvchan dizayn, katta shrift, yorug' va qorong'i rejim, toza va izohli kod. Javobda faqat tayyor HTML kodni bitta kod blokida ber.</pre>
+<button id="cp" class="p">Promptni nusxalash</button></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(),f=(x,n=2)=>x.toFixed(n);
+let mode=1,closed=true,rows={1:[],2:[]};
+const U=()=>mode==2?6:+$('u').value,R=()=>+$('r').value,I=()=>closed?U()/R():0;
+const c=$('c'),g=$('g'),cans=[c,g];
+function fit(k){const d=devicePixelRatio||1,r=k.getBoundingClientRect();k.width=r.width*d;k.height=r.height*d;k.getContext('2d').setTransform(d,0,0,d,0,0)}
+cans.forEach(fit);addEventListener('resize',()=>{cans.forEach(fit);graph()});
+
+const x=c.getContext('2d');let off=0,last=0;
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  const W=c.clientWidth,H=c.clientHeight,m=34,x0=m,x1=W-m,y0=80,y1=H-44,w=x1-x0,h=y1-y0,P=2*(w+h),i=I();
+  off=(off+i*45*dt)%P;x.clearRect(0,0,W,H);
+  x.lineWidth=3;x.strokeStyle=cv('--fg');x.strokeRect(x0,y0,w,h);
+  x.lineWidth=2;x.beginPath();x.moveTo(W/2-34,y0);x.lineTo(W/2-34,36);x.moveTo(W/2+34,y0);x.lineTo(W/2+34,36);x.moveTo(W/2-34,36);x.lineTo(W/2-17,36);x.moveTo(W/2+34,36);x.lineTo(W/2+17,36);x.stroke();
+  const pt=s=>{s=((s%P)+P)%P;return s<w?[x0+s,y0]:s<w+h?[x1,y0+s-w]:s<2*w+h?[x1-(s-w-h),y1]:[x0,y1-(s-2*w-h)]};
+  if(closed){x.fillStyle=cv('--ac');for(let k=0;k<28;k++){const p=pt(off+k*P/28);x.beginPath();x.arc(p[0],p[1],4,0,7);x.fill()}}
+  x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');x.lineWidth=3;
+  x.fillRect(W/2-34,y0-12,68,24);x.strokeRect(W/2-34,y0-12,68,24);
+  x.fillRect(x0-12,y0+h/2-20,24,40);
+  x.beginPath();x.moveTo(x0-14,y0+h/2-6);x.lineTo(x0+14,y0+h/2-6);x.moveTo(x0-8,y0+h/2+6);x.lineTo(x0+8,y0+h/2+6);x.stroke();
+  x.beginPath();x.arc(W/2,y1,17,0,7);x.fill();x.stroke();
+  x.beginPath();x.arc(W/2,36,17,0,7);x.fill();x.stroke();
+  // kalit
+  const kx=x1-60;x.fillRect(kx-8,y1-8,76,16);x.beginPath();x.arc(kx,y1,3,0,7);x.arc(kx+52,y1,3,0,7);x.fill();
+  x.beginPath();x.moveTo(kx,y1);closed?x.lineTo(kx+52,y1):x.lineTo(kx+44,y1-22);x.stroke();
+  x.fillStyle=cv('--fg');x.font='bold 15px system-ui';x.textAlign='center';
+  x.fillText('A',W/2,y1+5);x.fillText('V',W/2,41);x.fillText('R = '+R()+' Ω',W/2,y0-20);
+  x.fillText(U()+' V',x0+36,y0+h/2+5);
+  x.fillStyle=cv('--ac2');x.fillText('I = '+f(i,3)+' A',W/2,H-10);
+  x.textAlign='left';x.fillText('U = '+f(closed?U():0)+' V',W/2+60,41);
+  requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+
+function upd(){$('uv').textContent=U();$('rd').textContent=`Ampermetr: ${f(I(),3)} A · Voltmetr: ${f(closed?U():0)} V`}
+function setMode(m){mode=m;$('u').disabled=m==2;if(m==2)$('u').value=6;$('ex1').className=m==1?'p':'';$('ex2').className=m==2?'p':'';upd();table();graph()}
+$('ex1').onclick=()=>setMode(1);$('ex2').onclick=()=>setMode(2);
+$('u').oninput=$('r').onchange=upd;
+$('sw').onclick=()=>{closed=!closed;$('sw').textContent=closed?'Kalitni ochish':'Kalitni yopish';upd()};
+$('add').onclick=()=>{
+  if(!closed){$('rd').textContent='Avval kalitni yoping!';return}
+  const Im=Math.round(U()/R()*(1+(Math.random()-.5)*.03)*1000)/1000;
+  rows[mode].push([U(),Im,U()/Im,R()]);table();graph()};
+$('clr').onclick=()=>{rows[mode]=[];table();graph()};
+function table(){
+  $('tb').innerHTML=rows[mode].map((r,i)=>`<tr><td>${i+1}</td><td>${f(r[0],1)}</td><td>${f(r[1],3)}</td><td>${f(r[2])}</td></tr>`).join('');
+  const a=rows[mode];if(a.length<3){$('res').textContent="Kamida 3 ta o'lchash yozing.";return}
+  if(mode==1){const rn=R(),av=a.reduce((s,r)=>s+r[2],0)/a.length;
+    $('res').innerHTML=`R<sub>o'rt</sub> = ${f(av)} Ω; rezistor nominali ${rn} Ω; nisbiy xato ≈ ${f(Math.abs(av-rn)/rn*100,1)}%.<br><b>Xulosa:</b> R o'zgarmas bo'lganda U ortishi bilan I ham shuncha marta ortadi, U/I nisbati deyarli o'zgarmaydi — I ~ U.`}
+  else{const av=a.reduce((s,r)=>s+r[1]*r[3],0)/a.length;
+    $('res').innerHTML=`I·R ning o'rtachasi = ${f(av)} V; berilgan kuchlanish 6 V.<br><b>Xulosa:</b> U o'zgarmas bo'lganda R ortishi bilan I kamayadi, I·R ko'paytma deyarli o'zgarmaydi — I ~ 1/R.`}}
+function graph(){
+  const a=rows[mode],k=g.getContext('2d'),W=g.clientWidth,H=g.clientHeight,L=46,B=30,T=14,Rr=14;
+  const xm=mode==1?12:20,ym=Math.max(.5,...a.map(r=>r[1]*1.2));
+  const X=v=>L+v/xm*(W-L-Rr),Y=v=>H-B-v/ym*(H-B-T),xv=r=>mode==1?r[0]:r[3];
+  k.clearRect(0,0,W,H);k.strokeStyle=cv('--mut');k.fillStyle=cv('--mut');k.lineWidth=1.5;k.font='12px system-ui';
+  k.beginPath();k.moveTo(L,T);k.lineTo(L,H-B);k.lineTo(W-Rr,H-B);k.stroke();
+  k.textAlign='center';for(let i=0;i<=4;i++)k.fillText(f(xm*i/4,0),X(xm*i/4),H-B+14);
+  k.textAlign='right';for(let i=0;i<=4;i++)k.fillText(f(ym*i/4,2),L-4,Y(ym*i/4)+4);
+  k.textAlign='left';k.fillText(mode==1?'U (V)':'R (Ω)',W-Rr-40,H-B+26);k.fillText('I (A)',L+4,T+8);
+  const s=[...a].sort((p,q)=>xv(p)-xv(q));
+  if(s.length>1){k.strokeStyle=cv('--ac2');k.lineWidth=2;k.beginPath();s.forEach((r,i)=>i?k.lineTo(X(xv(r)),Y(r[1])):k.moveTo(X(xv(r)),Y(r[1])));k.stroke()}
+  k.fillStyle=cv('--ac');a.forEach(r=>{k.beginPath();k.arc(X(xv(r)),Y(r[1]),5,0,7);k.fill()})}
+upd();table();graph();
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('pr').textContent);$('cp').textContent='Nusxalandi ✓'}catch(e){const r=document.createRange();r.selectNode($('pr'));getSelection().removeAllRanges();getSelection().addRange(r);$('cp').textContent='Matn tanlandi — nusxalang'}};
+</script></body></html>
