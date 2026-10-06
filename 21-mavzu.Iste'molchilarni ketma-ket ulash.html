@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iste'molchilarni ketma-ket ulash</title>
+<style>
+:root{--bg:#fff;--fg:#1c2230;--mut:#5d6677;--card:#f2f5fa;--ac:#2563eb;--ac2:#e11d48;--ac3:#d97706;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}}
+:root[data-theme="dark"]{--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px}
+section{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+canvas{width:100%;height:250px;display:block;background:var(--bg);border-radius:10px}
+label{display:block;margin-top:6px;font-size:.92rem;color:var(--mut)}
+input[type=range]{width:100%}
+button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);margin:6px 6px 0 0}
+button.p{background:var(--ac);color:#fff;border:0}
+.out{font-weight:600;margin:8px 0;color:var(--ac)}
+.box{padding:10px;background:var(--bg);border-radius:10px;font-size:.95rem;margin-top:8px}
+ol{padding-left:20px;margin:6px 0}a{color:var(--ac)}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:.85rem/1.5 ui-monospace,monospace;max-height:320px;overflow:auto}
+</style></head><body><main>
+<h1>Iste'molchilarni ketma-ket ulash</h1>
+
+<section><h2>Dars rejasi</h2><ol>
+<li><a href="#s1">Ketma-ket ulash tushunchasi va sxemasi</a></li>
+<li><a href="#s2">Tok kuchi: I = I₁ = I₂</a></li>
+<li><a href="#s3">Kuchlanish: U = U₁ + U₂</a></li>
+<li><a href="#s4">Qarshilik: R = R₁ + R₂</a></li></ol></section>
+
+<section id="s1"><h2>1. Ketma-ket ulash</h2>
+<div class="box">Iste'molchilar bir-biriga navbat bilan, ya'ni bittasining oxiri ikkinchisining boshiga ulansa, <b>ketma-ket ulanish</b> deyiladi. Zanjirda tok o'tadigan yo'l bitta bo'ladi. Misol: yangi yil girlyandasi.</div>
+<canvas id="c1"></canvas><div class="ctl" data-s="1"></div><div class="out" id="o1"></div></section>
+
+<section id="s2"><h2>2. Tok kuchi</h2>
+<div class="box">Ketma-ket ulangan iste'molchilarning hammasida tok kuchi bir xil: <b>I = I₁ = I₂</b>.</div>
+<canvas id="c2"></canvas><div class="ctl" data-s="2"></div><div class="out" id="o2"></div></section>
+
+<section id="s3"><h2>3. Kuchlanish</h2>
+<div class="box">Zanjirning umumiy kuchlanishi alohida iste'molchilardagi kuchlanishlar yig'indisiga teng: <b>U = U₁ + U₂</b>. Kuchlanish qarshilikka mutanosib taqsimlanadi: U₁/U₂ = R₁/R₂.</div>
+<canvas id="c3"></canvas><div class="ctl" data-s="3"></div><div class="out" id="o3"></div></section>
+
+<section id="s4"><h2>4. Qarshilik</h2>
+<div class="box">Zanjirning umumiy qarshiligi qarshiliklar yig'indisiga teng: <b>R = R₁ + R₂</b>. U har bir iste'molchining qarshiligidan katta bo'ladi.</div>
+<canvas id="c4"></canvas><div class="ctl" data-s="4"></div><div class="out" id="o4"></div></section>
+
+<section><h2>ChatGPT uchun prompt</h2>
+<pre id="pr">Sen tajribali fizika o'qituvchisi va front-end dasturchisan. 8-sinf fizika darsi uchun "Iste'molchilarni ketma-ket ulash" mavzusida bitta HTML fayl (HTML + CSS + JavaScript, tashqi kutubxonasiz) yarat. Barcha matnlar o'zbek tilida bo'lsin.
+
+Reja va har bir band uchun talablar (har biri uchun alohida canvas animatsiya va simulyatsiya):
+1. Ketma-ket ulash tushunchasi — ikki lampali zanjir sxemasi, elektronlar harakati animatsiyasi, kalit va "lampa kuydi" tugmasi (bittasi kuysa, butun zanjir o'chadi).
+2. Tok kuchi I = I1 = I2 — zanjirning uch joyida ampermetrlar, U, R1, R2 slayderlari.
+3. Kuchlanish U = U1 + U2 — har bir iste'molchiga voltmetr, kuchlanishlar yig'indisini ko'rsatuvchi chiziqli diagramma.
+4. Qarshilik R = R1 + R2 — qarshiliklar yig'indisi diagrammasi, I = U/R hisobi.
+
+Har bir bandda qisqa ta'rif, formula va jonli hisoblangan natija bo'lsin. Oxirida 3 ta nazorat savoli va 2 ta masala (yechimi bilan) qo'sh.
+
+Texnik talablar: telefon va kompyuterda moslashuvchan dizayn, katta shrift, yorug' va qorong'i rejim, toza va izohli kod. Javobda faqat tayyor HTML kodni bitta kod blokida ber.</pre>
+<button id="cp" class="p">Promptni nusxalash</button></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(),f=(v,n=2)=>v.toFixed(n);
+const S={U:6,R1:10,R2:20,sw:true,burn:false};
+const I=()=>S.sw&&!S.burn?S.U/(S.R1+S.R2):0;
+const defs=[['U','Kuchlanish U',1,12,1,'V'],['R1','R₁',5,30,5,'Ω'],['R2','R₂',5,30,5,'Ω']];
+document.querySelectorAll('.ctl').forEach(d=>{
+  d.innerHTML=defs.map(a=>`<label>${a[1]}: <b data-l="${a[0]}"></b> ${a[5]}</label><input type="range" data-k="${a[0]}" min="${a[2]}" max="${a[3]}" step="${a[4]}" value="${S[a[0]]}">`).join('')+
+  `<button data-a="sw">Kalit</button>`+(d.dataset.s=='1'?`<button data-a="burn">Lampa 1 kuydi</button>`:'')});
+function sync(){
+  document.querySelectorAll('[data-k]').forEach(e=>e.value=S[e.dataset.k]);
+  document.querySelectorAll('[data-l]').forEach(e=>e.textContent=S[e.dataset.l]);
+  document.querySelectorAll('[data-a=sw]').forEach(b=>b.textContent=S.sw?'Kalitni ochish':'Kalitni yopish');
+  document.querySelectorAll('[data-a=burn]').forEach(b=>b.textContent=S.burn?'Lampani almashtirish':'Lampa 1 kuydi');
+  const i=I(),R=S.R1+S.R2;
+  $('o1').textContent=i?`Zanjirda tok bor: I = ${f(i)} A`:(S.sw?'Lampa 1 kuygan: zanjir uzilgan, ikkala lampa o\'chdi!':'Kalit ochiq: tok yo\'q.');
+  $('o2').textContent=`I = ${f(i)} A;  I₁ = ${f(i)} A;  I₂ = ${f(i)} A`;
+  $('o3').textContent=`U₁ = ${f(i*S.R1)} V, U₂ = ${f(i*S.R2)} V;  U₁ + U₂ = ${f(i*R)} V`;
+  $('o4').textContent=`R = ${S.R1} + ${S.R2} = ${R} Ω;  I = U/R = ${S.sw&&!S.burn?S.U:0}/${R} = ${f(i)} A`}
+document.addEventListener('input',e=>{const k=e.target.dataset.k;if(k){S[k]=+e.target.value;sync()}});
+document.addEventListener('click',e=>{const a=e.target.dataset.a;if(a){S[a]=!S[a];sync()}});
+
+const cs=[1,2,3,4].map(n=>{const c=$('c'+n);return{c,x:c.getContext('2d'),m:n,off:0}});
+function fit(){const d=devicePixelRatio||1;cs.forEach(o=>{const r=o.c.getBoundingClientRect();o.c.width=r.width*d;o.c.height=r.height*d;o.x.setTransform(d,0,0,d,0,0)})}
+fit();addEventListener('resize',fit);
+
+function meter(x,cx,cy,t,val){
+  x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');x.lineWidth=3;x.beginPath();x.arc(cx,cy,15,0,7);x.fill();x.stroke();
+  x.fillStyle=cv('--fg');x.font='bold 14px system-ui';x.textAlign='center';x.fillText(t,cx,cy+5);
+  x.fillStyle=cv('--ac2');x.font='bold 13px system-ui';x.fillText(val,cx,cy+32)}
+function comp(x,m,cx,cy,name,R,b,dead){
+  x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');x.lineWidth=3;
+  if(m==1){x.beginPath();x.arc(cx,cy,19,0,7);x.fill();
+    if(b>0){x.fillStyle=`rgba(250,204,21,${b})`;x.beginPath();x.arc(cx,cy,19,0,7);x.fill()}
+    x.stroke();x.beginPath();if(dead){x.moveTo(cx-10,cy-10);x.lineTo(cx+10,cy+10);x.moveTo(cx+10,cy-10);x.lineTo(cx-10,cy+10)}else{x.moveTo(cx-9,cy+8);x.lineTo(cx-4,cy-4);x.lineTo(cx+4,cy+4);x.lineTo(cx+9,cy-8)}x.stroke()}
+  else{x.fillRect(cx-30,cy-12,60,24);x.strokeRect(cx-30,cy-12,60,24)}
+  x.fillStyle=cv('--fg');x.font='bold 14px system-ui';x.textAlign='center';x.fillText(name+' = '+R+' Ω',cx,cy-27)}
+
+let last=0;
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;const i=I(),R=S.R1+S.R2;
+  cs.forEach(o=>{
+    const x=o.x,m=o.m,W=o.c.clientWidth,H=o.c.clientHeight,mg=36,x0=mg,x1=W-mg,y0=m==3?70:62,y1=y0+96,w=x1-x0,h=y1-y0,P=2*(w+h);
+    o.off=(o.off+i*45*dt)%P;x.clearRect(0,0,W,H);
+    x.lineWidth=3;x.strokeStyle=cv('--fg');x.strokeRect(x0,y0,w,h);
+    const xa=x0+w*.3,xb=x0+w*.7,pt=s=>{s=((s%P)+P)%P;return s<w?[x0+s,y0]:s<w+h?[x1,y0+s-w]:s<2*w+h?[x1-(s-w-h),y1]:[x0,y1-(s-2*w-h)]};
+    if(i>0){x.fillStyle=cv('--ac');for(let k=0;k<28;k++){const p=pt(o.off+k*P/28);x.beginPath();x.arc(p[0],p[1],4,0,7);x.fill()}}
+    x.fillStyle=cv('--bg');x.fillRect(x0-12,y0+h/2-20,24,40);x.strokeStyle=cv('--fg');
+    x.beginPath();x.moveTo(x0-14,y0+h/2-6);x.lineTo(x0+14,y0+h/2-6);x.moveTo(x0-8,y0+h/2+6);x.lineTo(x0+8,y0+h/2+6);x.stroke();
+    const kx=x1-84;x.fillRect(kx-8,y1-8,76,16);x.beginPath();x.arc(kx,y1,3,0,7);x.arc(kx+52,y1,3,0,7);x.fill();
+    x.beginPath();x.moveTo(kx,y1);S.sw?x.lineTo(kx+52,y1):x.lineTo(kx+44,y1-22);x.stroke();
+    const b=i?Math.max(.2,Math.min(1,Math.sqrt(i*i*S.R1/4))):0,b2=i?Math.max(.2,Math.min(1,Math.sqrt(i*i*S.R2/4))):0;
+    comp(x,m==1?1:0,xa,y0,m==1?'Lampa 1':'R₁',S.R1,b,S.burn);comp(x,m==1?1:0,xb,y0,m==1?'Lampa 2':'R₂',S.R2,b2,false);
+    x.fillStyle=cv('--fg');x.font='bold 14px system-ui';x.textAlign='center';x.fillText(S.U+' V',x0+34,y0+h/2+5);
+    if(m==2){const a=f(i);meter(x,x0+w*.5,y0,'A',a+' A');meter(x,x1,y0+h/2,'A',a+' A');meter(x,x0+w*.5,y1,'A',a+' A')}
+    if(m==3){[[xa,S.R1],[xb,S.R2]].forEach(([cx,r])=>{x.strokeStyle=cv('--fg');x.lineWidth=2;x.beginPath();x.moveTo(cx-30,y0);x.lineTo(cx-30,24);x.lineTo(cx-15,24);x.moveTo(cx+30,y0);x.lineTo(cx+30,24);x.lineTo(cx+15,24);x.stroke();
+      x.fillStyle=cv('--bg');x.beginPath();x.arc(cx,24,15,0,7);x.fill();x.stroke();x.fillStyle=cv('--fg');x.fillText('V',cx,29);x.fillStyle=cv('--ac2');x.fillText(f(i*r)+' V',cx,10)});
+      const bw=w,u1=S.R1/R*bw;x.fillStyle=cv('--ac');x.fillRect(x0,H-52,u1,22);x.fillStyle=cv('--ac3');x.fillRect(x0+u1,H-52,bw-u1,22);
+      x.fillStyle='#fff';x.fillText('U₁ = '+f(i*S.R1)+' V',x0+u1/2,H-37);x.fillText('U₂ = '+f(i*S.R2)+' V',x0+u1+(bw-u1)/2,H-37);x.fillStyle=cv('--fg');x.fillText('U = '+f(i*R)+' V',W/2,H-10)}
+    if(m==4){const u1=S.R1/R*w;x.fillStyle=cv('--ac');x.fillRect(x0,H-52,u1,22);x.fillStyle=cv('--ac3');x.fillRect(x0+u1,H-52,w-u1,22);
+      x.fillStyle='#fff';x.fillText('R₁ = '+S.R1,x0+u1/2,H-37);x.fillText('R₂ = '+S.R2,x0+u1+(w-u1)/2,H-37);x.fillStyle=cv('--fg');x.fillText('R = R₁ + R₂ = '+R+' Ω',W/2,H-10)}
+    if(m<3){x.fillStyle=cv('--ac2');x.font='bold 15px system-ui';x.fillText('I = '+f(i)+' A',W/2,H-12)}
+  });requestAnimationFrame(loop)}
+sync();requestAnimationFrame(loop);
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('pr').textContent);$('cp').textContent='Nusxalandi ✓'}catch(e){const r=document.createRange();r.selectNode($('pr'));getSelection().removeAllRanges();getSelection().addRange(r);$('cp').textContent='Matn tanlandi — nusxalang'}};
+</script></body></html>
