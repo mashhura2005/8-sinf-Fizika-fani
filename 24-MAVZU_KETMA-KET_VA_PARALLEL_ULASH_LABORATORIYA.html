@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>8-sinf Fizika — 24-mavzu: Ketma-ket va parallel ulash</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --bg:#f5f7fb;--card:#fff;--ink:#182235;--muted:#617086;--line:#dfe5ee;
+ --accent:#2563eb;--accent2:#0f766e;--warn:#d97706;--danger:#dc2626;--good:#15803d;
+}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:16px}
+header{background:linear-gradient(135deg,#173b78,#2563eb);color:white;border-radius:22px;padding:24px;box-shadow:0 8px 28px #173b7825}
+header h1{margin:0 0 8px;font-size:clamp(22px,4vw,34px)}
+header p{margin:0;opacity:.92}
+.nav{display:flex;gap:8px;overflow:auto;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:5}
+.nav button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:12px;white-space:nowrap}
+.nav button.active{background:var(--accent);color:white;border-color:var(--accent)}
+.section{display:none}.section.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 4px 15px #15213b08}
+.card h2,.card h3{margin-top:0}
+.badge{display:inline-block;background:#e8f0ff;color:#174ea6;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:bold}
+.plan{border-left:5px solid var(--accent);padding:12px 14px;background:#f8fbff;border-radius:10px;margin:10px 0}
+.formula{font-size:21px;font-weight:bold;text-align:center;background:#f0f6ff;padding:15px;border-radius:13px;margin:12px 0}
+.tip{background:#ecfdf5;border-left:5px solid var(--good);padding:12px;border-radius:10px}
+.warn{background:#fff7ed;border-left:5px solid var(--warn);padding:12px;border-radius:10px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:0;border-radius:11px;padding:10px 15px;background:var(--accent);color:#fff;font-weight:bold}
+.btn.secondary{background:#e9eef7;color:#25344d}.btn.green{background:var(--accent2)}.btn.red{background:var(--danger)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+label{font-weight:bold}
+input[type=range]{width:180px;accent-color:var(--accent)}
+select{padding:9px;border:1px solid var(--line);border-radius:9px;background:white}
+.value{font-weight:bold;color:var(--accent)}
+.sim{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:14px;overflow:hidden}
+svg{width:100%;height:auto;display:block}
+.wire{stroke:#334155;stroke-width:4;fill:none;stroke-linecap:round}
+.wire.active{stroke:#2563eb}
+.component{fill:#fff;stroke:#334155;stroke-width:3}
+.electron{fill:#2563eb}
+.lamp{fill:#fff8dc;stroke:#b45309;stroke-width:3}
+.meter{fill:#eef2ff;stroke:#4338ca;stroke-width:3}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}
+th{background:#f1f5f9}
+.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center}
+.stat b{font-size:22px;display:block;color:var(--accent)}
+.question{border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0}
+.option{display:block;width:100%;text-align:left;margin:7px 0;padding:10px;border:1px solid var(--line);border-radius:10px;background:white}
+.option:hover{background:#f1f5ff}
+.option.correct{background:#dcfce7;border-color:#22c55e}.option.wrong{background:#fee2e2;border-color:#ef4444}
+.progress{height:10px;background:#e5e7eb;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--accent);width:0}
+.footer{text-align:center;color:var(--muted);padding:25px 5px}
+@media(max-width:760px){
+ .app{padding:10px}.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}
+ header{padding:18px;border-radius:17px}.card{padding:14px}
+ .nav{top:0}.btn{padding:9px 12px}
+}
+@media(max-width:430px){
+ .statgrid{grid-template-columns:1fr 1fr}.controls{align-items:flex-start}
+ input[type=range]{width:145px}.formula{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="badge" style="background:#ffffff22;color:white">8-SINF FIZIKA • LABORATORIYA ISHI</div>
+ <h1>24-mavzu: O‘tkazgichlarni ketma-ket va parallel ulashni o‘rganish</h1>
+ <p>Interaktiv laboratoriya simulyatsiyasi — tajriba, o‘lchash, hisoblash va xulosa chiqarish.</p>
+</header>
+
+<nav class="nav" id="nav">
+ <button class="active" data-tab="nazariya">1. Nazariya</button>
+ <button data-tab="ketma">2. Ketma-ket</button>
+ <button data-tab="parallel">3. Parallel</button>
+ <button data-tab="tajriba">4. Laboratoriya</button>
+ <button data-tab="masala">5. Masalalar</button>
+ <button data-tab="test">6. Test</button>
+</nav>
+
+<section id="nazariya" class="section active">
+ <div class="grid">
+  <div class="card">
+   <h2>Laboratoriya ishining maqsadi</h2>
+   <p>Elektr zanjiridagi ikkita iste’molchini <b>ketma-ket</b> va <b>parallel</b> ulab, tok kuchi, kuchlanish va ekvivalent qarshilikning qanday o‘zgarishini tajribada kuzatish.</p>
+   <div class="plan"><b>1-reja.</b> O‘tkazgichlarni ketma-ket ulash va uning xususiyatlarini o‘rganish.</div>
+   <div class="plan"><b>2-reja.</b> O‘tkazgichlarni parallel ulash va uning xususiyatlarini o‘rganish.</div>
+   <div class="plan"><b>3-reja.</b> Ketma-ket va parallel ulanishni taqqoslash, natijalarni tahlil qilish.</div>
+  </div>
+  <div class="card">
+   <h2>Kerakli jihozlar</h2>
+   <ul>
+    <li>Tok manbai</li><li>Ikki dona rezistor yoki lampa</li><li>Ampermetr</li>
+    <li>Voltmetr</li><li>Ulagich simlar</li><li>Kalit</li>
+   </ul>
+   <div class="tip"><b>Eslatma:</b> Simulyatsiyada elementlarni real jihozlarsiz xavfsiz tarzda sinab ko‘rishingiz mumkin.</div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>Asosiy tushunchalar</h2>
+  <div class="grid">
+   <div><h3>Ketma-ket ulanish</h3><p>Iste’molchilar bir yo‘l bo‘ylab ketma-ket joylashadi. Barcha elementlardan <b>bir xil tok</b> oqadi.</p><div class="formula">I = I₁ = I₂</div><div class="formula">U = U₁ + U₂</div><div class="formula">R = R₁ + R₂</div></div>
+   <div><h3>Parallel ulanish</h3><p>Iste’molchilar bir xil ikki tugunga ulanadi. Har bir tarmoqdagi kuchlanish <b>bir xil</b> bo‘ladi.</p><div class="formula">U = U₁ = U₂</div><div class="formula">I = I₁ + I₂</div><div class="formula">1/R = 1/R₁ + 1/R₂</div></div>
+  </div>
+  <div class="warn"><b>Muhim:</b> Ampermetr zanjirga ketma-ket, voltmetr esa o‘lchanayotgan elementga parallel ulanadi.</div>
+ </div>
+</section>
+
+<section id="ketma" class="section">
+ <div class="card">
+  <h2>1-reja: Ketma-ket ulanish simulyatsiyasi</h2>
+  <p>R₁ va R₂ qiymatlarini o‘zgartiring, kalitni yoping va elektronlarning bitta yo‘l bo‘ylab harakatini kuzating.</p>
+  <div class="controls">
+   <label>R₁: <span id="r1v" class="value">4 Ω</span></label><input id="r1" type="range" min="1" max="20" value="4">
+   <label>R₂: <span id="r2v" class="value">6 Ω</span></label><input id="r2" type="range" min="1" max="20" value="6">
+   <button class="btn green" id="seriesSwitch">Kalitni yopish</button>
+   <button class="btn secondary" id="seriesReset">Qayta</button>
+  </div>
+  <div class="sim" style="margin-top:14px">
+   <svg viewBox="0 0 800 300" aria-label="Ketma-ket elektr zanjiri">
+    <path id="swire" class="wire" d="M90 70 H710 V230 H90 Z"/>
+    <rect x="75" y="115" width="55" height="70" rx="8" class="component"/><text x="102" y="143" text-anchor="middle" font-size="14">Manba</text><text x="102" y="164" text-anchor="middle" font-size="20">⚡</text>
+    <circle cx="310" cy="70" r="27" class="lamp"/><text x="310" y="76" text-anchor="middle" font-size="15">R₁</text>
+    <circle cx="510" cy="70" r="27" class="lamp"/><text x="510" y="76" text-anchor="middle" font-size="15">R₂</text>
+    <rect x="365" y="205" width="70" height="42" rx="8" class="meter"/><text x="400" y="231" text-anchor="middle" font-size="16">A</text>
+    <g id="seriesElectrons"></g>
+   </svg>
+  </div>
+  <div class="statgrid">
+   <div class="stat">R umumiy<b id="sr">10 Ω</b></div>
+   <div class="stat">I<b id="si">1.20 A</b></div>
+   <div class="stat">U₁<b id="su1">4.80 V</b></div>
+   <div class="stat">U₂<b id="su2">7.20 V</b></div>
+  </div>
+  <div class="tip" style="margin-top:12px" id="seriesExplain">Ketma-ket ulanishda tok kuchi barcha elementlarda bir xil.</div>
+ </div>
+</section>
+
+<section id="parallel" class="section">
+ <div class="card">
+  <h2>2-reja: Parallel ulanish simulyatsiyasi</h2>
+  <p>Ikki tarmoqdagi qarshiliklarni o‘zgartirib, tokning tarmoqlarga bo‘linishini kuzating.</p>
+  <div class="controls">
+   <label>R₁: <span id="pr1v" class="value">6 Ω</span></label><input id="pr1" type="range" min="1" max="20" value="6">
+   <label>R₂: <span id="pr2v" class="value">3 Ω</span></label><input id="pr2" type="range" min="1" max="20" value="3">
+   <button class="btn green" id="parallelSwitch">Kalitni yopish</button>
+   <button class="btn secondary" id="parallelReset">Qayta</button>
+  </div>
+  <div class="sim" style="margin-top:14px">
+   <svg viewBox="0 0 800 360">
+    <path id="pwire" class="wire" d="M100 180 H180 M180 180 V75 H620 V180 M180 180 V285 H620 V180 M620 180 H700"/>
+    <rect x="65" y="140" width="70" height="80" rx="8" class="component"/><text x="100" y="170" text-anchor="middle" font-size="14">Manba</text><text x="100" y="196" text-anchor="middle" font-size="20">⚡</text>
+    <circle cx="400" cy="75" r="28" class="lamp"/><text x="400" y="81" text-anchor="middle" font-size="15">R₁</text>
+    <circle cx="400" cy="285" r="28" class="lamp"/><text x="400" y="291" text-anchor="middle" font-size="15">R₂</text>
+    <rect x="330" y="155" width="140" height="50" rx="9" class="meter"/><text x="400" y="186" text-anchor="middle" font-size="15">A — umumiy tok</text>
+    <g id="parallelElectrons"></g>
+   </svg>
+  </div>
+  <div class="statgrid">
+   <div class="stat">R ekv<b id="pr">2 Ω</b></div>
+   <div class="stat">I umumiy<b id="pi">6.00 A</b></div>
+   <div class="stat">I₁<b id="pi1">2.00 A</b></div>
+   <div class="stat">I₂<b id="pi2">4.00 A</b></div>
+  </div>
+  <div class="tip" style="margin-top:12px">Parallel ulanishda kuchlanish ikkala tarmoqda teng, tok esa tarmoqlarga bo‘linadi: <b>I = I₁ + I₂</b>.</div>
+ </div>
+</section>
+
+<section id="tajriba" class="section">
+ <div class="grid">
+  <div class="card">
+   <h2>3-reja: Laboratoriya tajribasi</h2>
+   <p>Bu yerda tajriba bosqichlarini bajaring. Har bir qadam bajarilganda natija jadvalga yoziladi.</p>
+   <ol id="steps">
+    <li>Ulash turini tanlang.</li><li>Kalitni yoping.</li><li>Ampermetr ko‘rsatkichini kuzating.</li><li>Voltmetr kuchlanishini kuzating.</li><li>Natijani jadvalga saqlang.</li>
+   </ol>
+   <div class="controls">
+    <select id="labType"><option value="series">Ketma-ket</option><option value="parallel">Parallel</option></select>
+    <label>U: <span id="labUv" class="value">12 V</span></label><input id="labU" type="range" min="6" max="24" value="12">
+    <label>R₁: <span id="labR1v" class="value">4 Ω</span></label><input id="labR1" type="range" min="1" max="12" value="4">
+    <label>R₂: <span id="labR2v" class="value">6 Ω</span></label><input id="labR2" type="range" min="1" max="12" value="6">
+   </div>
+   <div class="controls" style="margin-top:12px">
+    <button class="btn green" id="labRun">Tajribani bajarish</button>
+    <button class="btn secondary" id="labSave">Natijani jadvalga yozish</button>
+    <button class="btn red" id="labClear">Jadvalni tozalash</button>
+   </div>
+   <div class="sim" style="margin-top:14px">
+    <svg viewBox="0 0 700 220">
+     <path id="labWire" class="wire" d="M80 110 H620"/>
+     <rect x="50" y="75" width="60" height="70" rx="8" class="component"/><text x="80" y="117" text-anchor="middle" font-size="13">Manba</text>
+     <circle cx="250" cy="110" r="25" class="lamp"/><text x="250" y="116" text-anchor="middle">R₁</text>
+     <circle cx="430" cy="110" r="25" class="lamp"/><text x="430" y="116" text-anchor="middle">R₂</text>
+     <rect x="535" y="75" width="60" height="70" rx="8" class="meter"/><text x="565" y="117" text-anchor="middle" font-size="18">A</text>
+    </svg>
+   </div>
+   <div class="statgrid">
+    <div class="stat">U<b id="labOutU">12 V</b></div>
+    <div class="stat">R<b id="labOutR">10 Ω</b></div>
+    <div class="stat">I<b id="labOutI">1.20 A</b></div>
+    <div class="stat">Holat<b id="labState">Tayyor</b></div>
+   </div>
+  </div>
+  <div class="card">
+   <h2>Tajriba natijalari</h2>
+   <table>
+    <thead><tr><th>№</th><th>U</th><th>Ulanish</th><th>R</th><th>I</th></tr></thead>
+    <tbody id="resultBody"><tr><td colspan="5">Hali natija kiritilmagan.</td></tr></tbody>
+   </table>
+   <div class="tip" style="margin-top:12px"><b>Xulosa:</b> Natijalarni taqqoslab, qaysi ulanishda tok bir xil, qaysi ulanishda kuchlanish bir xil ekanini aniqlang.</div>
+  </div>
+ </div>
+</section>
+
+<section id="masala" class="section">
+ <div class="grid">
+  <div class="card">
+   <h2>Masala 1 — Ketma-ket</h2>
+   <p>R₁ = 4 Ω, R₂ = 8 Ω va U = 12 V. Umumiy qarshilik va tok kuchini toping.</p>
+   <div class="formula">R = R₁ + R₂ &nbsp;&nbsp;&nbsp; I = U/R</div>
+   <button class="btn" onclick="showAnswer('a1')">Javobni ko‘rsatish</button>
+   <div id="a1" class="tip" style="display:none;margin-top:10px">R = 4 + 8 = <b>12 Ω</b>. I = 12 / 12 = <b>1 A</b>.</div>
+  </div>
+  <div class="card">
+   <h2>Masala 2 — Parallel</h2>
+   <p>R₁ = 6 Ω, R₂ = 3 Ω va U = 12 V. Ekvivalent qarshilik va umumiy tokni toping.</p>
+   <div class="formula">R = (R₁R₂)/(R₁+R₂)</div>
+   <button class="btn" onclick="showAnswer('a2')">Javobni ko‘rsatish</button>
+   <div id="a2" class="tip" style="display:none;margin-top:10px">R = 18/9 = <b>2 Ω</b>. I = 12/2 = <b>6 A</b>.</div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h2>Mustaqil hisoblagich</h2>
+  <div class="controls">
+   <select id="calcType"><option value="series">Ketma-ket</option><option value="parallel">Parallel</option></select>
+   <label>R₁ <input id="c1" type="number" min="0.1" value="4" style="width:80px"></label>
+   <label>R₂ <input id="c2" type="number" min="0.1" value="6" style="width:80px"></label>
+   <label>U <input id="cu" type="number" min="0.1" value="12" style="width:80px"></label>
+   <button class="btn" id="calcBtn">Hisoblash</button>
+  </div>
+  <div id="calcResult" class="formula" style="margin-top:14px">Natija shu yerda chiqadi.</div>
+ </div>
+</section>
+
+<section id="test" class="section">
+ <div class="card">
+  <h2>Bilimingizni tekshiring</h2>
+  <p>Har bir savolga bitta javob tanlang.</p>
+  <div class="progress"><i id="testProgress"></i></div>
+  <div id="quiz"></div>
+  <button class="btn green" id="finishTest">Testni yakunlash</button>
+  <button class="btn secondary" id="resetTest">Qayta ishlash</button>
+  <div id="score" class="formula" style="display:none"></div>
+ </div>
+</section>
+
+<div class="footer">8-sinf Fizika • 24-mavzu • O‘tkazgichlarni ketma-ket va parallel ulashni o‘rganish</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');$(b.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+function fmt(n){return Number(n).toFixed(2)}
+function addElectron(group,x,y,dx,dy){
+ const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',5);c.setAttribute('class','electron');c.setAttribute('cx',x);c.setAttribute('cy',y);c.dataset.x=x;c.dataset.y=y;c.dataset.dx=dx;c.dataset.dy=dy;group.appendChild(c);
+}
+let anim=null;
+function startSeriesAnim(on){
+ const g=$('seriesElectrons');g.innerHTML='';
+ if(!on){if(anim)cancelAnimationFrame(anim);return}
+ for(let i=0;i<9;i++) addElectron(g,145+i*65,70,1.5,0);
+ function loop(){
+  [...g.children].forEach(c=>{let x=+c.dataset.x+1.5;if(x>700)x=145;c.dataset.x=x;c.setAttribute('cx',x)});
+  anim=requestAnimationFrame(loop)
+ } loop();
+}
+function startParallelAnim(on){
+ const g=$('parallelElectrons');g.innerHTML='';
+ if(!on)return;
+ for(let i=0;i<12;i++){let top=i%6;addElectron(g,190+top*55,75,1.4,0)}
+ for(let i=0;i<8;i++){let bot=i%4;addElectron(g,250+bot*65,285,1.2,0)}
+ function loop(){
+  [...g.children].forEach((c,i)=>{let x=+c.dataset.x+(i<12?1.4:1.2);if(x>620)x=185;c.dataset.x=x;c.setAttribute('cx',x)});
+  requestAnimationFrame(loop)
+ } loop();
+}
+let seriesOn=false,parallelOn=false;
+function updateSeries(){
+ const r1=+$('r1').value,r2=+$('r2').value,U=12,R=r1+r2,I=U/R;
+ $('r1v').textContent=r1+' Ω';$('r2v').textContent=r2+' Ω';
+ $('sr').textContent=R+' Ω';$('si').textContent=fmt(I)+' A';
+ $('su1').textContent=fmt(I*r1)+' V';$('su2').textContent=fmt(I*r2)+' V';
+}
+['r1','r2'].forEach(id=>$(id).addEventListener('input',updateSeries));
+$('seriesSwitch').addEventListener('click',()=>{
+ seriesOn=!seriesOn;$('seriesSwitch').textContent=seriesOn?'Kalitni ochish':'Kalitni yopish';
+ $('swire').classList.toggle('active',seriesOn);startSeriesAnim(seriesOn);
+ $('seriesExplain').textContent=seriesOn?'Zanjir yopiq: elektronlar harakatlanmoqda. Ketma-ket zanjirda tok bir xil.':'Zanjir ochiq: tok oqimi to‘xtagan.';
+});
+$('seriesReset').addEventListener('click',()=>{seriesOn=false;$('r1').value=4;$('r2').value=6;$('seriesSwitch').textContent='Kalitni yopish';$('swire').classList.remove('active');startSeriesAnim(false);updateSeries()});
+
+function updateParallel(){
+ const r1=+$('pr1').value,r2=+$('pr2').value,U=12,R=(r1*r2)/(r1+r2),I=U/R;
+ $('pr1v').textContent=r1+' Ω';$('pr2v').textContent=r2+' Ω';$('pr').textContent=fmt(R)+' Ω';
+ $('pi').textContent=fmt(I)+' A';$('pi1').textContent=fmt(U/r1)+' A';$('pi2').textContent=fmt(U/r2)+' A';
+}
+['pr1','pr2'].forEach(id=>$(id).addEventListener('input',updateParallel));
+$('parallelSwitch').addEventListener('click',()=>{
+ parallelOn=!parallelOn;$('parallelSwitch').textContent=parallelOn?'Kalitni ochish':'Kalitni yopish';
+ $('pwire').classList.toggle('active',parallelOn);startParallelAnim(parallelOn);
+});
+$('parallelReset').addEventListener('click',()=>{parallelOn=false;$('pr1').value=6;$('pr2').value=3;$('parallelSwitch').textContent='Kalitni yopish';$('pwire').classList.remove('active');updateParallel()});
+updateSeries();updateParallel();
+
+['labU','labR1','labR2'].forEach(id=>$(id).addEventListener('input',()=>{
+ $('labUv').textContent=$('labU').value+' V';$('labR1v').textContent=$('labR1').value+' Ω';$('labR2v').textContent=$('labR2').value+' Ω';
+}));
+let labReady=false;
+function labCalc(){
+ const U=+$('labU').value,r1=+$('labR1').value,r2=+$('labR2').value,type=$('labType').value;
+ const R=type==='series'?r1+r2:(r1*r2)/(r1+r2),I=U/R;
+ return {U,r1,r2,type,R,I};
+}
+$('labRun').addEventListener('click',()=>{
+ const x=labCalc();labReady=true;
+ $('labOutU').textContent=x.U+' V';$('labOutR').textContent=fmt(x.R)+' Ω';$('labOutI').textContent=fmt(x.I)+' A';$('labState').textContent='Bajarildi';
+ $('labWire').classList.add('active');
+});
+$('labSave').addEventListener('click',()=>{
+ if(!labReady){alert('Avval “Tajribani bajarish” tugmasini bosing.');return}
+ const x=labCalc(),tb=$('resultBody');
+ if(tb.children.length===1 && tb.children[0].children.length===1)tb.innerHTML='';
+ const tr=document.createElement('tr'),n=tb.children.length+1;
+ tr.innerHTML='<td>'+n+'</td><td>'+x.U+' V</td><td>'+(x.type==='series'?'Ketma-ket':'Parallel')+'</td><td>'+fmt(x.R)+' Ω</td><td>'+fmt(x.I)+' A</td>';tb.appendChild(tr);
+});
+$('labClear').addEventListener('click',()=>{$('resultBody').innerHTML='<tr><td colspan="5">Hali natija kiritilmagan.</td></tr>'});
+
+function showAnswer(id){$(id).style.display=$(id).style.display==='none'?'block':'none'}
+$('calcBtn').addEventListener('click',()=>{
+ const r1=parseFloat($('c1').value),r2=parseFloat($('c2').value),U=parseFloat($('cu').value),type=$('calcType').value;
+ if(!(r1>0&&r2>0&&U>0)){$('calcResult').textContent='Qiymatlarni 0 dan katta kiriting.';return}
+ const R=type==='series'?r1+r2:(r1*r2)/(r1+r2),I=U/R;
+ $('calcResult').innerHTML=(type==='series'?'Ketma-ket':'Parallel')+' ulanish: R = <b>'+fmt(R)+' Ω</b>, I = <b>'+fmt(I)+' A</b>.';
+});
+
+const qs=[
+ {q:'Ketma-ket ulanishda qaysi kattalik barcha iste’molchilarda bir xil?',o:['Kuchlanish','Tok kuchi','Qarshilik','Quvvat'],a:1},
+ {q:'Parallel ulanishda qaysi kattalik tarmoqlarda bir xil?',o:['Tok kuchi','Qarshilik','Kuchlanish','Zaryad'],a:2},
+ {q:'Ketma-ket ulangan R₁=2 Ω va R₂=5 Ω uchun R umumiy qancha?',o:['2,5 Ω','3 Ω','7 Ω','10 Ω'],a:2},
+ {q:'Parallel ulanishda umumiy tok qanday topiladi?',o:['I=I₁−I₂','I=I₁+I₂','I=U+R','I=R/U'],a:1},
+ {q:'Ampermetr zanjirga qanday ulanadi?',o:['Parallel','Ketma-ket','Ulanmaydi','Faqat manbaga parallel'],a:1},
+ {q:'Voltmetr qanday ulanadi?',o:['Ketma-ket','Faqat kalitga','O‘lchanayotgan qismga parallel','Manbaga ulanmaydi'],a:2},
+ {q:'R₁=6 Ω va R₂=3 Ω parallel ulangan. Ekvivalent qarshilik?',o:['9 Ω','3 Ω','2 Ω','18 Ω'],a:2},
+ {q:'Laboratoriya ishining asosiy maqsadi nima?',o:['Faqat formulani yodlash','Ulanish xususiyatlarini tajribada o‘rganish','Batareyani zaryadlash','Simni qizdirish'],a:1}
+];
+let answers=new Array(qs.length).fill(null);
+function renderQuiz(){
+ const box=$('quiz');box.innerHTML='';
+ qs.forEach((q,i)=>{
+  const d=document.createElement('div');d.className='question';
+  d.innerHTML='<b>'+(i+1)+'. '+q.q+'</b>';
+  q.o.forEach((op,j)=>{
+   const b=document.createElement('button');b.className='option';b.textContent=String.fromCharCode(65+j)+') '+op;
+   b.addEventListener('click',()=>{answers[i]=j;d.querySelectorAll('.option').forEach(x=>x.classList.remove('correct','wrong'));b.classList.add('correct');updateProgress()});
+   d.appendChild(b);
+  });box.appendChild(d);
+ });
+}
+function updateProgress(){let n=answers.filter(x=>x!==null).length;$('testProgress').style.width=(n/qs.length*100)+'%'}
+$('finishTest').addEventListener('click',()=>{
+ let score=0;answers.forEach((x,i)=>{if(x===qs[i].a)score++});
+ const s=$('score');s.style.display='block';s.textContent='Natija: '+score+'/'+qs.length+' ('+Math.round(score/qs.length*100)+'%). '+(score>=7?'A’lo!':'Yaxshi, mavzuni yana bir marta takrorlang.');
+ document.querySelectorAll('.question').forEach((d,i)=>d.querySelectorAll('.option').forEach((b,j)=>{b.disabled=true;if(j===qs[i].a)b.classList.add('correct');else if(j===answers[i])b.classList.add('wrong')}));
+});
+$('resetTest').addEventListener('click',()=>{answers=new Array(qs.length).fill(null);$('score').style.display='none';renderQuiz();updateProgress()});
+renderQuiz();updateProgress();
+</script>
+</body>
+</html>
