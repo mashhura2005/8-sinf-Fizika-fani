@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13-MAVZU_MASALALAR_YECHISH</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033;line-height:1.5;overflow-x:hidden}
+.wrap{width:min(1150px,94%);margin:auto}.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #d9e2ed}
+.topin{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0}.brand{font-weight:800;color:#1559a6}
+nav{display:flex;gap:5px;overflow:auto}nav a{white-space:nowrap;text-decoration:none;color:#23415f;padding:7px 9px;border-radius:7px;font-size:14px}nav a:hover{background:#eaf2ff}
+.hero{margin:25px 0}.hero,.card{background:#fff;border:1px solid #d9e2ed;border-radius:16px}.hero{padding:28px;text-align:center}h1{color:#13579f;margin:0;font-size:clamp(26px,5vw,42px)}h2{color:#13579f;margin-top:0}h3{color:#315b82}
+.card{padding:19px;margin:18px 0;box-shadow:0 3px 15px #214d7510}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.theory{background:#f7fbff;border-left:4px solid #2876d2;padding:13px;border-radius:8px}
+.formula{font-size:30px;font-weight:800;text-align:center;color:#145aa8;background:#edf5ff;border-radius:10px;padding:11px;margin:10px 0}.formulas{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.fm{padding:12px;background:#f5f8fc;border:1px solid #d9e2ed;border-radius:8px;text-align:center;font-weight:bold}
+label{display:block;font-weight:bold;margin:8px 0 4px}input,select{width:100%;padding:10px;border:1px solid #c7d4e3;border-radius:8px;font-size:16px}button{border:0;border-radius:8px;padding:10px 14px;background:#1769d2;color:#fff;font-weight:bold;cursor:pointer;margin:3px}button:hover{filter:brightness(.95)}button.gray{background:#65778b}button.green{background:#18864b}button.red{background:#c43c48}button.yellow{background:#d39100}button.light{background:#e8f1ff;color:#1559a6}
+.msg{padding:11px;border-radius:8px;background:#eef4fa;margin-top:10px;border-left:4px solid #7190ad}.ok{background:#eaf8ef;border-color:#18864b;color:#126235}.bad{background:#fff0f1;border-color:#c43c48;color:#9b2630}.warn{background:#fff8e5;border-color:#d39100;color:#765600}
+.range{display:grid;grid-template-columns:1fr 75px;gap:8px}input[type=range]{padding:0}.circuit{height:215px;position:relative;background:#fff;border:1px solid #d9e2ed;border-radius:10px;overflow:hidden}
+.w{position:absolute;background:#30475e}.wa{left:11%;right:11%;top:35px;height:5px}.wb{left:11%;right:11%;bottom:35px;height:5px}.wc{left:11%;top:35px;width:5px;height:145px}.wd{right:11%;top:35px;width:5px;height:145px}
+.bat{position:absolute;left:4%;top:72px;width:55px;height:72px;border:3px solid #294663;border-radius:7px;text-align:center;padding-top:20px;color:#1559a6;font-weight:bold;background:#eef5ff}
+.lamp{position:absolute;right:13%;top:61px;width:65px;height:65px;border:3px solid #d29a00;border-radius:50%;background:#fff1a8;text-align:center;padding-top:12px;font-size:27px;transition:.2s}
+.meter{position:absolute;left:43%;top:79px;width:74px;height:55px;border:2px solid #315c84;border-radius:7px;background:#fff;text-align:center;font-size:12px;font-weight:bold;padding-top:4px}.vm{left:auto;right:27%;top:120px}
+.e{position:absolute;top:27px;width:9px;height:9px;background:#1971d2;border-radius:50%;animation:flow 2s linear infinite}@keyframes flow{to{transform:translateX(850px)}}
+.steps{display:grid;grid-template-columns:repeat(9,1fr);gap:6px}.st{padding:8px 3px;text-align:center;background:#e9eef4;border-radius:7px;font-size:12px;font-weight:bold}.st.on{background:#1769d2;color:#fff}
+.stage{min-height:150px;background:#f7fbff;border:1px solid #d9e2ed;border-radius:10px;padding:16px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice{text-align:left;background:#fff;color:#24384e;border:1px solid #c7d4e3}.choice.sel{background:#eaf2ff;border-color:#1769d2;color:#1559a6}
+.problem{background:#f7fbff;border:1px solid #d9e2ed;border-radius:10px;padding:14px;margin:10px 0}.answer{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.test{border:1px solid #d9e2ed;border-radius:10px;padding:14px;margin:10px 0;background:#fff}.test.correct{border-color:#18864b;background:#effbf4}.test.wrong{border-color:#c43c48;background:#fff4f4}
+.progress{height:8px;background:#e3eaf2;border-radius:20px;overflow:hidden;margin-top:10px}.progress span{display:block;width:0;height:100%;background:#1769d2;transition:.3s}
+footer{margin-top:25px;background:#172b43;color:#dbe7f3;text-align:center;padding:20px}.hidden{display:none}
+@media(max-width:850px){.formulas{grid-template-columns:repeat(3,1fr)}.steps{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.topin{flex-direction:column;align-items:flex-start}.grid{grid-template-columns:1fr}.formulas{grid-template-columns:repeat(2,1fr)}.choices{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.hero,.card{padding:15px}.circuit{height:200px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap topin"><div class="brand">8-SINF FIZIKA</div><nav>
+<a href="#r1">1-reja</a><a href="#r2">2-reja</a><a href="#r3">3-reja</a><a href="#mustaqil">Mustaqil</a><a href="#kalk">Kalkulyator</a><a href="#test">Test</a>
+</nav></div></header>
+
+<main class="wrap">
+<section class="hero"><h1>13-MAVZU: MASALALAR YECHISH</h1><p>Elektr toki, kuchlanish, tok kuchi va elektr zaryadiga oid masalalarni interaktiv o‘rganish.</p></section>
+
+<section id="r1" class="card">
+<h2>1-REJA: Elektr toki, kuchlanish va tok kuchiga oid masalalarni tahlil qilish</h2>
+<div class="theory">
+<p>Masalani yechishdan oldin shartni diqqat bilan o‘qiymiz, berilgan kattaliklarni aniqlaymiz, noma’lum kattalikni topamiz, birliklarni tekshiramiz va mos formulani tanlaymiz.</p>
+<ul><li><b>I</b> — tok kuchi, amper (A)</li><li><b>U</b> — kuchlanish, volt (V)</li><li><b>q</b> — elektr zaryad, kulon (C)</li><li><b>R</b> — qarshilik, om (Ω)</li><li><b>t</b> — vaqt, sekund (s)</li></ul>
+</div>
+<div class="grid">
+<div><h3>Misol</h3><p><b>Berilgan:</b> U=12 V, R=4 Ω</p><p><b>Topish:</b> I=?</p><div class="formula">I = U / R = 12 / 4 = 3 A</div><p><b>Javob:</b> I=3 A.</p></div>
+<div>
+<h3>“Masalani tahlil qilamiz” simulyatsiyasi</h3>
+<div class="circuit" id="circuit"><div class="w wa"></div><div class="w wb"></div><div class="w wc"></div><div class="w wd"></div><div class="bat">BAT</div><div class="meter">A<br><span id="amm">0.00 A</span></div><div class="meter vm">V<br><span id="volt">12 V</span></div><div class="lamp" id="lamp">💡</div><div id="es"></div></div>
+<div class="grid">
+<div><label>U (V)</label><div class="range"><input id="u" type="range" min="0" max="24" value="12"><input id="un" type="number" min="0" max="24" value="12"></div></div>
+<div><label>R (Ω)</label><div class="range"><input id="r" type="range" min="1" max="12" value="4"><input id="rn" type="number" min="1" max="12" value="4"></div></div>
+</div>
+<div class="formula">I = U / R</div><div id="simmsg" class="msg"></div>
+<button id="start">Boshlash</button><button id="stop" class="gray">To‘xtatish</button><button id="reset" class="light">Qayta boshlash</button>
+</div></div>
+</section>
+
+<section id="r2" class="card">
+<h2>2-REJA: Fizik formulalardan foydalanib masalalarni yechish</h2>
+<div class="theory"><p>Asosiy formulalar:</p><div class="formulas"><div class="fm">I=U/R</div><div class="fm">U=I·R</div><div class="fm">R=U/I</div><div class="fm">q=I·t</div><div class="fm">I=q/t</div></div></div>
+<div class="grid">
+<div class="card"><h3>Formulalar ma’nosi</h3><p><b>I=U/R</b> — tok kuchi.</p><p><b>U=I·R</b> — kuchlanish.</p><p><b>R=U/I</b> — qarshilik.</p><p><b>q=I·t</b> — elektr zaryadi.</p><p><b>I=q/t</b> — tok kuchi.</p></div>
+<div class="card"><h3>Formula tanlang va masalani yeching</h3><div id="fq" class="problem"></div><label>Formula</label><select id="fs"></select><div id="fh" class="msg"></div><label>Javobingiz</label><input id="fa" type="number" step="any"><button id="fcalc">Hisoblash</button><button id="fcheck" class="green">Tekshirish</button><button id="fnew" class="light">Yangi masala</button><div id="fr" class="msg"></div><div class="progress"><span id="fp"></span></div></div>
+</div>
+<div class="card"><h3>Yechim animatsiyasi</h3><div id="solution" class="msg">“Boshlash” tugmasini bosing.</div><button id="sstart">Boshlash</button><button id="sstop" class="gray">To‘xtatish</button><button id="sreset" class="light">Qayta boshlash</button></div>
+</section>
+
+<section id="r3" class="card">
+<h2>3-REJA: Masalani yechish bosqichlari va javobni tekshirish</h2>
+<div class="theory"><p>9 bosqich: shart → berilgan → topish → birlik → formula → sonlarni qo‘yish → hisoblash → javob → tekshirish.</p></div>
+<div id="stepbar" class="steps"></div><div id="stage" class="stage"></div>
+<button id="next">Keyingi bosqich</button><button id="stagecheck" class="green">Tekshirish</button><button id="stageReset" class="light">Qayta boshlash</button><div id="stmsg" class="msg"></div>
+<div class="card"><h3>Javobni tekshirish simulyatsiyasi</h3><div class="grid"><div><label>U (V)</label><input id="cu" value="18" type="number"></div><div><label>R (Ω)</label><input id="cr" value="6" type="number"></div></div><label>O‘quvchi javobi I (A)</label><input id="ci" type="number" step="any" placeholder="Masalan: 3"><button id="checkI" class="green">Tekshirish</button><div id="cimsg" class="msg"></div></div>
+</section>
+
+<section id="mustaqil" class="card">
+<h2>MASALANI O‘ZINGIZ YECHING</h2><div id="ind"></div><div id="indscore" class="msg">Natija: 0 / 5</div><button id="indreset" class="light">Qayta boshlash</button>
+</section>
+
+<section id="kalk" class="card">
+<h2>FIZIK FORMULALAR KALKULYATORI</h2><div class="grid"><div><label>Formula</label><select id="ct"><option value="IUR">I = U/R</option><option value="UIR">U = I·R</option><option value="RUI">R = U/I</option><option value="qIt">q = I·t</option><option value="Iqt">I = q/t</option></select><div id="ciBox"></div></div><div><div id="cd" class="formula">I = U/R</div><div id="co" class="msg">Qiymatlarni kiriting.</div><button id="calc" >Hisoblash</button><button id="calreset" class="light">Tozalash</button></div></div>
+</section>
+
+<section id="test" class="card">
+<h2>YAKUNIY TEST</h2><p>10 ta savol. To‘g‘ri javoblar test yakunida hisoblanadi.</p><div id="tests"></div><button id="finish">Testni tekshirish</button><button id="testreset" class="light">Qayta boshlash</button><div id="tresult" class="msg"></div>
+</section>
+</main>
+<footer>8-sinf Fizika • 13-mavzu: Masalalar yechish</footer>
+
+<script>
+const $=x=>document.getElementById(x);
+let running=false, simInterval;
+function makeE(){let box=$("es");box.innerHTML="";for(let i=0;i<18;i++){let e=document.createElement("i");e.className="e";e.style.left=(15+i*4)+"%";e.style.animationDelay=(-i*.15)+"s";box.appendChild(e)}}
+function sim(){let U=+$("u").value,R=+$("r").value,I=R?U/R:0;$("un").value=U;$("rn").value=R;$("amm").textContent=I.toFixed(2)+" A";$("volt").textContent=U+" V";$("simmsg").textContent=`Berilgan: U=${U} V, R=${R} Ω | Topish: I=? | Natija: I=${I.toFixed(2)} A`;$("lamp").style.boxShadow=`0 0 ${Math.min(38,I*7)}px rgba(255,180,0,.75)`;$("lamp").style.opacity=.55+Math.min(.45,I/6);document.querySelectorAll(".e").forEach(e=>{e.style.animationDuration=Math.max(.35,3/(.4+I))+"s";e.style.animationPlayState=running?"running":"paused"})}
+["u","r"].forEach(id=>$(id).addEventListener("input",sim));$("un").oninput=()=>{$("u").value=Math.max(0,Math.min(24,+$("un").value||0));sim()};$("rn").oninput=()=>{$("r").value=Math.max(1,Math.min(12,+$("rn").value||1));sim()};
+$("start").onclick=()=>{running=true;sim();if(!simInterval)simInterval=setInterval(sim,100)};$("stop").onclick=()=>{running=false;sim();clearInterval(simInterval);simInterval=null};$("reset").onclick=()=>{$("u").value=$("un").value=12;$("r").value=$("rn").value=4;running=false;sim()};makeE();sim();
+
+/* 2-reja */
+const formulaData=[
+{f:"I = U / R",vars:["U","R"],unit:"A",p:"Elektr zanjirida U=12 V, R=4 Ω. Tok kuchini toping.",vals:[12,4],ans:3},
+{f:"U = I · R",vars:["I","R"],unit:"V",p:"Tok kuchi I=2 A, qarshilik R=5 Ω. Kuchlanishni toping.",vals:[2,5],ans:10},
+{f:"R = U / I",vars:["U","I"],unit:"Ω",p:"U=18 V, I=3 A. Qarshilikni toping.",vals:[18,3],ans:6},
+{f:"q = I · t",vars:["I","t"],unit:"C",p:"I=2 A tok 10 s davom etdi. Zaryadni toping.",vals:[2,10],ans:20},
+{f:"I = q / t",vars:["q","t"],unit:"A",p:"q=30 C zaryad 10 s da o‘tdi. Tok kuchini toping.",vals:[30,10],ans:3}
+];
+let fi=0;
+formulaData.forEach((x,i)=>$("fs").add(new Option(x.f,i)));
+function showFormula(){let x=formulaData[fi];$("fq").textContent=x.p;$("fs").value=fi;$("fa").value="";$("fr").textContent="";$("fr").className="msg";$("fh").textContent="Formulani tanlang, so‘ng javobni kiriting.";$("fp").style.width="0%"}
+showFormula();$("fs").onchange=()=>{fi=+$("fs").value;showFormula()};
+$("fcalc").onclick=()=>{let x=formulaData[fi];$("fh").textContent=`Berilgan qiymatlar: ${x.vars[0]}=${x.vals[0]}, ${x.vars[1]}=${x.vals[1]}. Formula: ${x.f}. Natija: ${x.ans} ${x.unit}.`;};
+$("fcheck").onclick=()=>{let x=formulaData[fi],a=parseFloat($("fa").value);if(!Number.isFinite(a)){$("fr").textContent="Xatolik: javob uchun son kiriting.";$("fr").className="msg bad";return}if(Math.abs(a-x.ans)<.001){$("fr").textContent="Juda yaxshi! Masala to‘g‘ri yechildi.";$("fr").className="msg ok";$("fp").style.width="100%"}else{$("fr").textContent="Javob noto‘g‘ri. Berilgan kattaliklar va formulani qayta tekshiring.";$("fr").className="msg bad"}};
+$("fnew").onclick=()=>{fi=(fi+1)%formulaData.length;showFormula()};
+let solTimer=null,solIndex=0;function sol(){let x=formulaData[fi],a=[`1-bosqich: Berilgan — ${x.vars[0]}=${x.vals[0]}, ${x.vars[1]}=${x.vals[1]}`,`2-bosqich: Formula — ${x.f}`,`3-bosqich: Sonlarni qo‘yish — ${x.vals[0]} va ${x.vals[1]}`,`4-bosqich: Hisoblash — ${x.ans}`,`5-bosqich: Javob — ${x.ans} ${x.unit}`];$("solution").textContent=a[Math.min(solIndex,a.length-1)]}
+$("sstart").onclick=()=>{clearInterval(solTimer);solIndex=0;sol();solTimer=setInterval(()=>{solIndex++;if(solIndex>4){clearInterval(solTimer);return}sol()},900)};$("sstop").onclick=()=>clearInterval(solTimer);$("sreset").onclick=()=>{clearInterval(solTimer);solIndex=0;$("solution").textContent="“Boshlash” tugmasini bosing."};
+
+/* 3-reja bosqichlari */
+const stageNames=["Masala sharti","Berilgan","Topish","Birliklarni tekshirish","Formula","Sonlarni qo‘yish","Hisoblash","Javob","Tekshirish"];let stage=0;
+stageNames.forEach((n,i)=>{let d=document.createElement("div");d.className="st";d.textContent=(i+1)+". "+n;d.id="s"+i;$("stepbar").appendChild(d)});
+function stageView(){document.querySelectorAll(".st").forEach((d,i)=>d.classList.toggle("on",i===stage));let arr=[
+`Elektr zanjiridagi kuchlanish 18 V, qarshilik 6 Ω. Tok kuchini aniqlang.`,
+`U = 18 V<br>R = 6 Ω`,
+`I = ?`,
+`U — volt (V), R — om (Ω), I — amper (A).`,
+`I = U / R`,
+`I = 18 / 6`,
+`I = 3 A`,
+`Javob: I = 3 A.`,
+`Tekshirish: I·R = 3·6 = 18 V. Demak, javob to‘g‘ri.`
+];$("stage").innerHTML=arr[stage]}
+stageView();$("next").onclick=()=>{if(stage<8)stage++;stageView()};$("stageReset").onclick=()=>{stage=0;stageView();$("stmsg").textContent=""};$("stagecheck").onclick=()=>{$("stmsg").className="msg ok";$("stmsg").textContent=stage===8?"To‘g‘ri: I·R=18 V.":"Avval bosqichlarni ketma-ket bajaring."};
+$("checkI").onclick=()=>{let U=+$("cu").value,R=+$("cr").value,a=+$("ci").value;if(!R||!Number.isFinite(a)){$("cimsg").className="msg bad";$("cimsg").textContent="Xatolik: R nol bo‘lmasin va javob son bo‘lsin.";return}let ans=U/R;if(Math.abs(a-ans)<.001){$("cimsg").className="msg ok";$("cimsg").textContent=`Javobingiz to‘g‘ri! Hisoblangan javob: ${ans} A.`}else{$("cimsg").className="msg bad";$("cimsg").textContent=`Javobingiz noto‘g‘ri. To‘g‘ri javob ${ans} A.`}};
+
+/* Mustaqil */
+const probs=[["U=12 V, R=3 Ω. I = ?",3,"A"],["I=4 A, R=5 Ω. U = ?",20,"V"],["U=20 V, I=4 A. R = ?",5,"Ω"],["I=3 A, t=5 s. q = ?",15,"C"],["q=30 C, t=10 s. I = ?",3,"A"]];
+function renderInd(){let box=$("ind");box.innerHTML="";probs.forEach((p,i)=>{box.innerHTML+=`<div class="problem"><b>${i+1}-masala:</b> ${p[0]}<div class="answer"><div><label>Javob</label><input id="ia${i}" type="number" step="any"></div><button class="green" onclick="checkInd(${i})">Tekshirish</button></div><div id="im${i}" class="msg"></div></div>`})}
+let indScore=0,indDone=[];function checkInd(i){let a=parseFloat($("ia"+i).value),m=$("im"+i);if(indDone[i])return;if(!Number.isFinite(a)){m.className="msg bad";m.textContent="Xatolik: javob sonini kiriting.";return}if(Math.abs(a-probs[i][1])<.001){m.className="msg ok";m.textContent="To‘g‘ri javob!";indScore++;indDone[i]=1}else{m.className="msg bad";m.textContent=`Noto‘g‘ri. To‘g‘ri javob: ${probs[i][1]} ${probs[i][2]}.`;indDone[i]=1}$("indscore").textContent=`Natija: ${indScore} / 5`}
+window.checkInd=checkInd;renderInd();$("indreset").onclick=()=>{indScore=0;indDone=[];$("indscore").textContent="Natija: 0 / 5";renderInd()};
+
+/* Kalkulyator */
+const calcNames={IUR:["I = U / R",["U (V)","R (Ω)"],["U","R"],"A"],UIR:["U = I · R",["I (A)","R (Ω)"],["I","R"],"V"],RUI:["R = U / I",["U (V)","I (A)"],["U","I"],"Ω"],qIt:["q = I · t",["I (A)","t (s)"],["I","t"],"C"],Iqt:["I = q / t",["q (C)","t (s)"],["q","t"],"A"]};
+function calcFields(){let x=calcNames[$("ct").value];$("cd").textContent=x[0];$("ciBox").innerHTML=x[1].map((n,i)=>`<label>${n}</label><input id="v${i}" type="number" step="any" placeholder="${x[2][i]}">`).join("");$("co").textContent="Qiymatlarni kiriting."}
+calcFields();$("ct").onchange=calcFields;
+$("calc").onclick=()=>{let typ=$("ct").value,x=calcNames[typ],a=parseFloat($("v0").value),b=parseFloat($("v1").value);if(!Number.isFinite(a)||!Number.isFinite(b)){$("co").className="msg bad";$("co").textContent="Xatolik: barcha qiymatlarni kiriting.";return}if((typ==="IUR"||typ==="RUI"||typ==="Iqt")&&b===0){$("co").className="msg bad";$("co").textContent="Xatolik: 0 ga bo‘lish mumkin emas.";return}let ans=typ==="IUR"?a/b:typ==="UIR"?a*b:typ==="RUI"?a/b:typ==="qIt"?a*b:a/b;$("co").className="msg ok";$("co").textContent=`Natija: ${x[0].split("=")[0].trim()} = ${ans.toFixed(4).replace(/\.?0+$/,"")} ${x[3]}.`};
+$("calreset").onclick=calcFields;
+
+/* Test */
+const questions=[
+["Masala yechishning birinchi qadami qaysi?",["Shartni o‘qish","Darhol hisoblash","Javobni yozish","Formulani yodlash"],0],
+["Tok kuchining belgisi va birligi qaysi?",["U va V","I va A","R va Ω","q va C"],1],
+["Kuchlanish 12 V, qarshilik 4 Ω. I=? ",["2 A","3 A","4 A","8 A"],1],
+["Om qonunining tok kuchi uchun formulasi qaysi?",["I=U/R","I=U·R","I=R/U","I=U+R"],0],
+["I=2 A, R=5 Ω bo‘lsa U=?",["2 V","5 V","7 V","10 V"],3],
+["U=18 V, I=3 A bo‘lsa R=?",["3 Ω","6 Ω","9 Ω","54 Ω"],1],
+["I=2 A, t=10 s bo‘lsa q=?",["5 C","12 C","20 C","30 C"],2],
+["q=30 C, t=10 s bo‘lsa I=?",["2 A","3 A","10 A","300 A"],1],
+["Qarshilikning o‘lchov birligi qaysi?",["Volt","Amper","Kulon","Om"],3],
+["Javobni tekshirishda I·R nimaga teng bo‘lishi kerak?",["U ga","q ga","t ga","R ga"],0]
+];
+function renderTest(){let box=$("tests");box.innerHTML="";questions.forEach((q,i)=>{let d=document.createElement("div");d.className="test";d.id="q"+i;d.innerHTML=`<b>${i+1}. ${q[0]}</b><div class="choices">${q[1].map((o,j)=>`<button class="choice" data-q="${i}" data-a="${j}">${String.fromCharCode(65+j)}) ${o}</button>`).join("")}</div>`;box.appendChild(d)});document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{document.querySelectorAll('.choice[data-q="'+b.dataset.q+'"]').forEach(x=>x.classList.remove("sel"));b.classList.add("sel")})}
+renderTest();
+$("finish").onclick=()=>{let score=0;questions.forEach((q,i)=>{let s=document.querySelector('.choice[data-q="'+i+'"].sel'),d=$("q"+i);d.classList.remove("correct","wrong");if(s&&+s.dataset.a===q[2]){score++;d.classList.add("correct")}else d.classList.add("wrong")});let pct=score*10,msg=score===10?"A’lo!":score>=8?"Yaxshi!":score>=6?"Qoniqarli.":"Mavzuni yana takrorlang."; $("tresult").className="msg "+(score>=6?"ok":"bad");$("tresult").textContent=`Natija: ${score}/10 — ${pct}% — ${msg}`};
+$("testreset").onclick=()=>{renderTest();$("tresult").textContent="";$("tresult").className="msg"};
+</script>
+</body>
+</html>
