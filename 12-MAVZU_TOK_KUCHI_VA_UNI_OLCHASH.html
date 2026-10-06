@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>12-mavzu: Tok kuchi va uni o‘lchash</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.55}
+header{background:#173f6b;color:#fff;padding:24px 16px;text-align:center}
+header h1{margin:0 0 7px;font-size:clamp(23px,5vw,36px)}
+header p{margin:0;font-size:16px;opacity:.92}
+.container{max-width:1050px;margin:auto;padding:16px}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #dce3ed;padding:9px;display:flex;gap:7px;overflow-x:auto}
+nav a{flex:0 0 auto;text-decoration:none;color:#173f6b;border:1px solid #b9c9dc;border-radius:9px;padding:8px 12px;background:#f8fbff;font-size:14px}
+section{background:#fff;margin:18px 0;padding:20px;border-radius:16px;box-shadow:0 3px 14px rgba(22,44,75,.08)}
+h2{color:#173f6b;margin-top:0;font-size:clamp(21px,4vw,29px)}
+h3{color:#24598d}
+.card{border:1px solid #dce5ef;border-radius:13px;padding:15px;margin:13px 0;background:#fbfdff}
+.formula{font-size:28px;font-weight:bold;text-align:center;background:#eef5fc;padding:15px;border-radius:12px;margin:14px 0;color:#173f6b}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}section{padding:14px}.container{padding:10px}}
+button{border:0;border-radius:9px;padding:10px 14px;margin:4px;background:#1d659d;color:#fff;font-weight:bold;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button.secondary{background:#687789}
+button.green{background:#21834b}
+button.red{background:#b94343}
+button:disabled{opacity:.5;cursor:not-allowed}
+input[type=range]{width:100%}
+label{font-weight:bold;display:block;margin-top:8px}
+.value{font-weight:bold;color:#173f6b}
+.status{padding:10px;border-radius:9px;background:#eef5fc;margin:10px 0}
+.success{background:#e7f6ec!important;color:#176533}
+.error{background:#fdeaea!important;color:#8d2525}
+.warning{background:#fff5dc!important;color:#795b00}
+.canvas{width:100%;height:250px;border-radius:12px;background:#f8fafc;border:1px solid #dce5ef;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;margin-top:8px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:4px}
+.equation-box{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+@media(max-width:560px){.equation-box{grid-template-columns:1fr}}
+input[type=number]{width:100%;padding:10px;border:1px solid #bac7d7;border-radius:8px;font-size:16px}
+.measure{font-size:30px;font-weight:bold;text-align:center;color:#b03a2e;padding:8px}
+.ammeter{max-width:360px;margin:auto;border:3px solid #283746;border-radius:18px;background:#f2f3f5;padding:15px;text-align:center}
+.meter-screen{background:#101820;color:#71ff84;border-radius:8px;padding:12px;font: bold 30px monospace;margin:8px 0}
+.knob{width:75px;height:75px;border-radius:50%;border:7px solid #555;margin:12px auto;background:#aaa;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.wire-area{position:relative;height:230px;border:1px solid #d7e0ea;border-radius:12px;background:#fff;overflow:hidden}
+.wire{position:absolute;background:#374151}
+.w1{left:8%;right:8%;top:38px;height:5px}.w2{left:8%;right:8%;bottom:38px;height:5px}
+.w3{left:8%;top:38px;bottom:38px;width:5px}.w4{right:8%;top:38px;bottom:38px;width:5px}
+.battery{position:absolute;left:3%;top:86px;width:55px;height:85px;border:3px solid #333;background:#e9edf2;border-radius:8px;text-align:center;padding-top:22px;font-weight:bold}
+.bulb{position:absolute;right:3%;top:75px;width:80px;height:80px;border-radius:50%;background:#d7dbe0;border:3px solid #555;text-align:center;padding-top:28px;font-size:12px}
+.bulb.on{background:#ffe87a;box-shadow:0 0 35px #ffd83d}
+.switch{position:absolute;left:43%;top:21px;width:90px;height:45px}
+.switch .base{position:absolute;left:0;right:0;top:20px;height:5px;background:#374151}
+.switch .arm{position:absolute;left:42px;top:2px;width:50px;height:5px;background:#b94343;transform-origin:left center;transform:rotate(-25deg);transition:.3s}
+.switch.closed .arm{transform:rotate(0deg);background:#21834b}
+.electron{position:absolute;width:9px;height:9px;border-radius:50%;background:#2878d0;box-shadow:0 0 6px #2878d0}
+.flow{position:absolute;left:8%;right:8%;top:31px;height:20px;overflow:hidden}
+.flow span{position:absolute;top:5px;animation:move 2s linear infinite}
+@keyframes move{from{left:-20px}to{left:100%}}
+.lamp-wire-note{font-size:13px;color:#596579}
+.quiz-question{border:1px solid #dbe4ee;border-radius:11px;padding:13px;margin:10px 0}
+.quiz-question p{margin-top:0;font-weight:bold}
+.option{display:block;margin:7px 0;padding:8px;border-radius:8px;background:#f4f7fb;cursor:pointer}
+.option:hover{background:#e8f0f9}
+.result{font-size:18px;font-weight:bold;padding:13px;border-radius:10px;margin-top:12px}
+.progress{height:9px;background:#e5eaf0;border-radius:9px;overflow:hidden}.progress i{display:block;height:100%;width:0;background:#1d659d}
+footer{text-align:center;color:#667386;padding:25px}
+small{color:#667386}
+</style>
+</head>
+<body>
+<header>
+<h1>12-MAVZU: TOK KUCHI VA UNI O‘LCHASH</h1>
+<p>8-sinf fizika • Interaktiv va animatsiyali offline dars</p>
+</header>
+
+<nav>
+<a href="#r1">1-reja</a><a href="#r2">2-reja</a><a href="#r3">3-reja</a><a href="#test">Yakuniy test</a>
+</nav>
+
+<div class="container">
+
+<section id="r1">
+<h2>1. Elektr toki va tok kuchi haqida tushuncha</h2>
+<div class="card">
+<p><b>Elektr toki</b> — elektr zaryadlarining tartibli harakatidir.</p>
+<p>Metallarda elektr tokini asosan <b>erkin elektronlarning tartibli harakati</b> hosil qiladi.</p>
+<p>Elektr toki hosil bo‘lishi uchun:</p>
+<ol><li>erkin zaryad tashuvchilar bo‘lishi;</li><li>elektr maydon, ya’ni zaryadlarni harakatga keltiruvchi sabab bo‘lishi;</li><li>elektr zanjiri yopiq bo‘lishi kerak.</li></ol>
+<p><b>Tok kuchi</b> elektr zaryadlarining o‘tkazgich kesimidan qanchalik tez o‘tishini ifodalaydi va <b>I</b> harfi bilan belgilanadi.</p>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: “Elektronlar harakati”</h3>
+<div class="wire-area" id="circuit1">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery">− | +<br>Batareya</div>
+<div class="bulb" id="bulb1">Lampa</div>
+<div class="switch" id="switch1"><div class="base"></div><div class="arm"></div></div>
+<div class="flow" id="flow1"></div>
+</div>
+<div class="grid">
+<div>
+<label>Tok kuchi: <span id="i1val" class="value">2.0 A</span></label>
+<input id="i1" type="range" min="0" max="5" step=".1" value="2">
+</div>
+<div>
+<div class="status" id="state1">Uzilgan zanjir → elektr toki mavjud emas</div>
+<button class="green" onclick="toggleCircuit()">Zanjirni ulash</button>
+<button class="secondary" onclick="resetCircuit()">Qayta boshlash</button>
+</div>
+</div>
+<p class="lamp-wire-note">Tok kuchi oshirilganda elektronlar tezroq harakatlanadi va lampochka yorqinroq yonadi.</p>
+</div>
+
+<div class="card">
+<h3>Animatsiya va kuzatish</h3>
+<p>Ko‘k nuqtalar — elektronlar. Zanjir yopilganda ular tartibli harakat qiladi.</p>
+<div class="status">Yopiq zanjir → <b>elektr toki mavjud</b><br>Uzilgan zanjir → <b>elektr toki mavjud emas</b></div>
+</div>
+</section>
+
+<section id="r2">
+<h2>2. Tok kuchining formulasi, o‘lchov birligi va fizik ma’nosi</h2>
+<div class="card">
+<p>Tok kuchi o‘tkazgich kesimidan ma’lum vaqt ichida qancha zaryad o‘tganini ko‘rsatadi.</p>
+<div class="formula">I = q / t</div>
+<p><b>I</b> — tok kuchi (A), <b>q</b> — elektr zaryadi (C), <b>t</b> — vaqt (s).</p>
+<p>Tok kuchining SI dagi o‘lchov birligi — <b>amper (A)</b>.</p>
+<p><b>1 A = 1 C / 1 s.</b> Demak, 1 A tokda o‘tkazgich kesimidan har sekundda 1 kulon zaryad o‘tadi.</p>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: zaryad va vaqt orqali tok kuchini hisoblash</h3>
+<div class="equation-box">
+<div><label>Zaryad q (C)</label><input id="q2" type="number" min="0" step=".1" value="10"></div>
+<div><label>Vaqt t (s)</label><input id="t2" type="number" min="0" step=".1" value="5"></div>
+<div><label>Tok kuchi I (A)</label><div class="measure" id="calcI">2.00 A</div></div>
+</div>
+<button onclick="calculateI()">Hisoblash</button>
+<button class="secondary" onclick="resetCalc()">Qayta boshlash</button>
+<div id="calcMsg" class="status">Formula: I = q / t</div>
+<canvas class="canvas" id="chargeCanvas"></canvas>
+</div>
+
+<div class="card">
+<h3>Fizik ma’nosini ko‘rish</h3>
+<p>Quyidagi qiymatlarni o‘zgartiring. Qancha ko‘p zaryad bir xil vaqtda o‘tsa, tok kuchi shuncha katta bo‘ladi.</p>
+<label>Tok kuchi: <span id="i2val" class="value">2.0 A</span></label>
+<input id="i2" type="range" min=".2" max="5" step=".1" value="2">
+<canvas class="canvas" id="flowCanvas"></canvas>
+</div>
+</section>
+
+<section id="r3">
+<h2>3. Tok kuchini o‘lchash. Ampermetr va uni elektr zanjiriga ulash</h2>
+<div class="card">
+<p><b>Ampermetr</b> — elektr zanjiridagi tok kuchini o‘lchaydigan asbob.</p>
+<p>Ampermetr zanjirga <b>ketma-ket</b> ulanadi. Ya’ni tok o‘lchanadigan qismdan o‘tayotgan tok ampermetr orqali ham o‘tishi kerak.</p>
+<p>Ampermetrning <b>“+”</b> klemmasi tok manbaining musbat qutbiga, <b>“−”</b> klemmasi esa manfiy qutbiga mos ulanadi.</p>
+<p>Ampermetrni manbaga to‘g‘ridan-to‘g‘ri parallel ulash mumkin emas, chunki bu xavfli va noto‘g‘ri ulanish hisoblanadi.</p>
+</div>
+
+<div class="card">
+<h3>Interaktiv ampermetr tajribasi</h3>
+<div class="grid">
+<div>
+<div class="ammeter">
+<div>AMPERMETR</div>
+<div class="meter-screen" id="meter">0.00 A</div>
+<div class="knob">A</div>
+<div>Tokni o‘lchash asbobi</div>
+</div>
+</div>
+<div>
+<p><b>1-qadam:</b> Zanjirni tanlang.</p>
+<button class="green" onclick="connectAmmeter(true)">Ampermetrni ketma-ket ulash</button>
+<button class="red" onclick="connectAmmeter(false)">Noto‘g‘ri ulash</button>
+<div id="ammeterMsg" class="status">Hozircha ulanish bajarilmadi.</div>
+<label>Haqiqiy tok kuchi: <span id="realI">1.50 A</span></label>
+<input id="realISlider" type="range" min=".1" max="5" step=".1" value="1.5">
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Animatsiya: to‘g‘ri ulash</h3>
+<div class="wire-area" id="ammeterScene">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery">− | +<br>Manba</div>
+<div class="bulb" id="bulb3">Lampa</div>
+<div id="meterMini" style="position:absolute;left:43%;top:72px;width:100px;height:65px;border:3px solid #293847;border-radius:10px;background:#eef1f4;text-align:center;padding-top:9px;font-weight:bold">A<br><span id="miniVal">0.00</span></div>
+</div>
+<p>To‘g‘ri tajribada ampermetr tok yo‘liga <b>ketma-ket</b> joylashadi va ekranda tok kuchi ko‘rsatiladi.</p>
+</div>
+</section>
+
+<section id="test">
+<h2>Yakuniy bilimni tekshirish</h2>
+<div class="card">
+<p>Har bir savolga bitta javob tanlang. Javoblar oldindan ko‘rsatilmaydi.</p>
+<div class="progress"><i id="prog"></i></div>
+<div id="quiz"></div>
+<button class="green" onclick="checkQuiz()">Tekshirish</button>
+<button class="secondary" onclick="resetQuiz()">Qayta boshlash</button>
+<div id="quizResult"></div>
+</div>
+</section>
+
+</div>
+<footer>8-sinf fizika • 12-mavzu: Tok kuchi va uni o‘lchash</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+
+/* 1-reja */
+let circuitOn=false;
+function makeElectrons(){
+  const f=$('flow1'); f.innerHTML='';
+  for(let i=0;i<18;i++){
+    const s=document.createElement('span'); s.textContent='●'; s.style.left=(i*6-4)+'%';
+    s.style.animationDelay=(-i*.13)+'s'; f.appendChild(s);
+  }
+}
+makeElectrons();
+function updateCircuit(){
+  const I=parseFloat($('i1').value);
+  $('i1val').textContent=I.toFixed(1)+' A';
+  $('flow1').style.display=circuitOn?'block':'none';
+  $('bulb1').classList.toggle('on',circuitOn && I>0);
+  document.querySelectorAll('#flow1 span').forEach(s=>s.style.animationDuration=Math.max(.35,2.6-I*.43)+'s');
+  if(circuitOn){
+    $('state1').className='status success';
+    $('state1').innerHTML='Yopiq zanjir → <b>elektr toki mavjud</b>';
+  }else{
+    $('state1').className='status error';
+    $('state1').innerHTML='Uzilgan zanjir → <b>elektr toki mavjud emas</b>';
+  }
+}
+function toggleCircuit(){circuitOn=!circuitOn; $('switch1').classList.toggle('closed',circuitOn); updateCircuit()}
+function resetCircuit(){circuitOn=false;$('i1').value=2;$('switch1').classList.remove('closed');updateCircuit()}
+$('i1').addEventListener('input',updateCircuit);
+
+/* 2-reja hisoblash */
+function calculateI(){
+  const q=parseFloat($('q2').value),t=parseFloat($('t2').value);
+  if(!Number.isFinite(q)||!Number.isFinite(t)||q<0||t<=0){
+    $('calcMsg').className='status error';
+    $('calcMsg').textContent='Xatolik: q musbat yoki nol bo‘lishi, t esa 0 dan katta bo‘lishi kerak.';
+    return;
+  }
+  const I=q/t;$('calcI').textContent=I.toFixed(2)+' A';
+  $('calcMsg').className='status success';
+  $('calcMsg').innerHTML='Hisoblash: <b>I = '+q+' / '+t+' = '+I.toFixed(2)+' A</b>';
+  drawCharge(I);
+}
+function resetCalc(){$('q2').value=10;$('t2').value=5;$('calcI').textContent='2.00 A';$('calcMsg').className='status';$('calcMsg').textContent='Formula: I = q / t';drawCharge(2)}
+function setupCanvas(c){
+  const d=devicePixelRatio||1, r=c.getBoundingClientRect(),w=Math.max(280,r.width),h=r.height;
+  c.width=w*d;c.height=h*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return [x,w,h];
+}
+function drawCharge(I){
+  const [c,w,h]=setupCanvas($('chargeCanvas'));c.clearRect(0,0,w,h);
+  c.font='bold 16px Arial';c.fillStyle='#173f6b';c.fillText('Zaryadning o‘tishi',15,25);
+  c.strokeStyle='#38495a';c.lineWidth=4;c.beginPath();c.moveTo(30,h/2);c.lineTo(w-30,h/2);c.stroke();
+  const n=Math.min(28,Math.max(2,Math.round(I*5)));
+  for(let i=0;i<n;i++){c.beginPath();c.fillStyle='#2878d0';c.arc(35+i*((w-70)/n),h/2,6,0,Math.PI*2);c.fill()}
+  c.fillStyle='#5d6977';c.font='14px Arial';c.fillText('Tok kuchi oshsa → bir xil vaqtda ko‘proq zaryad o‘tadi',15,h-15);
+}
+function drawFlow(I){
+  const [c,w,h]=setupCanvas($('flowCanvas'));c.clearRect(0,0,w,h);
+  c.strokeStyle='#39495a';c.lineWidth=4;c.beginPath();c.moveTo(20,h/2);c.lineTo(w-20,h/2);c.stroke();
+  const n=Math.round(3+I*4);
+  for(let i=0;i<n;i++){let x=25+i*((w-50)/n);c.fillStyle='#2878d0';c.beginPath();c.arc(x,h/2,6,0,Math.PI*2);c.fill()}
+  c.fillStyle='#173f6b';c.font='bold 16px Arial';c.fillText('I = '+I.toFixed(1)+' A',15,25);
+}
+$('i2').addEventListener('input',e=>{$('i2val').textContent=parseFloat(e.target.value).toFixed(1)+' A';drawFlow(parseFloat(e.target.value))});
+window.addEventListener('resize',()=>{drawCharge(parseFloat($('calcI').textContent));drawFlow(parseFloat($('i2').value))});
+resetCalc();drawFlow(2);
+
+/* 3-reja */
+function connectAmmeter(ok){
+  const I=parseFloat($('realISlider').value);
+  if(ok){
+    $('meter').textContent=I.toFixed(2)+' A';$('miniVal').textContent=I.toFixed(2);
+    $('ammeterMsg').className='status success';
+    $('ammeterMsg').innerHTML='To‘g‘ri! Ampermetr <b>ketma-ket</b> ulandi. Tok kuchi: <b>'+I.toFixed(2)+' A</b>.';
+    $('bulb3').classList.add('on');
+  }else{
+    $('meter').textContent='— —';
+    $('ammeterMsg').className='status error';
+    $('ammeterMsg').innerHTML='Xatolik! Ampermetrni manbaga to‘g‘ridan-to‘g‘ri parallel ulash mumkin emas. Uni tok o‘lchanadigan qismga <b>ketma-ket</b> ulang.';
+    $('bulb3').classList.remove('on');
+  }
+}
+$('realISlider').addEventListener('input',e=>{
+  const I=parseFloat(e.target.value);$('realI').textContent=I.toFixed(2)+' A';
+});
+
+/* Quiz */
+const questions=[
+ {q:'Elektr toki nima?',a:['Elektr zaryadlarining tartibli harakati','Faqat protonlarning harakati','Jismning qizishi','Magnitning aylanishi'],c:0},
+ {q:'Metallarda elektr tokini asosan nima hosil qiladi?',a:['Erkin elektronlarning tartibli harakati','Faqat neytronlar','Yorug‘lik nurlari','Molekulalarning parchalanishi'],c:0},
+ {q:'Tok kuchi qaysi harf bilan belgilanadi?',a:['q','t','I','A'],c:2},
+ {q:'Tok kuchining formulasi qaysi?',a:['I=q/t','I=t/q','I=q+t','I=q·t'],c:0},
+ {q:'Tok kuchining SI dagi birligi nima?',a:['Kulon','Volt','Om','Amper'],c:3},
+ {q:'1 A nimani bildiradi?',a:['1 sekundda 1 C zaryad o‘tishi','1 minutda 1 C zaryad','1 C zaryad 1 metr yurishi','1 sekundda 1 V kuchlanish'],c:0},
+ {q:'Tok kuchini qaysi asbob o‘lchaydi?',a:['Voltmetr','Ampermetr','Termometr','Barometr'],c:1},
+ {q:'Ampermetr elektr zanjiriga qanday ulanadi?',a:['Ketma-ket','Faqat parallel','Zanjirdan tashqarida','Yerga ulanadi'],c:0},
+ {q:'Elektr toki bo‘lishi uchun qaysi shart zarur?',a:['Zanjir ochiq bo‘lishi','Erkin zaryad tashuvchilar va yopiq zanjir bo‘lishi','Faqat lampochka bo‘lishi','Faqat sim bo‘lishi'],c:1},
+ {q:'q=12 C zaryad 4 s da o‘tsa, tok kuchi qancha?',a:['3 A','8 A','16 A','48 A'],c:0}
+];
+function renderQuiz(){
+  $('quiz').innerHTML='';
+  questions.forEach((x,i)=>{
+    const d=document.createElement('div');d.className='quiz-question';
+    d.innerHTML='<p>'+(i+1)+'. '+x.q+'</p>'+x.a.map((o,j)=>'<label class="option"><input type="radio" name="q'+i+'" value="'+j+'"> '+o+'</label>').join('');
+    $('quiz').appendChild(d);
+  });
+  $('prog').style.width='0%';
+}
+function checkQuiz(){
+  let score=0,answered=0;
+  questions.forEach((x,i)=>{
+    const chosen=document.querySelector('input[name=q'+i+']:checked');
+    if(chosen){answered++;if(+chosen.value===x.c)score++}
+  });
+  if(answered<questions.length){
+    $('quizResult').className='result warning';
+    $('quizResult').textContent='Avval barcha savollarga javob bering. Javob berilgan: '+answered+'/'+questions.length+'.';
+    return;
+  }
+  const pct=Math.round(score/questions.length*100);
+  $('quizResult').className='result '+(pct>=70?'success':'error');
+  $('quizResult').innerHTML='Natija: <b>'+score+'/'+questions.length</b> ta to‘g‘ri. Foiz: <b>'+pct+'%</b>.'+(pct>=90?' A’lo!':pct>=70?' Yaxshi natija!':' Mavzuni yana bir bor takrorlang.');
+}
+function resetQuiz(){renderQuiz();$('quizResult').className='';$('quizResult').innerHTML='';window.scrollTo({top:$('test').offsetTop-60,behavior:'smooth'})}
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[type=radio]')){
+    const n=document.querySelectorAll('input[type=radio]:checked').length;
+    $('prog').style.width=(n/questions.length*100)+'%';
+  }
+});
+renderQuiz();updateCircuit();
+</script>
+</body>
+</html>
