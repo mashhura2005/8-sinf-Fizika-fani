@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>22-MAVZU: ISTE’MOLCHILARNI PARALLEL ULASH</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.55;overflow-x:hidden}
+.container{width:min(1120px,94%);margin:auto}
+header{background:#fff;border-bottom:1px solid #dfe5ee;padding:28px 0}
+h1{margin:0 0 8px;font-size:clamp(25px,5vw,42px);color:#123b70}
+h2{font-size:clamp(21px,4vw,30px);color:#123b70;margin-top:0}
+h3{color:#184d87;margin-top:0}
+.subtitle{color:#5d6a7d;margin:0}
+nav{position:sticky;top:0;z-index:20;background:#123b70;color:white;box-shadow:0 2px 8px #0002}
+.navin{display:flex;gap:8px;overflow-x:auto;padding:8px 0}
+.navin a{color:white;text-decoration:none;padding:8px 12px;border-radius:7px;white-space:nowrap;font-size:14px}
+.navin a:hover{background:#ffffff22}
+section,.card{background:white;border:1px solid #dfe5ee;border-radius:14px;padding:22px;margin:20px 0;box-shadow:0 4px 14px #14213d0a}
+.plan{background:#eef5ff;border-left:5px solid #2672c8;padding:14px;border-radius:8px;margin:12px 0}
+.formula{font-size:20px;font-weight:bold;text-align:center;background:#f1f7ff;padding:13px;border-radius:9px;color:#0d4e91;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}.section{padding:16px}}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+button{border:0;border-radius:8px;padding:10px 15px;background:#1769aa;color:white;font-weight:600;cursor:pointer}
+button:hover{filter:brightness(.94)}
+button.secondary{background:#60748b}
+button.green{background:#218a57}
+button.orange{background:#d67a18}
+button.red{background:#bd3b3b}
+button:disabled{opacity:.5;cursor:not-allowed}
+label{display:block;font-weight:600;margin-bottom:5px}
+input[type=number],input[type=text],select{width:100%;padding:10px;border:1px solid #c8d1de;border-radius:7px;font-size:16px;background:white}
+input[type=range]{width:100%}
+.controlBox{background:#f7f9fc;border:1px solid #dfe5ee;border-radius:10px;padding:13px}
+.badge{display:inline-block;padding:4px 9px;border-radius:15px;background:#e8f1fb;color:#15538d;font-size:13px}
+.message{min-height:24px;margin-top:9px;font-weight:600}
+.ok{color:#167344}.err{color:#b52f2f}
+.circuit{position:relative;height:320px;background:#f8fbff;border:1px solid #d4dfec;border-radius:12px;overflow:hidden;margin:15px 0}
+.wire{position:absolute;background:#27394d;border-radius:4px}
+.wire.top{left:12%;right:12%;top:45px;height:5px}
+.wire.bottom{left:12%;right:12%;bottom:45px;height:5px}
+.wire.left{left:12%;top:45px;bottom:45px;width:5px}
+.wire.right{right:12%;top:45px;bottom:45px;width:5px}
+.branch{position:absolute;left:30%;right:30%;height:5px;background:#27394d}
+.branch.one{top:120px}.branch.two{top:200px}
+.branch.left,.branch.right{position:absolute;width:5px;height:80px;background:#27394d}
+.branch.left{left:30%;top:120px}.branch.right{right:30%;top:120px}
+.battery{position:absolute;left:6%;top:117px;width:45px;height:90px}
+.battery:before,.battery:after{content:"";position:absolute;left:8px;width:30px;background:#26384c}
+.battery:before{top:22px;height:5px}.battery:after{top:55px;height:5px}
+.battery span{position:absolute;left:17px;font-weight:bold}
+.battery .plus{top:0}.battery .minus{bottom:0}
+.switch{position:absolute;left:48%;top:25px;width:70px;height:35px}
+.switch .base{position:absolute;left:0;right:0;top:17px;height:4px;background:#27394d}
+.switch .lever{position:absolute;left:13px;top:3px;width:42px;height:4px;background:#27394d;transform-origin:left center;transform:rotate(-35deg);transition:.25s}
+.switch.on .lever{transform:rotate(0deg)}
+.lamp{position:absolute;width:74px;height:74px;border-radius:50%;border:4px solid #777;background:#e8edf2;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#4e5b69;transition:.3s}
+.lamp.on{background:#fff2a8;border-color:#e0aa24;box-shadow:0 0 28px #ffd54d}
+.lamp1{left:40%;top:86px}.lamp2{left:40%;top:166px}
+.flow{position:absolute;width:10px;height:10px;border-radius:50%;background:#1976d2;opacity:0}
+.circuit.running .flow{opacity:1;animation:flow 1.1s linear infinite}
+@keyframes flow{0%{transform:translateX(-20px)}50%{transform:translateX(60px)}100%{transform:translateX(140px)}}
+.circuit.running .flow.f1{left:18%;top:40px}.circuit.running .flow.f2{left:35%;top:116px}.circuit.running .flow.f3{left:35%;top:196px}
+.circuit.running .flow.f4{left:57%;top:116px}.circuit.running .flow.f5{left:57%;top:196px}
+.status{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.status span{padding:7px 10px;border-radius:7px;background:#edf2f7}
+.meter{font-size:24px;font-weight:bold;color:#124f8a;text-align:center;padding:12px;background:#eef6ff;border-radius:8px}
+.rangeValue{font-weight:bold;color:#1769aa}
+.svgCircuit{width:100%;height:330px;background:#f8fbff;border:1px solid #d4dfec;border-radius:12px}
+.svgWire{stroke:#26384c;stroke-width:5;fill:none}
+.electron{fill:#1976d2}
+.lampGlow{fill:#fff2a8;stroke:#d29b16;stroke-width:3}
+.dim{opacity:.35}
+.task{background:#fff9e9;border:1px solid #f0d18b;padding:15px;border-radius:10px}
+.resultBox{background:#edf9f2;border:1px solid #acd9bd;border-radius:10px;padding:14px;margin-top:10px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th,td{border:1px solid #ccd6e2;padding:8px;text-align:center}
+th{background:#eaf1f8;color:#17446f}
+.tableWrap{overflow-x:auto}
+.option{display:block;padding:9px;border:1px solid #d3dbe6;border-radius:8px;margin:7px 0;cursor:pointer}
+.option:hover{background:#f3f7fb}
+.testQ{padding:15px;border:1px solid #dce3eb;border-radius:10px;margin:12px 0}
+footer{padding:30px 0;color:#657287;text-align:center}
+.small{font-size:13px;color:#697587}
+.lampRow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.lampRow{grid-template-columns:1fr}.circuit{height:300px}.svgCircuit{height:280px}}
+.progress{height:10px;background:#e2e8f0;border-radius:10px;overflow:hidden;margin:10px 0}
+.progress>div{height:100%;width:0;background:#2672c8;transition:.3s}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<h1>22-MAVZU: ISTE’MOLCHILARNI PARALLEL ULASH</h1>
+<p class="subtitle">8-sinf Fizika • Interaktiv, animatsiyali va amaliy o‘quv simulyatsiyasi</p>
+</div>
+</header>
+
+<nav>
+<div class="container navin">
+<a href="#reja">Reja</a><a href="#r1">1-reja</a><a href="#r2">2-reja</a><a href="#r3">3-reja</a><a href="#tajriba">Tajriba</a><a href="#xulosa">Xulosa</a><a href="#test">Test</a>
+</div>
+</nav>
+
+<main class="container">
+<section id="reja">
+<h2>Reja</h2>
+<div class="plan"><b>1.</b> Iste’molchilarni parallel ulash haqida tushuncha va elektr zanjirining tuzilishi.</div>
+<div class="plan"><b>2.</b> Parallel ulanishda tok kuchi va kuchlanishning taqsimlanishi.</div>
+<div class="plan"><b>3.</b> Parallel ulangan iste’molchilarning afzalliklari va amaliy qo‘llanilishi.</div>
+</section>
+
+<section id="r1">
+<h2>1-reja. Iste’molchilarni parallel ulash</h2>
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p>Elektr zanjirida bir nechta iste’molchi shunday ulanadiki, ularning ikkala uchi ham bir xil ikkita nuqtaga bog‘lanadi. Bunday ulanish <b>parallel ulanish</b> deyiladi.</p>
+<p>Parallel ulangan iste’molchilarning har biri tok manbaining ikki qutbiga alohida tarmoqlar orqali ulanadi.</p>
+<p><b>Asosiy qismlar:</b> tok manbai, ulash simlari, kalit, iste’molchilar va parallel tarmoqlar.</p>
+<div class="formula">Parallel ulanishda: U₁ = U₂ = U</div>
+<p>Masalan, ikkita lampochka parallel ulanganda ular alohida tarmoqlarda joylashadi. Bir tarmoq uzilsa, ikkinchi tarmoq yopiq bo‘lsa, undagi lampochka ishlashda davom etadi.</p>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya</h3>
+<p class="small">Kalitni boshqaring. Har bir lampochka tarmog‘ini alohida uzib-ulashing.</p>
+<div id="circuit1" class="circuit">
+<div class="wire top"></div><div class="wire bottom"></div><div class="wire left"></div><div class="wire right"></div>
+<div class="branch one"></div><div class="branch two"></div><div class="branch left"></div><div class="branch right"></div>
+<div class="battery"><span class="plus">+</span><span class="minus">−</span></div>
+<div id="sw1" class="switch"><div class="base"></div><div class="lever"></div></div>
+<div id="lampA" class="lamp lamp1">L1</div><div id="lampB" class="lamp lamp2">L2</div>
+<div class="flow f1"></div><div class="flow f2"></div><div class="flow f3"></div><div class="flow f4"></div><div class="flow f5"></div>
+</div>
+<div class="controls">
+<button id="r1Start" class="green">Boshlash</button>
+<button id="r1Stop" class="secondary">To‘xtatish</button>
+<button id="r1Reset" class="orange">Qayta boshlash</button>
+<button id="swBtn">Kalit: O‘CHIQ</button>
+<button id="l1Btn" class="secondary">1-lampochka: Ulangan</button>
+<button id="l2Btn" class="secondary">2-lampochka: Ulangan</button>
+</div>
+<div class="status"><span id="r1s">Zanjir: ochiq</span><span id="l1s">L1: ulangan</span><span id="l2s">L2: ulangan</span></div>
+</div>
+
+<div class="card">
+<h3>Animatsiya</h3>
+<p>Tarmoqlanish nuqtasida elektronlar oqimi ikki tarmoqqa bo‘linadi. Kalit yopilganda oqim harakatlanadi, ochilganda to‘xtaydi.</p>
+<div class="progress"><div id="anim1"></div></div>
+<p id="animText1">Animatsiyani boshlash uchun “Boshlash” tugmasini bosing.</p>
+</div>
+
+<div class="card task">
+<h3>Amaliy topshiriq</h3>
+<ol><li>Kalitni yoqing.</li><li>Ikkala lampochkaning holatini kuzating.</li><li>Birinchi lampochka tarmog‘ini uzing.</li><li>Ikkinchi lampochka holatini kuzating.</li></ol>
+<p><b>Savol:</b> Parallel ulangan ikkita lampochkadan biri ishdan chiqsa, ikkinchi lampochka nima uchun yonishda davom etadi?</p>
+<select id="task1">
+<option value="">Javobni tanlang</option>
+<option value="a">Chunki tok butunlay yo‘qoladi.</option>
+<option value="b">Chunki ikkinchi lampochka alohida parallel tarmoqda ulangan.</option>
+<option value="c">Chunki qarshilik nol bo‘ladi.</option>
+<option value="d">Chunki kuchlanish nolga teng.</option>
+</select>
+<button id="check1">Tekshirish</button><div id="msg1" class="message"></div>
+</div>
+</section>
+
+<section id="r2">
+<h2>2-reja. Tok kuchi va kuchlanishning taqsimlanishi</h2>
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p>Parallel ulanishda barcha iste’molchilarning uchlaridagi kuchlanish bir xil bo‘ladi.</p>
+<div class="formula">U = U₁ = U₂</div>
+<p>Tarmoqlardagi tok kuchlari esa qo‘shiladi:</p>
+<div class="formula">I = I₁ + I₂</div>
+<p>Om qonuniga ko‘ra:</p>
+<div class="formula">I = U / R &nbsp;&nbsp;&nbsp; I₁ = U / R₁ &nbsp;&nbsp;&nbsp; I₂ = U / R₂</div>
+<p>Demak, umumiy tok tarmoqlardagi toklarning yig‘indisidir.</p>
+<div class="formula">U = 12 V, R₁ = 6 Ω, R₂ = 12 Ω → I₁ = 2 A, I₂ = 1 A, I = 3 A</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya va hisoblagichlar</h3>
+<div class="grid3">
+<div class="controlBox"><label for="u2">Kuchlanish U: <span id="uVal" class="rangeValue">12</span> V</label><input id="u2" type="range" min="6" max="24" step="1" value="12"></div>
+<div class="controlBox"><label for="r21">R₁: <span id="r1Val" class="rangeValue">6</span> Ω</label><input id="r21" type="range" min="1" max="20" step="1" value="6"></div>
+<div class="controlBox"><label for="r22">R₂: <span id="r2Val" class="rangeValue">12</span> Ω</label><input id="r22" type="range" min="1" max="20" step="1" value="12"></div>
+</div>
+<div class="controls" style="margin-top:12px">
+<button id="calc2">Hisoblash</button><button id="start2" class="green">Boshlash</button><button id="stop2" class="secondary">To‘xtatish</button><button id="reset2" class="orange">Qayta boshlash</button>
+</div>
+<div id="msg2" class="message"></div>
+<div class="grid3">
+<div><h3>1-tarmoq ampermetri</h3><div id="mI1" class="meter">2.00 A</div></div>
+<div><h3>2-tarmoq ampermetri</h3><div id="mI2" class="meter">1.00 A</div></div>
+<div><h3>Umumiy ampermetr</h3><div id="mI" class="meter">3.00 A</div></div>
+</div>
+<div class="grid">
+<div><h3>Voltmetr U₁</h3><div id="mU1" class="meter">12.00 V</div></div>
+<div><h3>Voltmetr U₂</h3><div id="mU2" class="meter">12.00 V</div></div>
+</div>
+<div class="status"><span>U₁ = U₂ = U</span><span>I = I₁ + I₂</span></div>
+<svg id="svg2" class="svgCircuit" viewBox="0 0 800 330" aria-label="Parallel zanjir">
+<path class="svgWire" d="M70 70 H730 M70 260 H730 M70 70 V260 M730 70 V260 M210 70 V125 H590 V70 M210 260 V205 H590 V260"/>
+<rect x="38" y="125" width="45" height="80" rx="7" fill="#dbe4ee" stroke="#26384c" stroke-width="3"/>
+<text x="50" y="118" font-size="16">Batareya</text><text x="51" y="153" font-size="22">+</text><text x="51" y="190" font-size="22">−</text>
+<circle id="lampS1" class="lampGlow" cx="400" cy="125" r="29"/><text x="387" y="131" font-size="16">R₁</text>
+<circle id="lampS2" class="lampGlow" cx="400" cy="205" r="29"/><text x="387" y="211" font-size="16">R₂</text>
+<text x="615" y="105" font-size="16">U₁</text><text x="615" y="235" font-size="16">U₂</text>
+<circle class="electron e1" cx="125" cy="70" r="6"/><circle class="electron e2" cx="250" cy="70" r="6"/><circle class="electron e3" cx="320" cy="125" r="6"/><circle class="electron e4" cx="500" cy="205" r="6"/>
+</svg>
+</div>
+
+<div class="card">
+<h3>Animatsiya</h3>
+<p>Tok kuchi katta bo‘lsa elektronlar tezroq, kichik bo‘lsa sekinroq harakat qiladi.</p>
+<div class="progress"><div id="anim2"></div></div>
+<p id="animText2">Zanjirni ishga tushiring.</p>
+</div>
+
+<div class="card task">
+<h3>Amaliy topshiriq</h3>
+<p>Quyidagi holatlarni tekshiring:</p>
+<ul><li>U=12 V, R₁=6 Ω, R₂=12 Ω → I₁=2 A, I₂=1 A, I=3 A.</li><li>U=12 V, R₁=12 Ω, R₂=12 Ω → I₁=1 A, I₂=1 A, I=2 A.</li><li>U=12 V, R₁=4 Ω, R₂=12 Ω → I₁=3 A, I₂=1 A, I=4 A.</li></ul>
+<p><b>Savol:</b> Parallel ulanishda umumiy tok kuchi qanday aniqlanadi?</p>
+<select id="task2"><option value="">Javobni tanlang</option><option value="a">I = U/R₁</option><option value="b">I = I₁ + I₂</option><option value="c">I = U₁ + U₂</option><option value="d">I = R₁ + R₂</option></select>
+<button id="check2">Tekshirish</button><div id="msgTask2" class="message"></div>
+</div>
+</section>
+
+<section id="r3">
+<h2>3-reja. Parallel ulangan iste’molchilarning afzalliklari va amaliy qo‘llanilishi</h2>
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p>Parallel ulanish elektr texnikasida juda keng qo‘llaniladi. Har bir iste’molchiga bir xil kuchlanish beriladi va iste’molchilar mustaqil ravishda boshqarilishi mumkin.</p>
+<ul>
+<li>Har bir iste’molchiga bir xil kuchlanish beriladi.</li>
+<li>Bir iste’molchi ishdan chiqsa, boshqalari ishlashda davom etadi.</li>
+<li>Har bir iste’molchini alohida yoqish va o‘chirish mumkin.</li>
+<li>Uy elektr tarmog‘i, maktablar, korxonalar, yoritish va turli elektr jihozlarida qo‘llaniladi.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya</h3>
+<div id="circuit3" class="circuit">
+<div class="wire top"></div><div class="wire bottom"></div><div class="wire left"></div><div class="wire right"></div>
+<div class="battery"><span class="plus">+</span><span class="minus">−</span></div>
+<div class="wire" style="left:30%;top:115px;width:60%;height:5px"></div>
+<div class="wire" style="left:30%;top:195px;width:60%;height:5px"></div>
+<div class="lamp lamp1" id="l31">L1</div><div class="lamp lamp2" id="l32">L2</div><div class="lamp" id="l33" style="left:40%;top:226px">L3</div>
+<div class="flow f1"></div><div class="flow f2"></div><div class="flow f3"></div><div class="flow f4"></div>
+</div>
+<div class="lampRow">
+<div class="controlBox"><b>1-lampochka</b><button id="k31" style="width:100%;margin-top:8px">K1: OFF</button></div>
+<div class="controlBox"><b>2-lampochka</b><button id="k32" style="width:100%;margin-top:8px">K2: OFF</button></div>
+<div class="controlBox"><b>3-lampochka</b><button id="k33" style="width:100%;margin-top:8px">K3: OFF</button></div>
+</div>
+<div class="controls" style="margin-top:12px"><button id="start3" class="green">Boshlash</button><button id="stop3" class="secondary">To‘xtatish</button><button id="reset3" class="orange">Qayta boshlash</button></div>
+<div id="msg3" class="message"></div>
+</div>
+
+<div class="card">
+<h3>Animatsiya</h3>
+<p>Har bir parallel tarmoqdagi elektronlar mustaqil harakatlanadi. Bitta kalit o‘chirilganda boshqa tarmoqlardagi oqim davom etadi.</p>
+<div class="progress"><div id="anim3"></div></div>
+<p id="animText3">Lampochkalarni yoqib animatsiyani kuzating.</p>
+</div>
+
+<div class="card task">
+<h3>Amaliy topshiriq</h3>
+<ol><li>Uchala lampochkani yoqing.</li><li>Faqat 2-lampochkani o‘chiring.</li><li>1- va 3-lampochkaning holatini kuzating.</li><li>1-lampochkani ham o‘chiring.</li><li>3-lampochka ishlashda davom etayotganini kuzating.</li></ol>
+<p><b>Savol:</b> Parallel ulanishning eng muhim afzalligi nimada?</p>
+<label class="option"><input type="radio" name="task3" value="a"> A) Bitta iste’molchi ishdan chiqsa, barcha iste’molchilar o‘chadi.</label>
+<label class="option"><input type="radio" name="task3" value="b"> B) Har bir iste’molchi mustaqil ishlashi mumkin.</label>
+<label class="option"><input type="radio" name="task3" value="c"> C) Tok kuchi doimo nol bo‘ladi.</label>
+<label class="option"><input type="radio" name="task3" value="d"> D) Kuchlanish barcha tarmoqlarda nol bo‘ladi.</label>
+<button id="check3">Tekshirish</button><div id="msgTask3" class="message"></div>
+</div>
+</section>
+
+<section id="tajriba">
+<h2>Tajriba natijalari jadvali</h2>
+<div class="card">
+<p>Joriy qiymatlarni tanlang va <b>O‘lchash</b> tugmasini bosing. Natija jadvalga avtomatik qo‘shiladi. Kamida 3 ta tajriba bajarish mumkin.</p>
+<div class="grid3">
+<div class="controlBox"><label for="tu">U (V)</label><input id="tu" type="number" min="1" max="1000" value="12"></div>
+<div class="controlBox"><label for="tr1">R₁ (Ω)</label><input id="tr1" type="number" min="1" max="10000" value="6"></div>
+<div class="controlBox"><label for="tr2">R₂ (Ω)</label><input id="tr2" type="number" min="1" max="10000" value="12"></div>
+</div>
+<div class="controls" style="margin-top:12px"><button id="measure" class="green">O‘lchash</button><button id="clearTable" class="red">Jadvalni tozalash</button></div>
+<div id="tableMsg" class="message"></div>
+<div class="tableWrap">
+<table><thead><tr><th>№</th><th>U (V)</th><th>R₁ (Ω)</th><th>R₂ (Ω)</th><th>I₁ (A)</th><th>I₂ (A)</th><th>I (A)</th></tr></thead><tbody id="resultsBody"></tbody></table>
+</div>
+</div>
+</section>
+
+<section id="xulosa">
+<h2>Xulosa</h2>
+<div class="card">
+<p>Parallel ulanishda iste’molchilarning ikkala uchi bir xil ikkita nuqtaga ulanadi.</p>
+<div class="formula">U = U₁ = U₂</div>
+<div class="formula">I = I₁ + I₂</div>
+<p>Parallel ulanishning muhim afzalligi — iste’molchilar bir-biridan mustaqil ishlashi. Shuning uchun uy-joylar, maktablar, korxonalar va boshqa elektr tarmoqlarida iste’molchilar asosan parallel ulanadi.</p>
+</div>
+</section>
+
+<section id="test">
+<h2>MAVZUNI TEKSHIRISH</h2>
+<div class="card">
+<p>10 ta savolga javob bering. Javoblar test ishlash vaqtida ko‘rsatilmaydi.</p>
+<div id="testForm"></div>
+<button id="finishTest" class="green">Testni yakunlash</button>
+<button id="restartTest" class="orange" style="display:none">Testni qayta ishlash</button>
+<div id="testResult" class="resultBox" style="display:none"></div>
+</div>
+</section>
+</main>
+<footer>8-sinf Fizika • 22-mavzu: Iste’molchilarni parallel ulash</footer>
+
+<script>
+"use strict";
+
+/* 1-REJA */
+let c1Running=false, sw1=false, l1=true, l2=true;
+const circuit1=document.getElementById("circuit1");
+function updateR1(){
+  circuit1.classList.toggle("running",c1Running && sw1);
+  document.getElementById("sw1").classList.toggle("on",sw1);
+  document.getElementById("lampA").classList.toggle("on",sw1&&l1);
+  document.getElementById("lampB").classList.toggle("on",sw1&&l2);
+  document.getElementById("swBtn").textContent="Kalit: "+(sw1?"YOQILGAN":"O‘CHIQ");
+  document.getElementById("l1Btn").textContent="1-lampochka: "+(l1?"Ulangan":"Uzilgan");
+  document.getElementById("l2Btn").textContent="2-lampochka: "+(l2?"Ulangan":"Uzilgan");
+  document.getElementById("r1s").textContent="Zanjir: "+(sw1?"yopiq":"ochiq");
+  document.getElementById("l1s").textContent="L1: "+(l1?"ulangan":"uzilgan");
+  document.getElementById("l2s").textContent="L2: "+(l2?"ulangan":"uzilgan");
+  document.getElementById("anim1").style.width=(sw1&&c1Running?"100%":"0%");
+  document.getElementById("animText1").textContent=sw1&&c1Running?"Elektronlar ikki parallel tarmoq bo‘ylab harakatlanmoqda.":"Elektronlar harakati to‘xtagan.";
+}
+document.getElementById("r1Start").onclick=()=>{c1Running=true;updateR1()};
+document.getElementById("r1Stop").onclick=()=>{c1Running=false;updateR1()};
+document.getElementById("r1Reset").onclick=()=>{c1Running=false;sw1=false;l1=true;l2=true;updateR1()};
+document.getElementById("swBtn").onclick=()=>{sw1=!sw1;updateR1()};
+document.getElementById("l1Btn").onclick=()=>{l1=!l1;updateR1()};
+document.getElementById("l2Btn").onclick=()=>{l2=!l2;updateR1()};
+document.getElementById("check1").onclick=()=>{
+ const v=document.getElementById("task1").value, m=document.getElementById("msg1");
+ if(!v){m.className="message err";m.textContent="Iltimos, javobni tanlang.";return}
+ m.className="message "+(v==="b"?"ok":"err");
+ m.textContent=v==="b"?"To‘g‘ri! Ikkinchi lampochka alohida parallel tarmoqda ulangan.":"Noto‘g‘ri. Parallel tarmoqlar bir-biridan mustaqil ishlashi mumkin.";
+};
+updateR1();
+
+/* 2-REJA */
+let c2Running=false;
+const u2=document.getElementById("u2"), r21=document.getElementById("r21"), r22=document.getElementById("r22");
+function calc2(){
+ const U=Number(u2.value), R1=Number(r21.value), R2=Number(r22.value);
+ if(!Number.isFinite(U)||U<=0||!Number.isFinite(R1)||R1<=0||!Number.isFinite(R2)||R2<=0){
+   document.getElementById("msg2").className="message err";document.getElementById("msg2").textContent="Qiymatlar musbat bo‘lishi kerak.";return;
+ }
+ const I1=U/R1,I2=U/R2,I=I1+I2;
+ document.getElementById("uVal").textContent=U;document.getElementById("r1Val").textContent=R1;document.getElementById("r2Val").textContent=R2;
+ document.getElementById("mI1").textContent=I1.toFixed(2)+" A";
+ document.getElementById("mI2").textContent=I2.toFixed(2)+" A";
+ document.getElementById("mI").textContent=I.toFixed(2)+" A";
+ document.getElementById("mU1").textContent=U.toFixed(2)+" V";
+ document.getElementById("mU2").textContent=U.toFixed(2)+" V";
+ document.getElementById("msg2").className="message ok";
+ document.getElementById("msg2").textContent=`Hisoblandi: I₁=${I1.toFixed(2)} A, I₂=${I2.toFixed(2)} A, I=${I.toFixed(2)} A.`;
+ document.getElementById("anim2").style.width=Math.min(100,I*15)+"%";
+ document.getElementById("animText2").textContent=c2Running?"Elektronlar tarmoqlarda tok kuchlariga mos tezlikda harakatlanmoqda.":"Natijalar tayyor. Animatsiyani boshlashingiz mumkin.";
+}
+[u2,r21,r22].forEach(x=>x.addEventListener("input",calc2));
+document.getElementById("calc2").onclick=calc2;
+document.getElementById("start2").onclick=()=>{c2Running=true;calc2();document.getElementById("animText2").textContent="Elektronlar harakati boshlandi.";document.querySelectorAll("#svg2 .electron").forEach((e,i)=>e.style.animation=`moveElectron ${0.7+i*0.08}s linear infinite`)};
+document.getElementById("stop2").onclick=()=>{c2Running=false;document.getElementById("anim2").style.width="0";document.getElementById("animText2").textContent="Elektronlar harakati to‘xtatildi.";document.querySelectorAll("#svg2 .electron").forEach(e=>e.style.animation="none")};
+document.getElementById("reset2").onclick=()=>{u2.value=12;r21.value=6;r22.value=12;c2Running=false;document.querySelectorAll("#svg2 .electron").forEach(e=>e.style.animation="none");calc2()};
+document.getElementById("check2").onclick=()=>{
+ const v=document.getElementById("task2").value,m=document.getElementById("msgTask2");
+ if(!v){m.className="message err";m.textContent="Iltimos, javobni tanlang.";return}
+ m.className="message "+(v==="b"?"ok":"err");m.textContent=v==="b"?"To‘g‘ri! I = I₁ + I₂.":"Noto‘g‘ri. Parallel tarmoqlardagi toklar qo‘shiladi: I = I₁ + I₂.";
+};
+const style=document.createElement("style");
+style.textContent="@keyframes moveElectron{0%{transform:translateX(0)}50%{transform:translateX(300px)}100%{transform:translateX(0)}}";
+document.head.appendChild(style);
+calc2();
+
+/* 3-REJA */
+let c3Running=false, k31=false,k32=false,k33=false;
+function updateR3(){
+ const circuit=document.getElementById("circuit3");
+ circuit.classList.toggle("running",c3Running);
+ [["l31",k31],["l32",k32],["l33",k33]].forEach(([id,on])=>document.getElementById(id).classList.toggle("on",on&&c3Running));
+ document.getElementById("k31").textContent="K1: "+(k31?"ON":"OFF");
+ document.getElementById("k32").textContent="K2: "+(k32?"ON":"OFF");
+ document.getElementById("k33").textContent="K3: "+(k33?"ON":"OFF");
+ const count=[k31,k32,k33].filter(Boolean).length;
+ document.getElementById("anim3").style.width=(c3Running?count/3*100:0)+"%";
+ document.getElementById("animText3").textContent=c3Running?`${count} ta parallel tarmoq faol. Har bir tarmoq mustaqil ishlaydi.`:"Animatsiya to‘xtatilgan.";
+}
+document.getElementById("k31").onclick=()=>{k31=!k31;updateR3()};
+document.getElementById("k32").onclick=()=>{k32=!k32;updateR3()};
+document.getElementById("k33").onclick=()=>{k33=!k33;updateR3()};
+document.getElementById("start3").onclick=()=>{c3Running=true;updateR3()};
+document.getElementById("stop3").onclick=()=>{c3Running=false;updateR3()};
+document.getElementById("reset3").onclick=()=>{c3Running=false;k31=k32=k33=false;updateR3()};
+document.getElementById("check3").onclick=()=>{
+ const v=document.querySelector('input[name="task3"]:checked'),m=document.getElementById("msgTask3");
+ if(!v){m.className="message err";m.textContent="Iltimos, variantlardan birini tanlang.";return}
+ m.className="message "+(v.value==="b"?"ok":"err");m.textContent=v.value==="b"?"To‘g‘ri! Har bir iste’molchi mustaqil ishlashi mumkin.":"Noto‘g‘ri. Parallel ulanishning asosiy afzalligi — iste’molchilarning mustaqil ishlashidir.";
+};
+updateR3();
+
+/* TAJRIBA */
+let experimentNo=0;
+function numInput(id,label){
+ const el=document.getElementById(id),v=Number(el.value);
+ if(el.value.trim()===""||!Number.isFinite(v)||v<=0){throw new Error(label+" qiymati 0 dan katta bo‘lishi kerak.");}
+ return v;
+}
+document.getElementById("measure").onclick=()=>{
+ const msg=document.getElementById("tableMsg");
+ try{
+   const U=numInput("tu","U"),R1=numInput("tr1","R₁"),R2=numInput("tr2","R₂");
+   const I1=U/R1,I2=U/R2,I=I1+I2;
+   experimentNo++;
+   const tr=document.createElement("tr");
+   [experimentNo,U,R1,R2,I1.toFixed(2),I2.toFixed(2),I.toFixed(2)].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.appendChild(td)});
+   document.getElementById("resultsBody").appendChild(tr);
+   msg.className="message ok";msg.textContent="Tajriba "+experimentNo+" jadvalga qo‘shildi.";
+ }catch(e){msg.className="message err";msg.textContent=e.message}
+};
+document.getElementById("clearTable").onclick=()=>{document.getElementById("resultsBody").innerHTML="";experimentNo=0;document.getElementById("tableMsg").textContent="Jadval tozalandi.";document.getElementById("tableMsg").className="message ok"};
+
+/* TEST */
+const questions=[
+["Parallel ulanish nima?",["Iste’molchilar bir xil nuqtaga ulanadi","Iste’molchilarning ikkala uchi bir xil ikki nuqtaga ulanadi","Faqat bitta iste’molchi ulanadi","Zanjir uziladi"],1],
+["Parallel zanjirning asosiy tuzilishi qaysi?",["Faqat batareya","Batareya, simlar, kalit va parallel tarmoqlardagi iste’molchilar","Faqat ampermetr","Faqat voltmetr"],1],
+["Parallel ulanishda kuchlanish qanday?",["U=U₁=U₂","U=U₁+U₂","U=0","U₁=U₂=0"],0],
+["Parallel ulanishda umumiy tok kuchi qanday aniqlanadi?",["I=U/R₁","I=R₁+R₂","I=I₁+I₂","I=U₁+U₂"],2],
+["Om qonuniga ko‘ra tok kuchi formulasi qaysi?",["I=UR","I=U/R","I=R/U","I=U+R"],1],
+["U=12 V, R₁=6 Ω bo‘lsa I₁ qancha?",["0,5 A","1 A","2 A","6 A"],2],
+["Parallel ulanishning muhim afzalligi qaysi?",["Barcha iste’molchilar faqat birga ishlaydi","Har bir iste’molchi mustaqil ishlashi mumkin","Kuchlanish nol bo‘ladi","Tok doimo nol bo‘ladi"],1],
+["Bitta parallel lampochka ishdan chiqsa, boshqalarga nima bo‘ladi?",["Hammasi o‘chadi","Boshqalari alohida tarmoqlarda ishlashda davom etadi","Batareya darhol ishdan chiqadi","Tok butunlay yo‘qoladi"],1],
+["Uy elektr tarmoqlarida iste’molchilar asosan qanday ulanadi?",["Parallel","Faqat ketma-ket","Faqat ochiq zanjir","Ulanmaydi"],0],
+["U=12 V, R₁=4 Ω, R₂=12 Ω. Umumiy tok qancha?",["1 A","2 A","3 A","4 A"],3]
+];
+const form=document.getElementById("testForm");
+function renderTest(){
+ form.innerHTML="";
+ questions.forEach((q,i)=>{
+  const div=document.createElement("div");div.className="testQ";
+  const title=document.createElement("b");title.textContent=(i+1)+". "+q[0];div.appendChild(title);
+  q[1].forEach((opt,j)=>{
+   const lab=document.createElement("label");lab.className="option";
+   const inp=document.createElement("input");inp.type="radio";inp.name="q"+i;inp.value=j;
+   lab.appendChild(inp);lab.appendChild(document.createTextNode(" "+String.fromCharCode(65+j)+") "+opt));div.appendChild(lab);
+  });
+  form.appendChild(div);
+ });
+ document.getElementById("testResult").style.display="none";
+ document.getElementById("finishTest").style.display="inline-block";
+ document.getElementById("restartTest").style.display="none";
+}
+document.getElementById("finishTest").onclick=()=>{
+ let correct=0,answered=0;
+ questions.forEach((q,i)=>{const v=document.querySelector('input[name="q'+i+'"]:checked');if(v){answered++;if(Number(v.value)===q[2])correct++}});
+ if(answered<questions.length){alert("Iltimos, barcha 10 ta savolga javob bering.");return}
+ const wrong=questions.length-correct,pct=correct/questions.length*100;
+ let grade=pct>=90?"A’lo":pct>=70?"Yaxshi":pct>=50?"Qoniqarli":"Mavzuni takrorlash kerak";
+ const box=document.getElementById("testResult");box.style.display="block";
+ box.innerHTML=`<h3>Test natijasi</h3><p><b>To‘g‘ri javoblar:</b> ${correct}</p><p><b>Noto‘g‘ri javoblar:</b> ${wrong}</p><p><b>Foiz:</b> ${pct.toFixed(0)}%</p><p><b>Baholash:</b> ${grade}</p>`;
+ document.getElementById("finishTest").style.display="none";document.getElementById("restartTest").style.display="inline-block";
+ box.scrollIntoView({behavior:"smooth",block:"center"});
+};
+document.getElementById("restartTest").onclick=renderTest;
+renderTest();
+</script>
+</body>
+</html>

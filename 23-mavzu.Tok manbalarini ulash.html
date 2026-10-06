@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tok manbalarini ulash</title>
+<style>
+:root{--bg:#fff;--fg:#1c2230;--mut:#5d6677;--card:#f2f5fa;--ac:#2563eb;--ac2:#e11d48;--ac3:#d97706;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}}
+:root[data-theme="dark"]{--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px}
+section{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+canvas{width:100%;height:250px;display:block;background:var(--bg);border-radius:10px}
+label{display:block;margin-top:6px;font-size:.92rem;color:var(--mut)}
+input[type=range]{width:100%}
+button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);margin:6px 6px 0 0}
+button.p{background:var(--ac);color:#fff;border:0}
+.out{font-weight:600;margin:8px 0;color:var(--ac)}
+.box{padding:10px;background:var(--bg);border-radius:10px;font-size:.95rem;margin-top:8px}
+ol{padding-left:20px;margin:6px 0}a{color:var(--ac)}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:.85rem/1.5 ui-monospace,monospace;max-height:320px;overflow:auto}
+</style></head><body><main>
+<h1>23-mavzu. Amaliy mashg'ulot. Tok manbalarini ulash</h1>
+
+<section><h2>Dars rejasi</h2><ol>
+<li><a href="#s1">Tok manbai: EYuK va ichki qarshilik</a></li>
+<li><a href="#s2">Tok manbalarini ketma-ket ulash</a></li>
+<li><a href="#s3">Tok manbalarini parallel ulash</a></li>
+<li><a href="#s4">Amaliy mashq: qaysi ulash qulay?</a></li></ol></section>
+
+<section id="s1"><h2>1. Tok manbai</h2>
+<div class="box">Batareya, akkumulyator kabi qurilmalar tok manbai hisoblanadi. Manbaning asosiy xarakteristikalari: <b>EYuK (ε)</b> va <b>ichki qarshilik (r)</b>.<br><b>I = ε / (R + r)</b>, &nbsp;<b>U = ε − I·r = I·R</b>. Tok o'tganda manba ichida kuchlanish yo'qoladi, shuning uchun U &lt; ε.</div>
+<canvas id="c1"></canvas><div class="ctl" data-s="1"></div><div class="out" id="o1"></div></section>
+
+<section id="s2"><h2>2. Ketma-ket ulash</h2>
+<div class="box">Oldingi manbaning manfiy qutbi keyingisining musbat qutbiga ulanadi. <b>ε = n·ε₁, &nbsp;r = n·r₁</b>. Kuchlanish yig'iladi, shuning uchun yuqori kuchlanish kerak bo'lganda (fonar, pult) ishlatiladi.</div>
+<canvas id="c2"></canvas><div class="ctl" data-s="2"></div><div class="out" id="o2"></div></section>
+
+<section id="s3"><h2>3. Parallel ulash</h2>
+<div class="box">Bir xil nomli qutblar o'zaro ulanadi. <b>ε = ε₁, &nbsp;r = r₁ / n</b>. Kuchlanish o'zgarmaydi, lekin har bir manbadan olinadigan tok n marta kam bo'ladi, shuning uchun manbalar uzoqroq ishlaydi.</div>
+<canvas id="c3"></canvas><div class="ctl" data-s="3"></div><div class="out" id="o3"></div></section>
+
+<section id="s4"><h2>4. Amaliy mashq: taqqoslash</h2>
+<div class="box"><b>Masala:</b> EYuK 1,5 V va ichki qarshiligi 0,5 Ω bo'lgan 3 ta element R = 10 Ω li lampaga ulanadi. Ketma-ket: ε = 4,5 V, r = 1,5 Ω, I = 4,5 / 11,5 ≈ 0,39 A. Parallel: ε = 1,5 V, r ≈ 0,17 Ω, I = 1,5 / 10,17 ≈ 0,15 A. Slayderlar bilan o'zingiz sinab ko'ring.</div>
+<canvas id="c4" style="height:150px"></canvas><div class="ctl" data-s="4"></div><div class="out" id="o4"></div></section>
+
+<section><h2>ChatGPT uchun prompt</h2>
+<pre id="pr">Sen tajribali fizika o'qituvchisi va front-end dasturchisan. "23-mavzu. Amaliy mashg'ulot. Tok manbalarini ulash" mavzusida bitta HTML fayl (HTML + CSS + JavaScript, tashqi kutubxonasiz) yarat. Barcha matnlar o'zbek tilida bo'lsin.
+
+Reja va har bir band uchun talablar (har biri uchun alohida canvas animatsiya va simulyatsiya):
+1. Tok manbai — EYuK (ε) va ichki qarshilik (r), I = ε/(R + r), U = ε − I·r. ε, r, R slayderlari, kalit, elektronlar harakati animatsiyasi.
+2. Ketma-ket ulash — n ta manba (n = 1..4) zanjirga ketma-ket ulanadi: ε = n·ε₁, r = n·r₁. Tok va kuchlanish jonli hisoblansin.
+3. Parallel ulash — n ta manba parallel shoxobchalarda: ε = ε₁, r = r₁/n. Har bir shoxobchadagi tok n marta kam ekani animatsiyada ko'rinsin.
+4. Amaliy mashq — bir xil R uchun ketma-ket va parallel ulashdagi tok kuchlarini ustunli diagrammada taqqosla, qaysi biri qulay ekanini xulosa qil (R katta bo'lsa ketma-ket, R kichik bo'lsa parallel ancha foydali).
+
+Har bir bandda qisqa ta'rif, formula va jonli hisoblangan natija bo'lsin. Oxirida 3 ta nazorat savoli va 2 ta masala (yechimi bilan) qo'sh.
+
+Texnik talablar: telefon va kompyuterda moslashuvchan dizayn, katta shrift, yorug' va qorong'i rejim, toza va izohli kod. Javobda faqat tayyor HTML kodni bitta kod blokida ber.</pre>
+<button id="cp" class="p">Promptni nusxalash</button></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(),f=(v,n=2)=>v.toFixed(n);
+const S={n:3,e:1.5,r:.5,R:10,sw:true};
+const defs={n:['Manbalar soni n',1,4,1,''],e:['Bitta manba EYuK ε₁',1,3,.5,'V'],r:['Ichki qarshilik r₁',.1,1,.1,'Ω'],R:['Yuklama R',1,20,1,'Ω']};
+const keys={1:['e','r','R'],2:['n','e','r','R'],3:['n','e','r','R'],4:['n','e','r','R']};
+document.querySelectorAll('.ctl').forEach(d=>{const s=d.dataset.s;
+  d.innerHTML=keys[s].map(k=>{const a=defs[k];return `<label>${a[0]}: <b data-l="${k}"></b> ${a[4]}</label><input type="range" data-k="${k}" min="${a[1]}" max="${a[2]}" step="${a[3]}" value="${S[k]}">`}).join('')+(s<4?`<button data-a="sw"></button>`:'')});
+// m: 1 - bitta, 2 - ketma-ket, 3 - parallel
+function calc(m){const n=m==1?1:S.n;let E,r;if(m==3){E=S.e;r=S.r/n}else{E=n*S.e;r=n*S.r}
+  const I=E/(S.R+r);return{n,E,r,I,U:I*S.R}}
+function sync(){
+  document.querySelectorAll('[data-k]').forEach(e=>e.value=S[e.dataset.k]);
+  document.querySelectorAll('[data-l]').forEach(e=>e.textContent=S[e.dataset.l]);
+  document.querySelectorAll('[data-a=sw]').forEach(b=>b.textContent=S.sw?'Kalitni ochish':'Kalitni yopish');
+  const k=S.sw?1:0;
+  [1,2,3].forEach(m=>{const c=calc(m);$('o'+m).textContent=`ε = ${f(c.E)} V, r = ${f(c.r)} Ω → I = ${f(c.I*k)} A, U = ${f(c.U*k)} V`+(m==1&&k?`  (yo'qotish I·r = ${f(c.I*c.r)} V)`:'')});
+  const a=calc(2),b=calc(3);
+  $('o4').innerHTML=`Ketma-ket: I = ${f(a.I)} A<br>Parallel: I = ${f(b.I)} A<br>`+(S.n==1?'n = 1 da ikkala ulash bir xil.':(a.I>b.I?`Bu holda ketma-ket ulash ${f(a.I/b.I,1)} marta kuchliroq tok beradi (R katta).`:`Bu holda parallel ulash ${f(b.I/a.I,1)} marta kuchliroq tok beradi (R kichik).`))+'<br>Parallel ulashda manbalar uzoqroq ishlaydi.'}
+document.addEventListener('input',e=>{const k=e.target.dataset.k;if(k){S[k]=+e.target.value;sync()}});
+document.addEventListener('click',e=>{if(e.target.dataset.a){S.sw=!S.sw;sync()}});
+
+const cs=[1,2,3,4].map(n=>{const c=$('c'+n);return{c,x:c.getContext('2d'),m:n,off:0}});
+function fit(){const d=devicePixelRatio||1;cs.forEach(o=>{const r=o.c.getBoundingClientRect();o.c.width=r.width*d;o.c.height=r.height*d;o.x.setTransform(d,0,0,d,0,0)})}
+fit();addEventListener('resize',fit);
+
+function cell(x,cx,cy,w){x.lineWidth=3;x.strokeStyle=cv('--fg');x.beginPath();x.moveTo(cx-w/2,cy-5);x.lineTo(cx+w/2,cy-5);x.stroke();x.beginPath();x.moveTo(cx-w/4,cy+5);x.lineTo(cx+w/4,cy+5);x.stroke();x.lineWidth=5;x.beginPath();x.moveTo(cx-w/2,cy+5);x.lineTo(cx+w/2,cy+5);x.stroke()}
+// bu yerda uzun va qalin chiziq = musbat qutb (pastda), qisqa = manfiy (tepada)
+let last=0;
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  cs.forEach(o=>{
+    const x=o.x,m=o.m,W=o.c.clientWidth,H=o.c.clientHeight;x.clearRect(0,0,W,H);
+    if(m==4){const a=calc(2).I,b=calc(3).I,mx=Math.max(a,b,.01)*1.1,bw=W-150;
+      x.font='bold 14px system-ui';x.textAlign='left';
+      [[a,'Ketma-ket','--ac',30],[b,'Parallel','--ac3',90]].forEach(([v,n,c,y])=>{x.fillStyle=cv('--fg');x.fillText(n,10,y+17);x.fillStyle=cv(c);x.fillRect(100,y,v/mx*bw,26);x.fillStyle=cv('--fg');x.fillText(f(v)+' A',104+v/mx*bw,y+18)});return}
+    const c=calc(m),I=S.sw?c.I:0,n=c.n,mg=40,x0=mg,x1=W-78,y0=40,y1=y0+120,w=x1-x0,h=y1-y0,P=2*(w+h);
+    o.off=(o.off+I*60*dt)%P;
+    x.lineWidth=3;x.strokeStyle=cv('--fg');x.strokeRect(x0,y0,w,h);
+    if(m==3)for(let k=1;k<n;k++){x.beginPath();x.moveTo(x0+k*42,y0);x.lineTo(x0+k*42,y1);x.stroke()}
+    const pt=s=>{s=((s%P)+P)%P;return s<w?[x0+s,y0]:s<w+h?[x1,y0+s-w]:s<2*w+h?[x1-(s-w-h),y1]:[x0,y1-(s-2*w-h)]};
+    if(I>0){x.fillStyle=cv('--ac');for(let k=0;k<28;k++){const p=pt(o.off+k*P/28);x.beginPath();x.arc(p[0],p[1],4,0,7);x.fill()}
+      if(m==3)for(let k=1;k<n;k++)for(let j=0;j<3;j++){const yy=y1-((o.off/n+j*h/3)%h);x.beginPath();x.arc(x0+k*42,yy,4,0,7);x.fill()}}
+    // batareyalar
+    const cnt=m==2?n:1,sp=24,cy0=y0+h/2;
+    x.fillStyle=cv('--bg');x.fillRect(x0-16,cy0-cnt*sp/2-2,32,cnt*sp+4);
+    for(let j=0;j<cnt;j++)cell(x,x0,cy0+(j-(cnt-1)/2)*sp,24);
+    if(m==3)for(let k=1;k<n;k++){x.fillStyle=cv('--bg');x.fillRect(x0+k*42-16,cy0-14,32,28);cell(x,x0+k*42,cy0,24)}
+    x.fillStyle=cv('--fg');x.font='bold 13px system-ui';x.textAlign='center';
+    x.fillText('−',x0-24,cy0-cnt*sp/2+8);x.fillText('+',x0-24,cy0+cnt*sp/2);
+    // rezistor
+    x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');x.fillRect(x1-14,cy0-30,28,60);x.strokeRect(x1-14,cy0-30,28,60);
+    x.textAlign='left';x.fillText('R = '+S.R+' Ω',x1+20,cy0+4);
+    // kalit
+    const kx=x0+w*.55;x.fillRect(kx-8,y1-8,76,16);x.beginPath();x.arc(kx,y1,3,0,7);x.arc(kx+52,y1,3,0,7);x.fill();
+    x.beginPath();x.moveTo(kx,y1);S.sw?x.lineTo(kx+52,y1):x.lineTo(kx+44,y1-22);x.stroke();
+    x.textAlign='center';x.fillStyle=cv('--fg');x.fillText(`ε = ${f(c.E)} V, r = ${f(c.r)} Ω`,W/2,H-34);
+    x.fillStyle=cv('--ac2');x.font='bold 15px system-ui';x.fillText(`I = ${f(I)} A, U = ${f(I*S.R)} V`,W/2,H-12);
+  });requestAnimationFrame(loop)}
+sync();requestAnimationFrame(loop);
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('pr').textContent);$('cp').textContent='Nusxalandi ✓'}catch(e){const r=document.createRange();r.selectNode($('pr'));getSelection().removeAllRanges();getSelection().addRange(r);$('cp').textContent='Matn tanlandi — nusxalang'}};
+</script></body></html>

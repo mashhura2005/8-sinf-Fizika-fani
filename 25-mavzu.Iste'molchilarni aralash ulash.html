@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iste'molchilarni aralash ulash</title>
+<style>
+:root{--bg:#fff;--fg:#1c2230;--mut:#5d6677;--card:#f2f5fa;--ac:#2563eb;--ac2:#e11d48;--ac3:#d97706;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}}
+:root[data-theme="dark"]{--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ac3:#fbbf24}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px}
+section{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+canvas{width:100%;display:block;background:var(--bg);border-radius:10px}
+label{display:block;margin-top:6px;font-size:.92rem;color:var(--mut)}
+input[type=range]{width:100%}
+button{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);margin:6px 6px 0 0}
+button.p{background:var(--ac);color:#fff;border:0}
+.out{font-weight:600;margin:8px 0;color:var(--ac)}
+.box{padding:10px;background:var(--bg);border-radius:10px;font-size:.95rem;margin-top:8px}
+ol{padding-left:20px;margin:6px 0}a{color:var(--ac)}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:.85rem/1.5 ui-monospace,monospace;max-height:320px;overflow:auto}
+</style></head><body><main>
+<h1>25-mavzu. Iste'molchilarni aralash ulash</h1>
+
+<section><h2>Dars rejasi</h2><ol>
+<li><a href="#s1">Aralash ulash tushunchasi va sxemasi</a></li>
+<li><a href="#s2">Umumiy qarshilikni hisoblash</a></li>
+<li><a href="#s3">Tok va kuchlanishning taqsimlanishi</a></li>
+<li><a href="#s4">Masala yechish</a></li></ol></section>
+
+<section id="s1"><h2>1. Aralash ulash</h2>
+<div class="box">Zanjirda iste'molchilar ham ketma-ket, ham parallel ulangan bo'lsa, bunday ulash <b>aralash ulash</b> deyiladi. Sxemada R₁ ketma-ket, R₂ va R₃ esa o'zaro parallel ulangan. Bunday sxema hisoblanganda avval parallel qism, keyin ketma-ket qism qaraladi.</div>
+<canvas id="c1" style="height:235px"></canvas><div class="ctl" data-s="1"></div><div class="out" id="o1"></div></section>
+
+<section id="s2"><h2>2. Umumiy qarshilik</h2>
+<div class="box">1) Parallel qism: <b>R₂₃ = R₂·R₃ / (R₂ + R₃)</b><br>2) Butun zanjir: <b>R = R₁ + R₂₃</b></div>
+<canvas id="c2" style="height:275px"></canvas><div class="ctl" data-s="2"></div><div class="out" id="o2"></div></section>
+
+<section id="s3"><h2>3. Tok va kuchlanish</h2>
+<div class="box"><b>I = I₂ + I₃</b> (tok shoxlanadi), &nbsp;<b>U = U₁ + U₂₃</b>, &nbsp;<b>U₂ = U₃ = U₂₃</b> (parallel qismda kuchlanish bir xil). Qarshiligi kichik shoxobchadan katta tok o'tadi.</div>
+<canvas id="c3" style="height:275px"></canvas><div class="ctl" data-s="3"></div><div class="out" id="o3"></div></section>
+
+<section id="s4"><h2>4. Masala yechish</h2>
+<div class="box">Tartib: 1) R₂₃ ni toping; 2) R ni toping; 3) I = U/R; 4) U₁ = I·R₁ va U₂₃ = I·R₂₃; 5) I₂ va I₃ ni toping hamda tekshiring: I₂ + I₃ = I.</div>
+<canvas id="c4" style="height:235px"></canvas><div class="ctl" data-s="4"></div><div class="out" id="o4" style="color:var(--fg)"></div></section>
+
+<section><h2>ChatGPT uchun prompt</h2>
+<pre id="pr">Sen tajribali fizika o'qituvchisi va front-end dasturchisan. "25-mavzu. Iste'molchilarni aralash ulash" mavzusida bitta HTML fayl (HTML + CSS + JavaScript, tashqi kutubxonasiz) yarat. Barcha matnlar o'zbek tilida bo'lsin.
+
+Sxema: manba, kalit, R1 ketma-ket, R2 va R3 o'zaro parallel. Reja va har bir band uchun talablar (har biri uchun alohida canvas animatsiya va simulyatsiya):
+1. Aralash ulash tushunchasi — sxema, ketma-ket va parallel qismlar rangli belgilansin; tugmalar bilan R1, R2 yoki R3 "uzilsin" (R1 uzilsa hamma o'chadi, R2 uzilsa R3 ishlayveradi).
+2. Umumiy qarshilik — R23 = R2·R3/(R2+R3), R = R1 + R23; hisoblash bosqichlari va R1 hamda R23 ni ko'rsatuvchi diagramma.
+3. Tok va kuchlanish — I = I2 + I3, U = U1 + U23; elektronlar tezligi tokka mutanosib bo'lsin, shoxobchalarda tok kamayishi ko'rinsin.
+4. Masala yechish — U, R1, R2, R3 slayderlari va "Yangi masala" tugmasi (butun sonli natijalar beradigan tasodifiy qiymatlar); yechim 5 bosqichda ko'rsatilsin va tekshirilsin.
+
+Har bir bandda qisqa ta'rif, formula va jonli hisoblangan natija bo'lsin. Oxirida 3 ta nazorat savoli va 2 ta masala (yechimi bilan) qo'sh.
+
+Texnik talablar: telefon va kompyuterda moslashuvchan dizayn, katta shrift, yorug' va qorong'i rejim, toza va izohli kod. Javobda faqat tayyor HTML kodni bitta kod blokida ber.</pre>
+<button id="cp" class="p">Promptni nusxalash</button></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim(),f=(v,n=2)=>v.toFixed(n);
+const S={U:12,R1:4,R2:6,R3:12,sw:true,o1:false,o2:false,o3:false};
+const defs={U:['Kuchlanish U',3,36,3,'V'],R1:['R₁',2,20,1,'Ω'],R2:['R₂',2,30,1,'Ω'],R3:['R₃',2,30,1,'Ω']};
+document.querySelectorAll('.ctl').forEach(d=>{const s=+d.dataset.s;
+  d.innerHTML=Object.keys(defs).map(k=>{const a=defs[k];return `<label>${a[0]}: <b data-l="${k}"></b> ${a[4]}</label><input type="range" data-k="${k}" min="${a[1]}" max="${a[2]}" step="${a[3]}" value="${S[k]}">`}).join('')+
+  (s<4?`<button data-a="sw"></button>`:`<button data-a="new" class="p">Yangi masala</button>`)+(s==1?['o1','o2','o3'].map(k=>`<button data-a="${k}"></button>`).join(''):'')});
+
+function calc(m){
+  const fl=m==1,o1=fl&&S.o1,o2=fl&&S.o2,o3=fl&&S.o3,on=m==4||S.sw;
+  const g=(o2?0:1/S.R2)+(o3?0:1/S.R3),R23=g?1/g:0,R=S.R1+R23,I=(on&&!o1&&g)?S.U/R:0,U23=I*R23;
+  return{R23,R,I,U1:I*S.R1,U23,I2:o2?0:U23/S.R2,I3:o3?0:U23/S.R3,o1,o2,o3}}
+
+function sync(){
+  document.querySelectorAll('[data-k]').forEach(e=>e.value=S[e.dataset.k]);
+  document.querySelectorAll('[data-l]').forEach(e=>e.textContent=S[e.dataset.l]);
+  document.querySelectorAll('[data-a=sw]').forEach(b=>b.textContent=S.sw?'Kalitni ochish':'Kalitni yopish');
+  [['o1','R₁'],['o2','R₂'],['o3','R₃']].forEach(([k,n])=>document.querySelectorAll(`[data-a=${k}]`).forEach(b=>b.textContent=S[k]?n+' ni tiklash':n+' uzilsin'));
+  const a=calc(1);
+  $('o1').textContent=!S.sw?'Kalit ochiq: tok yo\'q.':S.o1?'R₁ uzilgan: zanjir uzildi, hamma iste\'molchilar o\'chdi!':(S.o2&&S.o3)?'Parallel qismning ikkala shoxobchasi uzilgan: tok yo\'q.':S.o2?`R₂ uzilgan, lekin R₃ ishlashda davom etadi: I₃ = ${f(a.I3)} A`:S.o3?`R₃ uzilgan, lekin R₂ ishlashda davom etadi: I₂ = ${f(a.I2)} A`:`Hammasi ishlayapti: I = ${f(a.I)} A`;
+  const b=calc(2);
+  $('o2').innerHTML=`R₂₃ = (${S.R2}·${S.R3}) / (${S.R2}+${S.R3}) = ${f(b.R23)} Ω<br>R = R₁ + R₂₃ = ${S.R1} + ${f(b.R23)} = ${f(b.R)} Ω`;
+  const c=calc(3);
+  $('o3').innerHTML=`I = I₂ + I₃ = ${f(c.I2)} + ${f(c.I3)} = ${f(c.I)} A<br>U = U₁ + U₂₃ = ${f(c.U1)} + ${f(c.U23)} = ${f(c.U1+c.U23)} V`+(S.sw?'':'<br>(kalit ochiq)');
+  const d=calc(4);
+  $('o4').innerHTML=`1) R₂₃ = ${S.R2}·${S.R3}/(${S.R2}+${S.R3}) = ${f(d.R23)} Ω<br>2) R = ${S.R1} + ${f(d.R23)} = ${f(d.R)} Ω<br>3) I = ${S.U}/${f(d.R)} = ${f(d.I)} A<br>4) U₁ = ${f(d.I)}·${S.R1} = ${f(d.U1)} V; U₂₃ = ${f(d.I)}·${f(d.R23)} = ${f(d.U23)} V<br>5) I₂ = ${f(d.U23)}/${S.R2} = ${f(d.I2)} A; I₃ = ${f(d.U23)}/${S.R3} = ${f(d.I3)} A<br>Tekshirish: I₂ + I₃ = ${f(d.I2+d.I3)} A = I ✓`}
+document.addEventListener('input',e=>{const k=e.target.dataset.k;if(k){S[k]=+e.target.value;sync()}});
+document.addEventListener('click',e=>{const a=e.target.dataset.a;if(!a)return;
+  if(a=='new'){const p=a=>a[Math.floor(Math.random()*a.length)];S.U=p([12,24,36]);S.R1=p([2,4,6]);S.R2=p([3,6,12]);S.R3=p([3,6,12])}else S[a]=!S[a];sync()});
+
+const cs=[1,2,3,4].map(n=>{const c=$('c'+n);return{c,x:c.getContext('2d'),m:n,ph:[0,0,0]}});
+function fit(){const d=devicePixelRatio||1;cs.forEach(o=>{const r=o.c.getBoundingClientRect();o.c.width=r.width*d;o.c.height=r.height*d;o.x.setTransform(d,0,0,d,0,0)})}
+fit();addEventListener('resize',fit);
+
+function dots(x,pts,ph){const seg=[];let L=0;for(let i=0;i<pts.length-1;i++){const d=Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]);seg.push(d);L+=d}
+  const sp=26;for(let s=((ph%sp)+sp)%sp;s<L;s+=sp){let r=s,i=0;while(i<seg.length-1&&r>seg[i]){r-=seg[i];i++}const t=r/seg[i];
+    x.beginPath();x.arc(pts[i][0]+(pts[i+1][0]-pts[i][0])*t,pts[i][1]+(pts[i+1][1]-pts[i][1])*t,4,0,7);x.fill()}}
+let last=0;
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  cs.forEach(o=>{
+    const x=o.x,m=o.m,W=o.c.clientWidth,H=o.c.clientHeight,c=calc(m);x.clearRect(0,0,W,H);
+    const x0=36,x1=W-36,y0=56,y1=y0+120,ym=y0+60,w=x1-x0,xr1=x0+w*.2,xa=x0+w*.42,xr=(xa+x1)/2,yb=y0+60;
+    x.lineWidth=3;x.strokeStyle=cv('--fg');x.beginPath();x.moveTo(x0,y1);x.lineTo(x0,y0);x.lineTo(x1,y0);x.lineTo(x1,y1);x.lineTo(x0,y1);x.stroke();
+    x.beginPath();x.moveTo(xa,y0);x.lineTo(xa,ym);x.lineTo(x1,ym);x.stroke();
+    x.fillStyle=cv('--fg');[[xa,y0],[x1,ym]].forEach(p=>{x.beginPath();x.arc(p[0],p[1],4,0,7);x.fill()});
+    const sp=v=>Math.min(v,5)*30;o.ph[0]+=sp(c.I)*dt;o.ph[1]+=sp(c.I2)*dt;o.ph[2]+=sp(c.I3)*dt;
+    x.fillStyle=cv('--ac');
+    if(c.I>0){dots(x,[[x0,y1],[x0,y0],[xa,y0]],o.ph[0]);dots(x,[[x1,ym],[x1,y1],[x0,y1]],o.ph[0])}
+    if(c.I2>0)dots(x,[[xa,y0],[x1,y0],[x1,ym]],o.ph[1]);
+    if(c.I3>0)dots(x,[[xa,y0],[xa,ym],[x1,ym]],o.ph[2]);
+    // manba
+    x.fillStyle=cv('--bg');x.fillRect(x0-16,yb-16,32,32);x.strokeStyle=cv('--fg');x.lineWidth=3;
+    x.beginPath();x.moveTo(x0-13,yb-5);x.lineTo(x0+13,yb-5);x.stroke();x.lineWidth=5;x.beginPath();x.moveTo(x0-7,yb+5);x.lineTo(x0+7,yb+5);x.stroke();
+    // kalit
+    const kx=x0+w*.5;x.lineWidth=3;x.fillStyle=cv('--bg');x.fillRect(kx-8,y1-8,76,16);x.fillStyle=cv('--fg');
+    x.beginPath();x.arc(kx,y1,3,0,7);x.arc(kx+52,y1,3,0,7);x.fill();x.beginPath();x.moveTo(kx,y1);(m==4||S.sw)?x.lineTo(kx+52,y1):x.lineTo(kx+44,y1-22);x.stroke();
+    // iste'molchilar
+    const box=(cx,cy,lab,op)=>{x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');x.lineWidth=3;x.fillRect(cx-28,cy-12,56,24);x.strokeRect(cx-28,cy-12,56,24);
+      if(op){x.strokeStyle=cv('--ac2');x.beginPath();x.moveTo(cx-14,cy-8);x.lineTo(cx+14,cy+8);x.moveTo(cx+14,cy-8);x.lineTo(cx-14,cy+8);x.stroke()}
+      x.fillStyle=cv('--fg');x.font='bold 13px system-ui';x.textAlign='center';x.fillText(lab,cx,cy-18)};
+    box(xr1,y0,'R₁='+S.R1+' Ω',c.o1);box(xr,y0,'R₂='+S.R2+' Ω',c.o2);box(xr,ym,'R₃='+S.R3+' Ω',c.o3);
+    x.fillStyle=cv('--fg');x.font='bold 13px system-ui';x.textAlign='left';x.fillText(S.U+' V',x0+24,yb+4);
+    x.textAlign='center';x.font='bold 12px system-ui';
+    if(m==1){x.fillStyle=cv('--ac');x.fillText('ketma-ket qism',xr1,y0+34);x.fillStyle=cv('--ac3');x.fillText('parallel qism',xr,y0+92)}
+    if(m==3){x.fillStyle=cv('--ac2');x.fillText('U₁='+f(c.U1,1)+' V',xr1,y0+34);x.fillText('I₂='+f(c.I2)+' A',xr,y0+27);x.fillText('I₃='+f(c.I3)+' A',xr,ym+32)}
+    if(m==4){x.fillStyle=cv('--ac2');x.fillText('I='+f(c.I)+' A',xr1,y0+34)}
+    const bar=(a,b,la,lb)=>{const T=a+b;if(!(T>0))return;const wa=a/T*w,y=y1+50;x.fillStyle=cv('--ac');x.fillRect(x0,y,wa,24);x.fillStyle=cv('--ac3');x.fillRect(x0+wa,y,w-wa,24);
+      x.fillStyle='#fff';x.font='bold 12px system-ui';x.textAlign='center';x.fillText(la,x0+wa/2,y+16);x.fillText(lb,x0+wa+(w-wa)/2,y+16)};
+    if(m==2)bar(S.R1,c.R23,'R₁='+S.R1,'R₂₃='+f(c.R23,1));
+    if(m==3)bar(c.U1,c.U23,'U₁='+f(c.U1,1),'U₂₃='+f(c.U23,1));
+  });requestAnimationFrame(loop)}
+sync();requestAnimationFrame(loop);
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('pr').textContent);$('cp').textContent='Nusxalandi ✓'}catch(e){const r=document.createRange();r.selectNode($('pr'));getSelection().removeAllRanges();getSelection().addRange(r);$('cp').textContent='Matn tanlandi — nusxalang'}};
+</script></body></html>
