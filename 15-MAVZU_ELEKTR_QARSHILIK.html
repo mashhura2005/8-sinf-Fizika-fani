@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15-MAVZU: ELEKTR QARSHILIK</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.55}
+.container{width:min(1100px,94%);margin:auto}
+header{background:#fff;border-bottom:1px solid #dce4ef;padding:24px 0}
+h1{margin:0;color:#173b72;font-size:clamp(24px,4vw,38px)}
+h2{color:#173b72;font-size:clamp(20px,3vw,28px);margin-top:0}
+h3{color:#24558f}
+.subtitle{color:#5d6b7e;margin:7px 0 0}
+nav{position:sticky;top:0;z-index:10;background:#173b72;padding:9px 0;box-shadow:0 2px 8px #0001}
+.navin{display:flex;gap:7px;overflow-x:auto}
+nav a{color:white;text-decoration:none;white-space:nowrap;padding:8px 11px;border-radius:7px;font-size:14px}
+nav a:hover{background:#ffffff22}
+section{background:#fff;margin:22px 0;padding:22px;border:1px solid #dce4ef;border-radius:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:#f8fafc;border:1px solid #dce4ef;border-radius:12px;padding:16px}
+.formula{background:#edf5ff;border-left:4px solid #2878d0;padding:13px;margin:12px 0;font-size:19px;font-weight:bold;text-align:center}
+.note{background:#fff8df;border-left:4px solid #e5ae18;padding:12px;border-radius:6px}
+.good{background:#eaf8ef;border-left:4px solid #2c9a55;padding:12px;border-radius:6px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label{font-weight:bold}
+input[type=range]{width:min(280px,100%)}
+input[type=number],select{padding:9px;border:1px solid #bfcbd9;border-radius:7px;width:110px}
+button{border:0;border-radius:8px;padding:10px 15px;background:#1d63a9;color:#fff;font-weight:bold;cursor:pointer}
+button:hover{filter:brightness(.93)}
+button.secondary{background:#66768a}
+button.green{background:#2e8b57}
+button.orange{background:#c77a16}
+button:disabled{opacity:.55;cursor:not-allowed}
+.value{font-size:20px;font-weight:bold;color:#173b72}
+.circuit{position:relative;height:300px;background:#f7fafc;border:1px solid #d6e0eb;border-radius:12px;overflow:hidden;margin-top:15px}
+.wire{position:absolute;background:#263746}
+.w1{left:12%;right:12%;top:16%;height:5px}.w2{left:12%;right:12%;bottom:16%;height:5px}
+.w3{left:12%;top:16%;bottom:16%;width:5px}.w4{right:12%;top:16%;bottom:16%;width:5px}
+.battery{position:absolute;left:8%;top:42%;width:50px;height:55px;background:#fff;border:3px solid #263746;border-radius:5px}
+.battery:before,.battery:after{content:"";position:absolute;left:8px;right:8px;height:4px;background:#263746}
+.battery:before{top:15px}.battery:after{bottom:15px}
+.resistor{position:absolute;left:42%;top:9%;width:125px;height:42px;border:3px solid #263746;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.meter{position:absolute;width:105px;height:72px;background:#fff;border:2px solid #40576d;border-radius:10px;text-align:center;padding:8px;font-weight:bold}
+.amm{right:23%;bottom:8%}.vol{left:42%;bottom:8%}
+.lamp{position:absolute;right:8%;top:38%;width:58px;height:58px;border:4px solid #475b6d;border-radius:50%;background:#dce4eb;box-shadow:0 0 0 rgba(255,205,60,0)}
+.lamp:after{content:"";position:absolute;left:15px;top:15px;width:20px;height:20px;border:3px solid #475b6d;border-radius:50%}
+.electron{position:absolute;width:9px;height:9px;border-radius:50%;background:#2476c7;box-shadow:0 0 5px #2476c7}
+.e1{top:16%;left:15%}.e2{top:16%;left:31%}.e3{top:16%;left:56%}.e4{top:16%;left:73%}
+.e5{top:16%;left:88%}.e6{bottom:16%;left:18%}.e7{bottom:16%;left:39%}.e8{bottom:16%;left:65%}.e9{bottom:16%;left:84%}
+.animating .electron{animation:flow 2s linear infinite}
+@keyframes flow{0%{transform:translateX(-12px)}50%{transform:translateX(12px)}100%{transform:translateX(-12px)}}
+.measure{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.meterbox{background:#101820;color:#a8ffb8;border-radius:8px;padding:12px;min-width:145px;text-align:center;font-family:monospace;font-size:18px}
+.meterbox span{font-size:25px}
+.progress{height:10px;background:#e2e8f0;border-radius:10px;overflow:hidden;margin:8px 0}
+.progress div{height:100%;width:0;background:#2d8ac7;transition:width .25s}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th,td{border:1px solid #d6dee8;padding:9px;text-align:left}
+th{background:#edf3f9}
+.task{border:1px dashed #b7c7d8;padding:15px;border-radius:10px;margin-top:12px}
+.feedback{margin-top:10px;font-weight:bold}
+.choice{display:block;padding:9px;margin:6px 0;border:1px solid #d6dee8;border-radius:8px;cursor:pointer}
+.choice:hover{background:#f0f6fc}
+.result{font-size:20px;font-weight:bold;color:#173b72;margin-top:15px}
+.hidden{display:none}
+footer{padding:25px 0 40px;text-align:center;color:#66768a}
+@media(max-width:700px){
+ section{padding:16px;margin:14px 0}
+ .grid{grid-template-columns:1fr}
+ .circuit{height:270px;transform:none}
+ .resistor{left:37%;width:105px;font-size:13px}
+ .meter{width:85px;font-size:12px}.amm{right:19%}.vol{left:37%}
+ .battery{left:5%}.lamp{right:4%;width:48px;height:48px}
+ .controls{align-items:flex-start;flex-direction:column}
+ button{width:100%}
+ input[type=range]{width:100%}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<h1>15-MAVZU: ELEKTR QARSHILIK</h1>
+<p class="subtitle">8-sinf Fizika • Interaktiv va animatsiyali ta’limiy simulyatsiya</p>
+</div>
+</header>
+<nav><div class="container navin">
+<a href="#r1">1-reja</a><a href="#r2">2-reja</a><a href="#r3">3-reja</a><a href="#test">Yakuniy test</a>
+</div></nav>
+
+<main class="container">
+<section id="r1">
+<h2>1. Elektr qarshilik haqida tushuncha va uning fizik ma’nosi</h2>
+<div class="grid">
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p><b>Elektr qarshilik</b> — o‘tkazgichning elektr tokiga qarshilik ko‘rsatish xususiyatini ifodalovchi fizik kattalik.</p>
+<p>Elektronlarning tartibli harakatiga modda atomlari va ionlari to‘sqinlik qiladi. Shu sababli o‘tkazgichda elektr qarshilik mavjud bo‘ladi.</p>
+<p>Qarshilik <b>R</b> harfi bilan belgilanadi.</p>
+<ul><li>R katta → bir xil U da I kichik.</li><li>R kichik → bir xil U da I katta.</li></ul>
+<div class="formula">I = U / R &nbsp;&nbsp;&nbsp; R = U / I</div>
+<p><b>Misol:</b> U = 12 V, R = 4 Ω bo‘lsa, I = 12/4 = <b>3 A</b>.</p>
+</div>
+<div class="card">
+<h3>Interaktiv simulyatsiya</h3>
+<p>U va R qiymatlarini o‘zgartiring. Natija avtomatik hisoblanadi.</p>
+<div class="controls">
+<label>U: <input id="u1" type="range" min="0" max="24" value="12" step="1"> <span id="u1v" class="value">12 V</span></label>
+<label>R: <input id="r1v" type="range" min="1" max="20" value="4" step="1"> <span id="r1vv" class="value">4 Ω</span></label>
+</div>
+<div class="measure">
+<div class="meterbox">Voltmetr<br><span id="volt1">12.0</span> V</div>
+<div class="meterbox">Ampermetr<br><span id="amp1">3.00</span> A</div>
+</div>
+<div class="progress"><div id="bar1"></div></div>
+<p id="lampText">Lampochka yorqinligi: o‘rtacha</p>
+<div id="circuit1" class="circuit">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery"></div><div class="resistor">R</div>
+<div class="meter amm">A<br><span id="amCircuit">3.00 A</span></div>
+<div class="meter vol">V<br><span id="voCircuit">12 V</span></div>
+<div class="lamp" id="lamp1"></div>
+<div class="electron e1"></div><div class="electron e2"></div><div class="electron e3"></div>
+<div class="electron e4"></div><div class="electron e5"></div><div class="electron e6"></div>
+<div class="electron e7"></div><div class="electron e8"></div><div class="electron e9"></div>
+</div>
+<div class="controls" style="margin-top:12px">
+<button id="start1">Boshlash</button><button id="stop1" class="secondary">To‘xtatish</button><button id="reset1" class="orange">Qayta boshlash</button>
+</div>
+</div>
+</div>
+<div class="task">
+<b>Amaliy topshiriq:</b> U = 12 V bo‘lganda R qiymatini o‘zgartiring. R ortganda tok kuchi qanday o‘zgarishini kuzating.
+<br><input id="taskR1" type="number" min="1" max="20" value="4"> Ω
+<button onclick="checkTask1()">Tekshirish</button>
+<div id="taskFb1" class="feedback"></div>
+</div>
+</section>
+
+<section id="r2">
+<h2>2. Elektr qarshilikning formulasi, o‘lchov birligi va unga ta’sir qiluvchi omillar</h2>
+<div class="grid">
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p>Qarshilikning o‘lchov birligi <b>Om (Ω)</b>. Om qonunidan qarshilikni aniqlash mumkin:</p>
+<div class="formula">R = U / I</div>
+<p>O‘tkazgich qarshiligi uning:</p>
+<ul><li>uzunligi <b>l</b>;</li><li>ko‘ndalang kesim yuzi <b>S</b>;</li><li>moddasining solishtirma qarshiligi <b>ρ</b>;</li><li>temperaturasiga</li></ul>
+<p>bog‘liq.</p>
+<div class="formula">R = ρ · l / S</div>
+<p>Bir jinsli o‘tkazgich uchun uzunlik oshsa R oshadi, kesim yuzi oshsa R kamayadi.</p>
+</div>
+<div class="card">
+<h3>Interaktiv tajriba: R nimaga bog‘liq?</h3>
+<p>Slayderlarni o‘zgartirib, hisoblangan qarshilikni kuzating.</p>
+<div class="controls">
+<label>ρ: <input id="rho" type="range" min="0.5" max="5" value="1" step="0.5"> <span id="rhov" class="value">1.0</span></label>
+<label>l: <input id="len" type="range" min="1" max="10" value="4" step="1"> <span id="lenv" class="value">4 m</span></label>
+<label>S: <input id="area" type="range" min="1" max="10" value="2" step="1"> <span id="areav" class="value">2 mm²</span></label>
+</div>
+<div class="formula">R = ρ·l/S = <span id="calcR">2.00</span> Ω</div>
+<div style="height:80px;display:flex;align-items:center">
+<div id="wireDemo" style="height:22px;width:60%;background:#8a9aaa;border-radius:12px;transition:.3s"></div>
+</div>
+<p id="wireExplain" class="note">O‘tkazgich holati: o‘rtacha qarshilik.</p>
+<div class="task">
+<b>Hisoblash:</b> ρ = 2, l = 6 m, S = 3 mm² bo‘lsa R ni toping.
+<br><input id="calcAnswer" type="number" step="0.01" placeholder="Ω">
+<button onclick="checkCalc2()">Tekshirish</button>
+<div id="calcFb2" class="feedback"></div>
+</div>
+</div>
+</div>
+<div class="good"><b>Eslab qoling:</b> uzun va ingichka o‘tkazgich odatda katta qarshilikka, qisqa va yo‘g‘on o‘tkazgich esa kichikroq qarshilikka ega bo‘ladi.</div>
+</section>
+
+<section id="r3">
+<h2>3. O‘tkazgich qarshiligini o‘lchash va qarshilikning elektr zanjiridagi ahamiyati</h2>
+<div class="grid">
+<div class="card">
+<h3>Nazariy ma’lumot</h3>
+<p>Qarshilikni amaliy aniqlash uchun kuchlanish va tok kuchini o‘lchab, <b>R = U/I</b> formulasidan foydalanish mumkin.</p>
+<p>Voltmetr kuchlanishni o‘lchaydi va zanjirning tegishli qismiga <b>parallel</b> ulanadi. Ampermetr tok kuchini o‘lchaydi va zanjirga <b>ketma-ket</b> ulanadi.</p>
+<p>Qarshilik elektr zanjiridagi tokni cheklaydi. Masalan, lampochka yoki boshqa iste’molchidan o‘tadigan tokni boshqarishda qarshilik muhim.</p>
+<div class="note">O‘lchashda birliklarni to‘g‘ri yozing: U — volt (V), I — amper (A), R — om (Ω).</div>
+</div>
+<div class="card">
+<h3>O‘lchash simulyatsiyasi</h3>
+<p>U va I qiymatlarini kiriting. Qurilma R = U/I ni hisoblaydi.</p>
+<div class="controls">
+<label>U (V): <input id="u3" type="number" min="0" step="0.1" value="12"></label>
+<label>I (A): <input id="i3" type="number" min="0.01" step="0.01" value="3"></label>
+<button class="green" onclick="measureR3()">Hisoblash</button>
+<button class="orange" onclick="resetR3()">Qayta boshlash</button>
+</div>
+<div class="measure">
+<div class="meterbox">U<br><span id="u3show">12.0</span> V</div>
+<div class="meterbox">I<br><span id="i3show">3.00</span> A</div>
+<div class="meterbox">R<br><span id="r3show">4.00</span> Ω</div>
+</div>
+<div id="measureFb3" class="feedback"></div>
+<div class="task">
+<b>Amaliy topshiriq:</b> U = 9 V va I = 1.5 A qiymatlarini kiriting va qarshilikni toping.
+<br><button onclick="setTask3()">Qiymatlarni qo‘yish</button>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Elektr zanjiridagi ahamiyati — jonli kuzatuv</h3>
+<div class="controls">
+<label>R: <input id="r3slider" type="range" min="1" max="20" value="5"> <span id="r3slv" class="value">5 Ω</span></label>
+<label>U: <input id="u3slider" type="range" min="1" max="24" value="12"> <span id="u3sluv" class="value">12 V</span></label>
+</div>
+<div class="formula">I = U/R = <span id="i3auto">2.40</span> A</div>
+<div class="circuit" style="height:220px">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery"></div><div class="resistor" id="resistor3">5 Ω</div>
+<div class="lamp" id="lamp3"></div>
+<div class="electron e1"></div><div class="electron e2"></div><div class="electron e3"></div><div class="electron e4"></div>
+</div>
+</div>
+</section>
+
+<section id="test">
+<h2>Yakuniy interaktiv test</h2>
+<p>Har bir savolga bitta javob tanlang. Javoblar test tugamaguncha ko‘rsatilmaydi.</p>
+<form id="quiz">
+<div class="task">
+<b>1. Elektr qarshilik qaysi harf bilan belgilanadi?</b>
+<label class="choice"><input type="radio" name="q1" value="A"> A) U</label>
+<label class="choice"><input type="radio" name="q1" value="B"> B) R</label>
+<label class="choice"><input type="radio" name="q1" value="C"> C) I</label>
+<label class="choice"><input type="radio" name="q1" value="D"> D) S</label>
+</div>
+<div class="task">
+<b>2. Qarshilikning SI birligi qaysi?</b>
+<label class="choice"><input type="radio" name="q2" value="A"> A) Volt</label>
+<label class="choice"><input type="radio" name="q2" value="B"> B) Amper</label>
+<label class="choice"><input type="radio" name="q2" value="C"> C) Om</label>
+<label class="choice"><input type="radio" name="q2" value="D"> D) Kulon</label>
+</div>
+<div class="task">
+<b>3. Om qonunidan qarshilik qanday topiladi?</b>
+<label class="choice"><input type="radio" name="q3" value="A"> A) R = U/I</label>
+<label class="choice"><input type="radio" name="q3" value="B"> B) R = I/U</label>
+<label class="choice"><input type="radio" name="q3" value="C"> C) R = U·I</label>
+<label class="choice"><input type="radio" name="q3" value="D"> D) R = U+I</label>
+</div>
+<div class="task">
+<b>4. Bir xil kuchlanishda R oshsa tok kuchi qanday o‘zgaradi?</b>
+<label class="choice"><input type="radio" name="q4" value="A"> A) Oshadi</label>
+<label class="choice"><input type="radio" name="q4" value="B"> B) O‘zgarmaydi</label>
+<label class="choice"><input type="radio" name="q4" value="C"> C) Kamayadi</label>
+<label class="choice"><input type="radio" name="q4" value="D"> D) Nol bo‘ladi</label>
+</div>
+<div class="task">
+<b>5. R = ρ·l/S formulada l nimani bildiradi?</b>
+<label class="choice"><input type="radio" name="q5" value="A"> A) Tok kuchini</label>
+<label class="choice"><input type="radio" name="q5" value="B"> B) Uzunlikni</label>
+<label class="choice"><input type="radio" name="q5" value="C"> C) Kuchlanishni</label>
+<label class="choice"><input type="radio" name="q5" value="D"> D) Kesim yuzini</label>
+</div>
+<div class="task">
+<b>6. Voltmetr zanjirga qanday ulanadi?</b>
+<label class="choice"><input type="radio" name="q6" value="A"> A) Parallel</label>
+<label class="choice"><input type="radio" name="q6" value="B"> B) Ketma-ket</label>
+<label class="choice"><input type="radio" name="q6" value="C"> C) Faqat manbaga</label>
+<label class="choice"><input type="radio" name="q6" value="D"> D) Ulanmaydi</label>
+</div>
+<div class="task">
+<b>7. Ampermetrning vazifasi nima?</b>
+<label class="choice"><input type="radio" name="q7" value="A"> A) Qarshilikni bevosita o‘lchash</label>
+<label class="choice"><input type="radio" name="q7" value="B"> B) Kuchlanishni o‘lchash</label>
+<label class="choice"><input type="radio" name="q7" value="C"> B) Tok kuchini o‘lchash</label>
+<label class="choice"><input type="radio" name="q7" value="D"> D) Uzunlikni o‘lchash</label>
+</div>
+<div class="task">
+<b>8. O‘tkazgich uzunligi oshsa, boshqa shartlar o‘zgarmasa, R qanday bo‘ladi?</b>
+<label class="choice"><input type="radio" name="q8" value="A"> A) Kamayadi</label>
+<label class="choice"><input type="radio" name="q8" value="B"> B) Oshadi</label>
+<label class="choice"><input type="radio" name="q8" value="C"> C) Nol bo‘ladi</label>
+<label class="choice"><input type="radio" name="q8" value="D"> D) Doimiy qoladi</label>
+</div>
+<button type="button" class="green" onclick="checkQuiz()">Testni tekshirish</button>
+<button type="button" class="secondary" onclick="resetQuiz()">Testni qayta ishlash</button>
+<div id="quizResult" class="result"></div>
+</form>
+</section>
+</main>
+<footer>
+15-mavzu: Elektr qarshilik • 8-sinf Fizika • Offline interaktiv dars
+</footer>
+
+<script>
+'use strict';
+
+function $(id){return document.getElementById(id)}
+
+const u1=$('u1'), r1v=$('r1v');
+function updateSim1(){
+  const U=Number(u1.value), R=Number(r1v.value), I=R?U/R:0;
+  $('u1v').textContent=U+' V'; $('r1vv').textContent=R+' Ω';
+  $('volt1').textContent=U.toFixed(1); $('amp1').textContent=I.toFixed(2);
+  $('amCircuit').textContent=I.toFixed(2)+' A'; $('voCircuit').textContent=U+' V';
+  $('bar1').style.width=Math.min(100,I/6*100)+'%';
+  let bright=Math.min(1,I/6);
+  const lamp=$('lamp1');
+  lamp.style.boxShadow='0 0 '+Math.round(8+35*bright)+'px rgba(255,205,60,'+(0.15+0.8*bright)+')';
+  lamp.style.background='rgba(255,205,60,'+(0.1+0.85*bright)+')';
+  $('lampText').textContent='Lampochka yorqinligi: '+(I<1?'juda xira':I<2.5?'xira':I<4?'o‘rtacha':'yorqin');
+  const dur=Math.max(.25,2.5/(I+0.2));
+  document.querySelectorAll('#circuit1 .electron').forEach(e=>e.style.animationDuration=dur+'s');
+}
+u1.addEventListener('input',updateSim1); r1v.addEventListener('input',updateSim1);
+$('start1').onclick=()=>{$('circuit1').classList.add('animating');updateSim1()};
+$('stop1').onclick=()=>{$('circuit1').classList.remove('animating')};
+$('reset1').onclick=()=>{u1.value=12;r1v.value=4;$('circuit1').classList.remove('animating');updateSim1()};
+updateSim1();
+
+function checkTask1(){
+ const x=Number($('taskR1').value), fb=$('taskFb1');
+ if(!x||x<1||x>20){fb.textContent='Xatolik: R qiymati 1–20 Ω oralig‘ida bo‘lsin.';fb.style.color='#b3261e';return}
+ fb.textContent=x>4?'To‘g‘ri kuzatuv: R oshirilsa, bir xil U da tok kuchi kamayadi.':'R ni 4 Ω dan katta qiymatga oshirib yana kuzating.';
+ fb.style.color=x>4?'#218447':'#b3261e';
+}
+
+function updateR2(){
+ const rho=Number($('rho').value), l=Number($('len').value), s=Number($('area').value), R=rho*l/s;
+ $('rhov').textContent=rho.toFixed(1);$('lenv').textContent=l+' m';$('areav').textContent=s+' mm²';
+ $('calcR').textContent=R.toFixed(2);
+ const width=Math.max(25,Math.min(100,25+R*4));
+ $('wireDemo').style.width=width+'%';
+ $('wireDemo').style.height=Math.max(8,Math.min(40,40-R*1.5))+'px';
+ $('wireExplain').textContent='O‘tkazgich holati: '+(R>8?'katta qarshilik':R>3?'o‘rtacha qarshilik':'kichik qarshilik')+'.';
+}
+['rho','len','area'].forEach(id=>$(id).addEventListener('input',updateR2)); updateR2();
+
+function checkCalc2(){
+ const val=Number($('calcAnswer').value), fb=$('calcFb2');
+ if(!Number.isFinite(val)){fb.textContent='Iltimos, javobni kiriting.';fb.style.color='#b3261e';return}
+ const correct=2*6/3;
+ if(Math.abs(val-correct)<0.01){fb.textContent='To‘g‘ri! R = 4 Ω.';fb.style.color='#218447'}
+ else{fb.textContent='Hali xato. R = ρ·l/S formuladan foydalaning.';fb.style.color='#b3261e'}
+}
+
+function measureR3(){
+ const U=Number($('u3').value), I=Number($('i3').value), fb=$('measureFb3');
+ if(!Number.isFinite(U)||!Number.isFinite(I)||U<0||I<=0){
+   fb.textContent='Xatolik: U ≥ 0 V, I esa 0 dan katta bo‘lishi kerak.';fb.style.color='#b3261e';return;
+ }
+ const R=U/I;
+ $('u3show').textContent=U.toFixed(1);$('i3show').textContent=I.toFixed(2);$('r3show').textContent=R.toFixed(2);
+ fb.textContent='Hisoblash bajarildi: R = U/I = '+R.toFixed(2)+' Ω.';
+ fb.style.color='#218447';
+}
+function resetR3(){$('u3').value=12;$('i3').value=3;measureR3();$('measureFb3').textContent=''}
+function setTask3(){$('u3').value=9;$('i3').value=1.5;measureR3()}
+
+function updateR3Auto(){
+ const R=Number($('r3slider').value),U=Number($('u3slider').value),I=U/R;
+ $('r3slv').textContent=R+' Ω';$('u3sluv').textContent=U+' V';$('i3auto').textContent=I.toFixed(2);
+ $('resistor3').textContent=R+' Ω';
+ const lamp=$('lamp3'), bright=Math.min(1,I/6);
+ lamp.style.boxShadow='0 0 '+(7+35*bright)+'px rgba(255,205,60,'+(.1+.8*bright)+')';
+ lamp.style.background='rgba(255,205,60,'+(.1+.85*bright)+')';
+ document.querySelectorAll('.circuit .electron').forEach(e=>e.style.animationDuration=Math.max(.3,2.4/(I+.2))+'s');
+}
+$('r3slider').addEventListener('input',updateR3Auto);$('u3slider').addEventListener('input',updateR3Auto);updateR3Auto();
+
+const answers={q1:'B',q2:'C',q3:'A',q4:'C',q5:'B',q6:'A',q7:'C',q8:'B'};
+function checkQuiz(){
+ let score=0,answered=0;
+ Object.keys(answers).forEach(q=>{
+   const el=document.querySelector('input[name="'+q+'"]:checked');
+   if(el){answered++;if(el.value===answers[q])score++}
+ });
+ const result=$('quizResult');
+ if(answered<8){result.textContent='Iltimos, barcha 8 ta savolga javob bering. Hozircha '+answered+'/8 ta belgilangan.';result.style.color='#b3261e';return}
+ const pct=Math.round(score/8*100);
+ let msg=pct>=90?'A’lo natija!':pct>=70?'Yaxshi natija!':pct>=50?'Qoniqarli. Mavzuni yana bir bor takrorlang.':'Mavzuni qayta o‘rganib, simulyatsiyalarni yana bajaring.';
+ result.textContent='Natija: '+score+'/8 ta to‘g‘ri • '+pct+'% • '+msg;
+ result.style.color=pct>=70?'#218447':'#b3261e';
+}
+function resetQuiz(){
+ document.querySelectorAll('#quiz input[type=radio]').forEach(x=>x.checked=false);
+ $('quizResult').textContent='';
+}
+</script>
+</body>
+</html>
