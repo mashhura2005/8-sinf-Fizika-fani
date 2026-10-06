@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11-MAVZU: Elektr kuchlanish va uni o‘lchash</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f8fc;color:#172033;line-height:1.55;overflow-x:hidden}
+header{background:#fff;border-bottom:1px solid #dbe5ef;padding:22px 14px;text-align:center;position:sticky;top:0;z-index:20}
+header h1{margin:0 0 7px;color:#1557a6;font-size:clamp(22px,4vw,34px)}
+header p{margin:0;color:#526173}
+.container{width:min(1100px,94%);margin:20px auto}
+.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:15px 0}
+.nav button{background:#e9f2ff;color:#1557a6;border:1px solid #c9ddf5}
+.card{background:#fff;border:1px solid #dbe5ef;border-radius:16px;padding:20px;margin:18px 0;box-shadow:0 4px 16px rgba(20,55,90,.06)}
+h2{color:#1557a6;margin-top:0;font-size:clamp(20px,3vw,27px)}
+h3{color:#244c78}
+h4{margin:8px 0;color:#344b65}
+button{border:0;border-radius:9px;padding:10px 15px;background:#1769c2;color:#fff;font-weight:700;cursor:pointer;margin:4px}
+button:hover{filter:brightness(.94)}
+button.secondary{background:#66778a}
+button.green{background:#16834b}
+button.red{background:#c83e3e}
+button.light{background:#edf4fb;color:#1557a6;border:1px solid #cdddea}
+input,select{width:100%;padding:10px;border:1px solid #bcccdc;border-radius:8px;font-size:16px;background:#fff}
+label{font-weight:700;display:block;margin:9px 0 5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+.info{background:#eef6ff;border-left:4px solid #2677c9;padding:12px;border-radius:8px;margin:10px 0}
+.success{background:#eaf8f0;border-left:4px solid #16834b;padding:12px;border-radius:8px}
+.error{background:#fff0f0;border-left:4px solid #c83e3e;padding:12px;border-radius:8px}
+.warning{background:#fff8e5;border-left:4px solid #d99a13;padding:12px;border-radius:8px}
+.formula{font-size:24px;font-weight:800;text-align:center;background:#f3f7fb;border-radius:10px;padding:13px;margin:12px 0;color:#143d68}
+.unit{font-weight:700;color:#1557a6}
+.sim{background:#f8fbfe;border:1px solid #d4e1ed;border-radius:14px;padding:15px;margin-top:14px}
+.controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.controls>*{flex:0 0 auto}
+.range{width:100%}
+.range-wrap{background:#fff;border:1px solid #d6e2ed;padding:12px;border-radius:10px}
+.value{font-size:22px;font-weight:800;color:#1557a6}
+.circuit{position:relative;min-height:280px;background:#eef5fa;border-radius:12px;overflow:hidden;border:1px solid #cdddea}
+.wire{position:absolute;background:#263746}
+.w1{left:8%;right:8%;top:20%;height:4px}.w2{left:8%;right:8%;bottom:20%;height:4px}
+.w3{left:8%;top:20%;bottom:20%;width:4px}.w4{right:8%;top:20%;bottom:20%;width:4px}
+.battery{position:absolute;left:5%;top:42%;width:46px;height:62px;border-left:7px solid #333;border-right:2px solid #333}
+.battery:before,.battery:after{content:"";position:absolute;left:0;right:-18px;height:5px;background:#333}
+.battery:before{top:18px}.battery:after{bottom:18px}
+.battery span{position:absolute;left:13px;font-weight:bold}.plus{top:-25px;color:#d13a3a}.minus{bottom:-25px;color:#2463a8}
+.switch{position:absolute;left:27%;top:15%;font-size:28px;color:#9b5c12}
+.lamp{position:absolute;right:20%;top:42%;width:55px;height:55px;border:4px solid #7c8792;border-radius:50%;background:#dce3e8;transition:.25s}
+.lamp:before{content:"";position:absolute;left:23px;top:-22px;width:4px;height:22px;background:#7c8792}
+.lamp.on{background:#ffe56c;box-shadow:0 0 25px rgba(255,210,40,.95);border-color:#d8a600}
+.lamp-label{position:absolute;right:16%;top:67%;font-weight:bold}
+.electron{position:absolute;width:10px;height:10px;border-radius:50%;background:#2378d3;box-shadow:0 0 5px #2378d3;animation:move 2s linear infinite;opacity:0}
+.e1{top:calc(20% - 3px);left:12%}.e2{top:calc(20% - 3px);left:38%;animation-delay:.5s}.e3{top:calc(20% - 3px);left:63%;animation-delay:1s}.e4{top:calc(20% - 3px);left:84%;animation-delay:1.5s}
+@keyframes move{0%{transform:translateX(0)}50%{transform:translateX(120px)}100%{transform:translateX(260px)}}
+.field-arrows{position:absolute;left:42%;top:29%;font-size:22px;color:#e14d4d;letter-spacing:8px;opacity:.3;transition:.3s}
+.source-box{min-height:125px;display:flex;align-items:center;justify-content:center;background:#eef5fa;border:1px solid #cdddea;border-radius:12px;font-size:42px}
+.source-title{font-size:18px;font-weight:800;text-align:center;margin-top:5px}
+.meter{background:#1e2935;border-radius:50%;width:190px;height:190px;margin:10px auto;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 8px #556473}
+.meter-screen{width:135px;height:75px;background:#bde7c7;color:#102c1a;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900}
+.probe{display:flex;gap:12px;justify-content:center;margin:8px 0;font-size:17px;font-weight:bold}.probe span{padding:8px 12px;border-radius:8px;background:#fff;border:2px solid #bdcbd8}
+.probe .p{border-color:#d34646;color:#b02b2b}.probe .n{border-color:#356fbd;color:#285a9c}
+.connection-board{position:relative;height:300px;background:#eef5fa;border:1px solid #cdddea;border-radius:12px}
+.battery2{position:absolute;left:5%;top:42%;font-size:42px}.lamp2{position:absolute;right:15%;top:42%;font-size:44px}
+.voltmeter2{position:absolute;left:43%;top:38%;font-size:52px}
+.parallel-line{position:absolute;left:39%;right:31%;top:25%;height:4px;background:#1e73c7;transition:.3s}
+.parallel-line2{position:absolute;left:39%;right:31%;top:75%;height:4px;background:#1e73c7;transition:.3s}
+.vertical-line{position:absolute;left:50%;top:25%;height:50%;width:4px;background:#1e73c7}
+.connection-board.wrong .parallel-line,.connection-board.wrong .parallel-line2{top:50%}
+.connection-board.wrong .vertical-line{height:0}
+.quiz-q{padding:14px;border:1px solid #d9e4ed;border-radius:11px;margin:12px 0;background:#fbfdff}
+.quiz-q p{font-weight:800;margin-top:0}
+.option{display:block;margin:6px 0;padding:9px;background:#fff;border:1px solid #d5e0ea;border-radius:8px;cursor:pointer}
+.option:hover{background:#eef6ff}
+.result{font-weight:800;font-size:18px;margin-top:12px}
+.footer{text-align:center;padding:30px;color:#64748b}
+.small{font-size:14px;color:#63758a}
+table{width:100%;border-collapse:collapse;margin:10px 0}th,td{border:1px solid #d5e0ea;padding:9px;text-align:left}th{background:#edf4fb}
+@media(max-width:600px){
+ .container{width:96%}.card{padding:14px;border-radius:12px}
+ .circuit{min-height:245px}.connection-board{height:250px}
+ .lamp{right:15%}.lamp-label{right:8%}.battery{left:3%}
+ .meter{width:160px;height:160px}.meter-screen{width:118px;height:65px;font-size:24px}
+ .nav button{font-size:14px;padding:8px 10px}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>11-MAVZU: ELEKTR KUCHLANISH VA UNI O‘LCHASH</h1>
+<p>8-sinf fizika • Interaktiv va animatsiyali dars simulyatsiyasi</p>
+<div class="nav">
+<button onclick="go('r1')">1-reja</button>
+<button onclick="go('r2')">2-reja</button>
+<button onclick="go('r3')">3-reja</button>
+<button onclick="go('tasks')">O‘zingiz sinab ko‘ring</button>
+<button onclick="go('test')">Yakuniy test</button>
+</div>
+</header>
+
+<main class="container">
+<section id="r1" class="card">
+<h2>1. Elektr kuchlanish haqida tushuncha va uning fizik ma’nosi</h2>
+<div class="info"><b>Elektr kuchlanish</b> — elektr maydonning zaryadlarni ko‘chirishda bajargan ishining shu ko‘chirilgan zaryad miqdoriga nisbatini ifodalovchi fizik kattalik.</div>
+<p>Elektr kuchlanish <b>U</b> harfi bilan belgilanadi. Kuchlanish elektr zanjirida zaryadlarni harakatlantiruvchi sababni tavsiflaydi. Kuchlanish mavjud bo‘lganda elektr zaryadlari elektr maydon ta’sirida tartibli harakat qilishi mumkin.</p>
+<div class="grid">
+<div>
+<h3>Fizik ma’nosi</h3>
+<ul>
+<li>Suv bosimi katta bo‘lsa, suv kuchliroq harakatlanadi.</li>
+<li>Kuchlanish mavjud bo‘lsa, zaryadlarni harakatga keltiruvchi elektr maydon ta’siri mavjud bo‘ladi.</li>
+<li>Kuchlanishning o‘zi tok kuchiga teng emas; u tok hosil bo‘lishiga sabab bo‘luvchi kattaliklardan biridir.</li>
+</ul>
+</div>
+<div class="info"><b>Esda tuting:</b><br>“Kuchlanish — zaryadlarni harakatga keltiruvchi sababni tavsiflaydi.”<br><br>“Kuchlanish mavjud → elektr maydon ta’siri mavjud.”<br><br>“Zanjir uzilgan → tok hosil bo‘lmaydi.”</div>
+</div>
+
+<div class="sim">
+<h3>Interaktiv simulyatsiya: Elektr kuchlanish va zaryadlarning harakati</h3>
+<div class="range-wrap">
+<label for="u1">Kuchlanish: <span id="u1v" class="value">6 V</span></label>
+<input id="u1" class="range" type="range" min="0" max="12" value="6" step="1" oninput="updateCircuit()">
+</div>
+<div class="controls">
+<button onclick="startCircuit()">Boshlash</button>
+<button class="secondary" onclick="stopCircuit()">To‘xtatish</button>
+<button class="light" onclick="resetCircuit()">Qayta boshlash</button>
+<button onclick="toggleSwitch()">Zanjirni ulash/uzish</button>
+</div>
+<div id="circuitMsg" class="info">Zanjir hozir uzilgan. “Zanjirni ulash” tugmasini bosing.</div>
+<div class="circuit" id="circuit">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery"><span class="plus">+</span><span class="minus">−</span></div>
+<div class="switch" id="switchIcon">╱</div>
+<div class="lamp" id="lamp"></div><div class="lamp-label">Lampochka</div>
+<div class="field-arrows" id="fieldArrows">→ → →</div>
+<div class="electron e1"></div><div class="electron e2"></div><div class="electron e3"></div><div class="electron e4"></div>
+</div>
+<p id="circuitState" class="small">Holat: zanjir uzilgan.</p>
+</div>
+</section>
+
+<section id="r2" class="card">
+<h2>2. Elektr kuchlanishning formulasi, o‘lchov birligi va kuchlanish manbalari</h2>
+<div class="formula">U = A / q</div>
+<table>
+<tr><th>Belgi</th><th>Ma’nosi</th><th>Birligi</th></tr>
+<tr><td>U</td><td>Elektr kuchlanish</td><td>volt (V)</td></tr>
+<tr><td>A</td><td>Elektr maydonning bajargan ishi</td><td>joul (J)</td></tr>
+<tr><td>q</td><td>Elektr zaryad miqdori</td><td>kulon (C)</td></tr>
+</table>
+<div class="info"><b>1 V = 1 J / 1 C</b> — 1 kulon zaryadni ko‘chirishda 1 joul ish bajarilsa, kuchlanish 1 voltga teng.</div>
+
+<h3>Kuchlanish manbalari</h3>
+<div class="grid">
+<div class="card" style="margin:0"><div class="source-box">🔋</div><div class="source-title">Galvanik element<br>1,5 V</div></div>
+<div class="card" style="margin:0"><div class="source-box">🔋🔋</div><div class="source-title">Batareya<br>3 V</div></div>
+<div class="card" style="margin:0"><div class="source-box">🔋</div><div class="source-title">Akkumulyator<br>12 V</div></div>
+<div class="card" style="margin:0"><div class="source-box">⚙️</div><div class="source-title">Generator<br>tanlanadi</div></div>
+<div class="card" style="margin:0"><div class="source-box">☀️</div><div class="source-title">Quyosh elementi<br>tanlanadi</div></div>
+</div>
+
+<div class="sim">
+<h3>Interaktiv simulyatsiya: Turli kuchlanish manbalari</h3>
+<div class="controls">
+<button onclick="chooseSource('Galvanik element',1.5,'🔋')">Galvanik element — 1,5 V</button>
+<button onclick="chooseSource('Batareya',3,'🔋🔋')">Batareya — 3 V</button>
+<button onclick="chooseSource('Akkumulyator',12,'🔋')">Akkumulyator — 12 V</button>
+<button onclick="chooseSource('Generator',8,'⚙️')">Generator — 8 V</button>
+<button onclick="chooseSource('Quyosh elementi',6,'☀️')">Quyosh elementi — 6 V</button>
+</div>
+<div class="grid">
+<div class="source-box" id="selectedSource">🔋</div>
+<div class="info" id="sourceInfo"><b>Tanlangan manba:</b> Galvanik element<br><b>Kuchlanish:</b> 1,50 V<br><br>Manba elektr zanjirida kuchlanish hosil qiladi.</div>
+</div>
+<div class="controls">
+<button onclick="startSource()">Boshlash</button>
+<button class="secondary" onclick="stopSource()">To‘xtatish</button>
+<button class="light" onclick="resetSource()">Qayta boshlash</button>
+</div>
+<div class="circuit" style="min-height:210px">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery"></div><div class="lamp" id="sourceLamp"></div>
+<div class="lamp-label">Lampochka</div>
+</div>
+</div>
+
+<div class="sim">
+<h3>Hisoblash simulyatsiyasi: U = A / q</h3>
+<div class="grid">
+<div><label for="work">A — ish (J)</label><input id="work" type="number" min="0" step="0.1" value="20"></div>
+<div><label for="charge">q — zaryad (C)</label><input id="charge" type="number" step="0.1" value="5"></div>
+</div>
+<div class="controls">
+<button onclick="calculateU()">Hisoblash</button>
+<button class="light" onclick="resetCalc()">Qayta boshlash</button>
+</div>
+<div id="calcResult" class="info">Masalan: A = 20 J, q = 5 C → U = 4 V</div>
+</div>
+</section>
+
+<section id="r3" class="card">
+<h2>3. Elektr kuchlanishini o‘lchash. Voltmetr va uni elektr zanjiriga ulash</h2>
+<div class="info">Elektr kuchlanishini o‘lchash uchun <b>voltmetr</b> ishlatiladi. Voltmetr elektr zanjirining ikki nuqtasi orasidagi kuchlanishni o‘lchaydi.</div>
+<div class="formula">VOLTMETR → PARALLEL ULANADI</div>
+<p>Voltmetrning <b>“+”</b> klemmasi manbaning musbat tomoniga, <b>“−”</b> klemmasi esa manfiy tomoniga mos ulanadi.</p>
+
+<div class="sim">
+<h3>Interaktiv simulyatsiya: Voltmetrni ulash</h3>
+<div class="range-wrap">
+<label for="u3">Manba kuchlanishi: <span id="u3v" class="value">6 V</span></label>
+<input id="u3" class="range" type="range" min="0" max="12" value="6" step="1" oninput="updateVoltmeter()">
+</div>
+<div class="controls">
+<button class="green" onclick="connectParallel()">To‘g‘ri — PARALLEL ulash</button>
+<button class="red" onclick="connectSeries()">Noto‘g‘ri — KETMA-KET ulash</button>
+<button class="light" onclick="resetVolt()">Qayta boshlash</button>
+</div>
+<div class="grid">
+<div>
+<div class="meter"><div class="meter-screen" id="meterScreen">6.00 V</div></div>
+<div class="probe"><span class="p">+</span><span class="n">−</span></div>
+</div>
+<div>
+<div id="connectionBoard" class="connection-board">
+<div class="parallel-line"></div><div class="parallel-line2"></div><div class="vertical-line"></div>
+<div class="battery2">🔋</div><div class="voltmeter2">V</div><div class="lamp2" id="lamp2">💡</div>
+</div>
+<div id="voltMsg" class="info">Voltmetrni kuchlanish o‘lchanayotgan qismga parallel ulang.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="tasks" class="card">
+<h2>O‘zingiz sinab ko‘ring</h2>
+<div class="sim">
+<h3>1-topshiriq</h3>
+<label for="taskU">Kuchlanish qiymatini tanlang: <span id="taskUv" class="value">6 V</span></label>
+<input id="taskU" class="range" type="range" min="0" max="12" value="6" step="1" oninput="document.getElementById('taskUv').textContent=this.value+' V';document.getElementById('taskAnswer').value=''">
+<p><b>Qaysi qiymat voltmetrda ko‘rsatiladi?</b></p>
+<select id="taskAnswer">
+<option value="">Javobni tanlang</option><option value="3">3 V</option><option value="6">6 V</option><option value="9">9 V</option><option value="12">12 V</option>
+</select>
+<button onclick="checkTask1()">Tekshirish</button>
+<div id="task1Msg"></div>
+</div>
+
+<div class="sim">
+<h3>2-topshiriq</h3>
+<p><b>Voltmetrni qayerga ulash kerak?</b></p>
+<label class="option"><input type="radio" name="t2" value="A"> A) Ketma-ket</label>
+<label class="option"><input type="radio" name="t2" value="B"> B) Parallel</label>
+<label class="option"><input type="radio" name="t2" value="C"> C) Manbadan tashqarida</label>
+<label class="option"><input type="radio" name="t2" value="D"> D) Simga ulanmaydi</label>
+<button onclick="checkTask2()">Tekshirish</button>
+<div id="task2Msg"></div>
+</div>
+</section>
+
+<section id="test" class="card">
+<h2>Yakuniy test</h2>
+<p>Har bir savolda bitta javobni tanlang. Javoblar tekshirish tugmasi bosilmaguncha baholanmaydi.</p>
+<div id="quiz"></div>
+<div class="controls">
+<button onclick="checkQuiz()">Tekshirish</button>
+<button class="light" onclick="resetQuiz()">Qayta boshlash</button>
+</div>
+<div id="quizResult" class="result"></div>
+</section>
+</main>
+<div class="footer">8-sinf Fizika • 11-mavzu: Elektr kuchlanish va uni o‘lchash</div>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+let circuitOn=false,circuitRunning=false;
+function updateCircuit(){
+ const u=+document.getElementById('u1').value;
+ document.getElementById('u1v').textContent=u+' V';
+ const lamp=document.getElementById('lamp');
+ const arrows=document.getElementById('fieldArrows');
+ const electrons=document.querySelectorAll('.electron');
+ lamp.style.opacity=u>0?.35+u/18:0.35;
+ lamp.style.filter='brightness('+(u?1+u/10:0.75)+')';
+ arrows.style.opacity=(u/12)*.9;
+ arrows.style.transform='scale('+(0.7+u/12)+')';
+ electrons.forEach(e=>e.style.animationDuration=Math.max(.35,2.3-u*.14)+'s');
+ if(circuitOn && u>0){lamp.classList.add('on')}else{lamp.classList.remove('on')}
+}
+function toggleSwitch(){
+ circuitOn=!circuitOn;
+ document.getElementById('switchIcon').textContent=circuitOn?'—':'╱';
+ document.getElementById('circuitState').textContent=circuitOn?'Holat: zanjir yopiq, tok hosil bo‘lishi mumkin.':'Holat: zanjir uzilgan.';
+ document.getElementById('circuitMsg').className=circuitOn?'success':'info';
+ document.getElementById('circuitMsg').textContent=circuitOn?'Zanjir yopildi. Kuchlanish mavjud bo‘lsa, zaryadlar tartibli harakat qiladi.':'Zanjir uzildi. Tok hosil bo‘lmaydi.';
+ updateCircuit();
+}
+function startCircuit(){
+ circuitRunning=true;
+ document.querySelectorAll('.electron').forEach(e=>e.style.opacity=(circuitOn&&+u1.value>0)?1:0);
+ document.getElementById('circuitMsg').textContent=circuitOn?'Simulyatsiya boshlandi: elektronlar harakati kuzatilmoqda.':'Avval zanjirni ulang.';
+ document.getElementById('circuitMsg').className=circuitOn?'success':'warning';
+}
+function stopCircuit(){circuitRunning=false;document.querySelectorAll('.electron').forEach(e=>e.style.opacity=0);document.getElementById('circuitMsg').textContent='Simulyatsiya to‘xtatildi.';document.getElementById('circuitMsg').className='info'}
+function resetCircuit(){
+ circuitOn=false;circuitRunning=false;u1.value=6;document.getElementById('switchIcon').textContent='╱';
+ document.querySelectorAll('.electron').forEach(e=>e.style.opacity=0);
+ document.getElementById('circuitMsg').textContent='Zanjir hozir uzilgan. “Zanjirni ulash” tugmasini bosing.';
+ document.getElementById('circuitMsg').className='info';updateCircuit()
+}
+setInterval(()=>{if(circuitRunning&&circuitOn&&+u1.value>0)document.querySelectorAll('.electron').forEach(e=>e.style.opacity=1)},100);
+
+let source={name:'Galvanik element',u:1.5,icon:'🔋'},sourceRunning=false;
+function chooseSource(name,u,icon){
+ source={name,u,icon};document.getElementById('selectedSource').textContent=icon;
+ document.getElementById('sourceInfo').innerHTML='<b>Tanlangan manba:</b> '+name+'<br><b>Kuchlanish:</b> '+u.toFixed(2)+' V<br><br>Manba elektr zanjirida kuchlanish hosil qiladi.';
+ if(sourceRunning)updateSourceLamp();
+}
+function updateSourceLamp(){
+ const l=document.getElementById('sourceLamp');l.classList.toggle('on',sourceRunning&&source.u>0);
+ l.style.filter='brightness('+(1+source.u/12)+')';
+}
+function startSource(){sourceRunning=true;updateSourceLamp()}
+function stopSource(){sourceRunning=false;updateSourceLamp()}
+function resetSource(){source={name:'Galvanik element',u:1.5,icon:'🔋'};sourceRunning=false;chooseSource(source.name,source.u,source.icon);updateSourceLamp()}
+
+function calculateU(){
+ const A=Number(document.getElementById('work').value),q=Number(document.getElementById('charge').value),box=document.getElementById('calcResult');
+ if(!Number.isFinite(A)||!Number.isFinite(q)||A<0){box.className='error';box.textContent='Xatolik: ish qiymatini 0 yoki undan katta son bilan kiriting.';return}
+ if(q<=0){box.className='error';box.textContent='Xatolik: zaryad miqdori 0 dan katta bo‘lishi kerak.';return}
+ const u=A/q;box.className='success';box.innerHTML='Hisoblash: U = A / q = '+A+' / '+q+' = <b>'+u.toFixed(2)+' V</b>';
+}
+function resetCalc(){work.value=20;charge.value=5;calcResult.className='info';calcResult.textContent='Masalan: A = 20 J, q = 5 C → U = 4 V'}
+
+function updateVoltmeter(){
+ const u=+document.getElementById('u3').value;
+ document.getElementById('u3v').textContent=u+' V';
+ document.getElementById('meterScreen').textContent=u.toFixed(2)+' V';
+ document.getElementById('lamp2').style.opacity=u?1:.35;
+}
+function connectParallel(){
+ const b=document.getElementById('connectionBoard'),m=document.getElementById('voltMsg');
+ b.classList.remove('wrong');m.className='success';
+ m.innerHTML='<b>To‘g‘ri ulanish!</b> Voltmetr parallel ulangan. Kuchlanish: <b>'+Number(u3.value).toFixed(2)+' V</b>.';
+ updateVoltmeter();
+}
+function connectSeries(){
+ const b=document.getElementById('connectionBoard'),m=document.getElementById('voltMsg');
+ b.classList.add('wrong');m.className='error';m.innerHTML='<b>Xatolik!</b> Voltmetr kuchlanish o‘lchanayotgan qismga <b>parallel</b> ulanadi.';
+}
+function resetVolt(){u3.value=6;updateVoltmeter();connectionBoard.classList.remove('wrong');voltMsg.className='info';voltMsg.textContent='Voltmetrni kuchlanish o‘lchanayotgan qismga parallel ulang.'}
+
+function checkTask1(){
+ const ans=document.getElementById('taskAnswer').value,u=document.getElementById('taskU').value,box=document.getElementById('task1Msg');
+ if(!ans){box.className='warning';box.textContent='Avval javobni tanlang.';return}
+ if(ans===u){box.className='success';box.textContent='To‘g‘ri! Voltmetr tanlangan kuchlanish qiymatini ko‘rsatadi: '+u+' V.'}
+ else{box.className='error';box.textContent='Noto‘g‘ri. Tanlangan kuchlanish '+u+' V edi. Voltmetr shu qiymatni ko‘rsatadi.'}
+}
+function checkTask2(){
+ const a=document.querySelector('input[name="t2"]:checked'),box=document.getElementById('task2Msg');
+ if(!a){box.className='warning';box.textContent='Avval variantlardan birini tanlang.';return}
+ if(a.value==='B'){box.className='success';box.textContent='To‘g‘ri! Voltmetr parallel ulanadi.'}
+ else{box.className='error';box.textContent='Noto‘g‘ri. Voltmetr kuchlanish o‘lchanayotgan qismga parallel ulanadi.'}
+}
+
+const questions=[
+['Elektr kuchlanish qaysi harf bilan belgilanadi?',['A) I','B) U','C) R','D) q'],'B'],
+['Kuchlanishning SI dagi birligi qaysi?',['A) amper','B) om','C) volt','D) kulon'],'C'],
+['Elektr kuchlanishning formulasi qaysi?',['A) U=A/q','B) U=q/A','C) U=Aq','D) U=I/R'],'A'],
+['1 volt nimaga teng?',['A) 1 C/J','B) 1 J/C','C) 1 J·C','D) 1 A/C'],'B'],
+['Quyidagilardan qaysi biri kuchlanish manbai?',['A) Voltmetr','B) Kalit','C) Akkumulyator','D) Lampochka'],'C'],
+['Kuchlanishning fizik ma’nosi nimani tavsiflaydi?',['A) Zaryadlarni harakatga keltiruvchi sababni','B) Faqat sim qarshiligini','C) Jism massasini','D) Haroratni'],'A'],
+['Kuchlanishni o‘lchaydigan asbob qaysi?',['A) Ampermetr','B) Dinamometr','C) Voltmetr','D) Termometr'],'C'],
+['Voltmetr zanjirga qanday ulanadi?',['A) Parallel','B) Ketma-ket','C) Umuman ulanmaydi','D) Faqat kalitga'],'A'],
+['A=20 J va q=5 C bo‘lsa, U qancha?',['A) 2 V','B) 4 V','C) 10 V','D) 25 V'],'B'],
+['A=36 J va q=6 C bo‘lsa, U qancha?',['A) 3 V','B) 6 V','C) 12 V','D) 42 V'],'B'],
+['Voltmetrning “+” klemmasi odatda qayerga ulanadi?',['A) Manbaning musbat tomoniga','B) Manbaning manfiy tomoniga','C) Havoga','D) Lampochkaning ichiga'],'A'],
+['Zanjir uzilgan bo‘lsa, oddiy yopiq elektr yo‘li bo‘lmagani uchun nima yuz beradi?',['A) Tok hosil bo‘lmaydi','B) Kuchlanish 100 V bo‘ladi','C) Lampochka albatta yonadi','D) Voltmetr yo‘qoladi'],'A']
+];
+function renderQuiz(){
+ const q=document.getElementById('quiz');q.innerHTML='';
+ questions.forEach((x,i)=>{
+  const d=document.createElement('div');d.className='quiz-q';
+  d.innerHTML='<p>'+(i+1)+'. '+x[0]+'</p>'+x[1].map((o,j)=>'<label class="option"><input type="radio" name="q'+i+'" value="'+String.fromCharCode(65+j)+'"> '+o+'</label>').join('');
+  q.appendChild(d);
+ });
+}
+function checkQuiz(){
+ let correct=0,answered=0;
+ questions.forEach((x,i)=>{const a=document.querySelector('input[name="q'+i+'"]:checked');if(a){answered++;if(a.value===x[2])correct++}});
+ const total=questions.length,pct=Math.round(correct/total*100),r=document.getElementById('quizResult');
+ let msg=pct===100?'A’lo!':pct>=80?'Yaxshi!':pct>=60?'Qoniqarli.':'Mavzuni yana takrorlang.';
+ r.className=pct>=60?'result success':'result error';
+ r.innerHTML='Natija: <b>'+correct+'/'+total+'</b> — <b>'+pct+'%</b> — '+msg+'<br><span class="small">Javob berilgan: '+answered+'/'+total+'.</span>';
+}
+function resetQuiz(){renderQuiz();document.getElementById('quizResult').textContent='';document.getElementById('quizResult').className='result'}
+
+renderQuiz();updateCircuit();updateVoltmeter();updateSourceLamp();
+</script>
+</body>
+</html>
