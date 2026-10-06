@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>16-MAVZU: Rezistorlar. Reostatlar. Potensiometrlar</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.55}
+header{background:#173b6c;color:white;padding:24px 16px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(23px,5vw,38px)}
+header p{margin:0;font-size:15px;opacity:.92}
+.container{width:min(1100px,94%);margin:20px auto}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{flex:1 1 180px;border:0;border-radius:10px;padding:12px 10px;background:#dce7f5;color:#173b6c;font-weight:700;cursor:pointer}
+.tabs button.active{background:#173b6c;color:white}
+.section{display:none}
+.section.active{display:block}
+.card{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 3px 14px rgba(25,55,90,.08)}
+.card h2,.card h3{color:#173b6c;margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.container{width:95%}}
+.formula{font-size:clamp(20px,4vw,28px);font-weight:700;text-align:center;background:#eef4fb;padding:14px;border-radius:10px;margin:12px 0}
+.note{background:#f1f7ff;border-left:4px solid #2867ad;padding:10px 12px;border-radius:7px}
+.warn{background:#fff7e6;border-left:4px solid #d99000;padding:10px 12px;border-radius:7px}
+label{display:block;font-weight:700;margin:10px 0 5px}
+input[type=number],input[type=text],select{width:100%;padding:10px;border:1px solid #bdc9d8;border-radius:8px;font-size:16px}
+input[type=range]{width:100%}
+button.action{border:0;border-radius:8px;padding:10px 15px;margin:5px 4px 5px 0;background:#2867ad;color:white;font-weight:700;cursor:pointer}
+button.secondary{background:#68798e}
+button.success{background:#2e7d55}
+button.danger{background:#b64747}
+button:active{transform:scale(.98)}
+.result{margin-top:10px;padding:11px;border-radius:8px;background:#edf8f1;min-height:42px}
+.error{background:#fff0f0!important;color:#a52b2b}
+.canvas-wrap{background:#f9fbfe;border:1px solid #dbe3ee;border-radius:12px;padding:10px;overflow:hidden}
+svg{display:block;width:100%;height:auto}
+.readout{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.readout div{background:#eef4fb;border-radius:8px;padding:9px;text-align:center}
+@media(max-width:550px){.readout{grid-template-columns:1fr}}
+.big{font-size:22px;font-weight:700}
+.task{background:#fbfcfe;border:1px solid #d9e1ec;border-radius:10px;padding:14px}
+.feedback{font-weight:700;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #d4dce7;padding:8px;text-align:left}
+th{background:#edf3fa}
+.option{display:block;margin:7px 0;padding:9px;border:1px solid #d8e0ea;border-radius:8px;cursor:pointer}
+.option:hover{background:#f4f8fc}
+.test-q{border:1px solid #dbe3ee;border-radius:10px;padding:14px;margin:12px 0}
+.score{font-size:22px;font-weight:700;text-align:center;padding:16px;background:#edf8f1;border-radius:10px}
+footer{text-align:center;padding:25px;color:#66758a}
+.lamp{transition:filter .15s,opacity .15s}
+.moving{animation:moveElectron .8s linear infinite}
+@keyframes moveElectron{from{transform:translateX(0)}to{transform:translateX(34px)}}
+.pulse{animation:pulse .9s ease-in-out infinite alternate}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+@keyframes slideKnob{from{transform:translateX(0)}to{transform:translateX(80px)}}
+.small{font-size:14px;color:#56657a}
+.kbd{font-family:monospace;background:#eef1f5;padding:2px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+<h1>16-MAVZU: REZISTORLAR. REOSTATLAR. POTENSIOMETRLAR</h1>
+<p>8-sinf fizika • Elektr zanjirida qarshilikni boshqarish</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab active" data-target="p1">1. Rezistorlar</button>
+<button class="tab" data-target="p2">2. Reostat</button>
+<button class="tab" data-target="p3">3. Potensiometr</button>
+<button class="tab" data-target="test">Yakuniy test</button>
+</div>
+
+<section id="p1" class="section active">
+<div class="card">
+<h2>1. Rezistorlar va ularning vazifasi</h2>
+<p><b>Rezistor</b> — elektr zanjirida ma’lum qarshilik hosil qilish va tok kuchini cheklash uchun ishlatiladigan elektr elementi.</p>
+<ul>
+<li>elektr tokini cheklaydi;</li>
+<li>zanjirdagi tok kuchini kerakli qiymatda ushlab turadi;</li>
+<li>elektr qurilmalarini ortiqcha tokdan himoyalaydi;</li>
+<li>zanjir qismlarida kerakli kuchlanish taqsimotini hosil qilishga yordam beradi.</li>
+</ul>
+<div class="formula">I = U / R</div>
+<p>Bu yerda <b>I</b> — tok kuchi (A), <b>U</b> — kuchlanish (V), <b>R</b> — qarshilik (Ω).</p>
+<div class="note"><b>Xulosa:</b> kuchlanish o‘zgarmasa, qarshilik oshganda tok kuchi kamayadi; qarshilik kamayganda tok kuchi ortadi.</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: Rezistorli zanjir</h3>
+<div class="grid">
+<div>
+<label for="u1">Kuchlanish U (V): <span id="u1v">12</span></label>
+<input id="u1" type="range" min="1" max="24" step="1" value="12">
+<label for="r1">Rezistor qarshiligi R (Ω): <span id="r1v">6</span></label>
+<input id="r1" type="range" min="1" max="24" step="1" value="6">
+<div class="readout">
+<div>U<br><span class="big" id="ru">12 V</span></div>
+<div>R<br><span class="big" id="rr">6 Ω</span></div>
+<div>I<br><span class="big" id="ri">2 A</span></div>
+</div>
+</div>
+<div class="canvas-wrap">
+<svg viewBox="0 0 600 260" aria-label="Rezistorli elektr zanjiri">
+<rect x="1" y="1" width="598" height="258" rx="12" fill="#fbfdff"/>
+<path d="M70 70 H210 L235 45 L265 95 L295 45 L325 95 L355 45 L380 70 H530 V190 H70 Z" fill="none" stroke="#23384f" stroke-width="5"/>
+<rect x="45" y="105" width="50" height="50" rx="5" fill="#e8eef6" stroke="#23384f" stroke-width="3"/>
+<text x="70" y="137" text-anchor="middle" font-size="18" font-weight="700">U</text>
+<circle id="lamp1" class="lamp" cx="530" cy="130" r="28" fill="#d7dde5" stroke="#23384f" stroke-width="3"/>
+<path d="M512 112 L548 148 M548 112 L512 148" stroke="#23384f" stroke-width="4"/>
+<circle id="e1" class="moving" cx="110" cy="70" r="6" fill="#e34b4b"/>
+<circle id="e2" class="moving" cx="145" cy="70" r="6" fill="#e34b4b"/>
+<text x="285" y="125" text-anchor="middle" font-size="18" font-weight="700">R</text>
+<text x="70" y="180" text-anchor="middle" font-size="14">Manba</text>
+</svg>
+</div>
+</div>
+<div class="task">
+<b>Amaliy topshiriq:</b> U = 12 V bo‘lganda R ni 3 Ω va 12 Ω qilib ko‘ring. Qaysi holatda tok kuchi katta bo‘ladi?
+<div id="task1" class="feedback">Natijani kuzating.</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Hisoblash mashqi</h3>
+<p>U = 18 V, R = 9 Ω bo‘lsa, tok kuchini hisoblang.</p>
+<button class="action" onclick="calcP1()">Hisoblash</button>
+<div id="calc1" class="result">Javobni ko‘rish uchun tugmani bosing.</div>
+</div>
+</section>
+
+<section id="p2" class="section">
+<div class="card">
+<h2>2. Reostat va uning yordamida tok kuchini rostlash</h2>
+<p><b>Reostat</b> — zanjirdagi qarshilikni o‘zgartirish orqali tok kuchini rostlashga xizmat qiladigan o‘zgaruvchan qarshilikli qurilma.</p>
+<p>Reostatning qarshiligi uning sirpanma kontakti yordamida o‘zgartiriladi. Faol sim uzunligi ortsa, qarshilik ortadi va tok kamayadi.</p>
+<div class="formula">I = U / R</div>
+<div class="note">Masalan, kuchlanish o‘zgarmasa: <b>R ↑ → I ↓</b>; <b>R ↓ → I ↑</b>.</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: Reostat bilan tokni rostlash</h3>
+<div class="grid">
+<div>
+<label for="sliderR">Reostat holati: <span id="sliderRv">50</span>%</label>
+<input id="sliderR" type="range" min="0" max="100" value="50">
+<p class="small">0% — eng kichik qarshilik, 100% — eng katta qarshilik.</p>
+<div class="readout">
+<div>R<br><span class="big" id="reR">10 Ω</span></div>
+<div>U<br><span class="big">12 V</span></div>
+<div>I<br><span class="big" id="reI">1.20 A</span></div>
+</div>
+<button class="action" id="startR">Boshlash</button>
+<button class="action secondary" id="stopR">To‘xtatish</button>
+<button class="action danger" id="resetR">Qayta boshlash</button>
+<div id="rStatus" class="result">Reostat holatini o‘zgartirib, lampochka yorqinligini kuzating.</div>
+</div>
+<div class="canvas-wrap">
+<svg viewBox="0 0 600 280">
+<rect x="1" y="1" width="598" height="278" rx="12" fill="#fbfdff"/>
+<path d="M70 65 H160 M430 65 H530 V215 H70 V65" fill="none" stroke="#23384f" stroke-width="5"/>
+<path d="M160 65 L190 40 L220 90 L250 40 L280 90 L310 40 L340 90 L370 40 L400 90 L430 65" fill="none" stroke="#23384f" stroke-width="5"/>
+<line x1="160" y1="120" x2="430" y2="120" stroke="#7d8da1" stroke-width="7"/>
+<circle id="knob" cx="295" cy="120" r="13" fill="#2867ad"/>
+<path d="M295 120 L320 90" stroke="#2867ad" stroke-width="4"/>
+<circle id="lamp2" cx="530" cy="140" r="32" fill="#d5dce5" stroke="#23384f" stroke-width="3"/>
+<path d="M509 119 L551 161 M551 119 L509 161" stroke="#23384f" stroke-width="4"/>
+<text x="295" y="35" text-anchor="middle" font-size="18" font-weight="700">Reostat</text>
+<text x="295" y="165" text-anchor="middle" font-size="14">sirpanma kontakti</text>
+</svg>
+</div>
+</div>
+<div class="task">
+<b>Amaliy topshiriq:</b> Reostatni 20%, 50% va 80% holatlarga qo‘ying. Tok kuchi qanday o‘zgarganini taqqoslang.
+<div id="task2" class="feedback">Topshiriqni bajaring.</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Animatsiya</h3>
+<p>“Boshlash” tugmasi bosilganda elektronlar harakati tasvirlanadi. Reostat qarshiligini oshirsangiz, animatsiya sekinlashadi.</p>
+</div>
+</section>
+
+<section id="p3" class="section">
+<div class="card">
+<h2>3. Potensiometrlar va ularning qo‘llanilishi</h2>
+<p><b>Potensiometr</b> — kuchlanishni bo‘lib, kerakli qiymatni olish uchun ishlatiladigan o‘zgaruvchan qarshilikli qurilma. U uchta chiqishga ega bo‘lishi mumkin va sirpanma kontakt orqali chiqish kuchlanishini o‘zgartiradi.</p>
+<p>Potensiometrlar ovoz balandligini boshqarish, yorqinlikni rostlash, o‘lchov va avtomatik boshqaruv qurilmalarida qo‘llaniladi.</p>
+<div class="formula">U<sub>chiq</sub> = U<sub>manba</sub> × x / 100</div>
+<p>Bu soddalashtirilgan modelda <b>x</b> — kontaktning foizdagi holati.</p>
+<div class="note">Potensiometrda kontaktni siljitish orqali chiqish kuchlanishi o‘zgaradi. Masalan, 12 V manbada 25% holat ≈ 3 V, 75% holat ≈ 9 V.</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: Potensiometr</h3>
+<div class="grid">
+<div>
+<label for="pot">Potensiometr holati: <span id="potv">50</span>%</label>
+<input id="pot" type="range" min="0" max="100" value="50">
+<label for="potU">Manba kuchlanishi U (V):</label>
+<input id="potU" type="number" min="1" max="30" step="1" value="12">
+<div class="readout">
+<div>Holat<br><span class="big" id="potPos">50%</span></div>
+<div>Umanba<br><span class="big" id="potIn">12 V</span></div>
+<div>Uchiq<br><span class="big" id="potOut">6.00 V</span></div>
+</div>
+</div>
+<div class="canvas-wrap">
+<svg viewBox="0 0 600 290">
+<rect x="1" y="1" width="598" height="288" rx="12" fill="#fbfdff"/>
+<line x1="90" y1="75" x2="510" y2="75" stroke="#23384f" stroke-width="5"/>
+<line x1="90" y1="75" x2="90" y2="220" stroke="#23384f" stroke-width="5"/>
+<line x1="510" y1="75" x2="510" y2="220" stroke="#23384f" stroke-width="5"/>
+<line x1="90" y1="220" x2="510" y2="220" stroke="#23384f" stroke-width="5"/>
+<path d="M160 75 L190 45 L220 105 L250 45 L280 105 L310 45 L340 105 L370 45 L400 105 L430 45 L460 105 L490 75" fill="none" stroke="#23384f" stroke-width="5"/>
+<line x1="90" y1="150" x2="510" y2="150" stroke="#9aa8b8" stroke-width="4"/>
+<circle id="potKnob" cx="300" cy="150" r="13" fill="#2867ad"/>
+<path d="M300 150 L325 120" stroke="#2867ad" stroke-width="4"/>
+<circle id="potLamp" cx="510" cy="150" r="28" fill="#d5dce5" stroke="#23384f" stroke-width="3"/>
+<path d="M492 132 L528 168 M528 132 L492 168" stroke="#23384f" stroke-width="4"/>
+<text x="300" y="30" text-anchor="middle" font-size="18" font-weight="700">Potensiometr</text>
+<text x="300" y="190" text-anchor="middle" font-size="14">sirpanma kontakt</text>
+</svg>
+</div>
+</div>
+<div class="task">
+<b>Amaliy topshiriq:</b> 12 V manbada potensiometrni 25%, 50%, 75% holatlarda sinab ko‘ring. Chiqish kuchlanishlarini yozing.
+<div id="task3" class="feedback">Qiymatlarni kuzating.</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Qo‘llanilishini toping</h3>
+<select id="useSelect">
+<option value="">— Tanlang —</option>
+<option value="ovoz">Ovoz balandligini boshqarish</option>
+<option value="chiroq">Chiroq yorqinligini rostlash</option>
+<option value="tezlik">Ba’zi boshqaruv tizimlarida signalni rostlash</option>
+</select>
+<button class="action" onclick="checkUse()">Tekshirish</button>
+<div id="useResult" class="result">Potensiometrning amaliy qo‘llanishini tanlang.</div>
+</div>
+</section>
+
+<section id="test" class="section">
+<div class="card">
+<h2>Yakuniy interaktiv test</h2>
+<p>Har bir savol uchun bitta javobni tanlang. Javoblar testni topshirgandan keyin tekshiriladi.</p>
+<div id="testBox"></div>
+<button class="action success" onclick="finishTest()">Testni tekshirish</button>
+<button class="action danger" onclick="resetTest()">Qayta ishlash</button>
+<div id="testScore"></div>
+</div>
+</section>
+</div>
+
+<footer>8-sinf Fizika • 16-mavzu • Rezistorlar, reostatlar va potensiometrlar</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+  const sec=$(id), btn=document.querySelector('[data-target="'+id+'"]');
+  if(sec) sec.classList.add("active");
+  if(btn) btn.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click",()=>showSection(btn.dataset.target));
+});
+
+function updateP1(){
+  const U=Number($("u1").value), R=Number($("r1").value);
+  $("u1v").textContent=U; $("r1v").textContent=R;
+  const I=U/R;
+  $("ru").textContent=U+" V"; $("rr").textContent=R+" Ω"; $("ri").textContent=I.toFixed(2)+" A";
+  const bright=Math.max(.08,Math.min(1,I/4));
+  $("lamp1").style.opacity=bright;
+  $("lamp1").style.filter="drop-shadow(0 0 "+Math.round(bright*14)+"px rgba(255,190,30,.9))";
+  $("task1").textContent=R<=3 ? "R kichik: tok kuchi katta bo‘ldi." : (R>=12 ? "R katta: tok kuchi kichik bo‘ldi." : "R o‘rtacha: tok kuchi ham o‘rtacha.");
+}
+$("u1").addEventListener("input",updateP1);
+$("r1").addEventListener("input",updateP1);
+
+function calcP1(){
+  const U=18,R=9;
+  $("calc1").innerHTML="I = U/R = 18/9 = <b>2 A</b>. Demak, tok kuchi 2 A.";
+}
+
+let animR=null, runningR=false;
+function updateR(){
+  const p=Number($("sliderR").value);
+  const R=1+19*p/100;
+  const I=12/R;
+  $("sliderRv").textContent=p;
+  $("reR").textContent=R.toFixed(1)+" Ω";
+  $("reI").textContent=I.toFixed(2)+" A";
+  const x=160+(270*p/100);
+  $("knob").setAttribute("cx",x);
+  const bright=Math.max(.08,Math.min(1,I/12));
+  $("lamp2").style.opacity=bright;
+  $("lamp2").style.filter="drop-shadow(0 0 "+Math.round(bright*15)+"px rgba(255,190,30,.9))";
+  $("task2").textContent=p<35 ? "Qarshilik kichik, shuning uchun tok kuchi nisbatan katta." : (p>65 ? "Qarshilik katta, shuning uchun tok kuchi nisbatan kichik." : "O‘rtacha holat: tok kuchi ham o‘rtacha.");
+}
+$("sliderR").addEventListener("input",updateR);
+
+function startR(){
+  if(runningR) return;
+  runningR=true;
+  $("rStatus").textContent="Animatsiya ishlayapti. Reostatni siljitib ko‘ring.";
+  animR=setInterval(()=>{
+    const v=Number($("sliderR").value);
+    $("sliderR").value=v>=100?0:v+1;
+    updateR();
+  },90);
+}
+function stopR(){
+  runningR=false;
+  clearInterval(animR);
+  $("rStatus").textContent="Animatsiya to‘xtatildi.";
+}
+function resetR(){
+  stopR();
+  $("sliderR").value=50;
+  updateR();
+  $("rStatus").textContent="Reostat 50% holatga qaytarildi.";
+}
+$("startR").addEventListener("click",startR);
+$("stopR").addEventListener("click",stopR);
+$("resetR").addEventListener("click",resetR);
+
+function updatePot(){
+  const p=Number($("pot").value);
+  const U=Number($("potU").value);
+  $("potv").textContent=p;
+  $("potPos").textContent=p+"%";
+  $("potIn").textContent=(Number.isFinite(U)&&U>0?U:0)+" V";
+  if(!Number.isFinite(U)||U<=0){
+    $("potOut").textContent="—";
+    $("potOut").parentElement.parentElement.classList.add("error");
+    $("task3").textContent="Xatolik: manba kuchlanishi 0 dan katta bo‘lishi kerak.";
+    return;
+  }
+  $("potOut").parentElement.parentElement.classList.remove("error");
+  const out=U*p/100;
+  $("potOut").textContent=out.toFixed(2)+" V";
+  const x=90+420*p/100;
+  $("potKnob").setAttribute("cx",x);
+  const bright=Math.max(.08,Math.min(1,out/U));
+  $("potLamp").style.opacity=bright;
+  $("potLamp").style.filter="drop-shadow(0 0 "+Math.round(bright*15)+"px rgba(255,190,30,.9))";
+  $("task3").textContent=`${p}% holatda chiqish kuchlanishi ${out.toFixed(2)} V.`;
+}
+$("pot").addEventListener("input",updatePot);
+$("potU").addEventListener("input",updatePot);
+
+function checkUse(){
+  const v=$("useSelect").value;
+  const out=$("useResult");
+  if(!v){out.className="result error";out.textContent="Iltimos, variantlardan birini tanlang.";return;}
+  out.className="result";
+  out.textContent="To‘g‘ri. Potensiometr ovoz balandligi, chiroq yorqinligi va turli boshqaruv tizimlarida rostlash uchun qo‘llanilishi mumkin.";
+}
+
+const questions=[
+ {q:"1. Rezistorning asosiy vazifalaridan biri qaysi?",a:["Tokni cheklash","Tokni yo‘qotish","Kuchlanishni har doim oshirish","Magnit maydonni butunlay yo‘qotish"],c:0},
+ {q:"2. Qarshilikning SI dagi o‘lchov birligi nima?",a:["Volt","Amper","Om","Kulon"],c:2},
+ {q:"3. Om qonuniga ko‘ra tok kuchi qanday topiladi?",a:["I=R/U","I=U/R","I=U·R","I=U+R"],c:1},
+ {q:"4. U o‘zgarmasa, R oshganda I qanday o‘zgaradi?",a:["Ortadi","Kamayadi","O‘zgarmaydi","Nol bo‘ladi"],c:1},
+ {q:"5. Reostat nimani rostlash uchun ishlatiladi?",a:["Tok kuchini","Faqat massani","Faqat vaqtni","Haroratni o‘lchashni"],c:0},
+ {q:"6. Reostatda qarshilikni o‘zgartirishga nima yordam beradi?",a:["Sirpanma kontakt","Termometr","Kompas","Galvanometr strelkasi"],c:0},
+ {q:"7. Potensiometrning asosiy vazifalaridan biri nima?",a:["Kuchlanishni bo‘lish va rostlash","Elektr zaryadini yo‘qotish","Faqat tok manbai bo‘lish","Massani o‘lchash"],c:0},
+ {q:"8. 12 V manbada potensiometr 50% holatda bo‘lsa, soddalashtirilgan modelda Uchiq qancha?",a:["2 V","3 V","6 V","12 V"],c:2},
+ {q:"9. 18 V kuchlanish va 6 Ω qarshilikda tok kuchi qancha?",a:["3 A","6 A","12 A","108 A"],c:0},
+ {q:"10. Potensiometr qayerda qo‘llanilishi mumkin?",a:["Ovoz balandligini rostlashda","Faqat suvni qaynatishda","Faqat uzunlik o‘lchashda","Faqat tortish kuchini topishda"],c:0}
+];
+
+function buildTest(){
+  const box=$("testBox"); box.innerHTML="";
+  questions.forEach((item,i)=>{
+    const div=document.createElement("div");div.className="test-q";
+    const h=document.createElement("b");h.textContent=item.q;div.appendChild(h);
+    item.a.forEach((ans,j)=>{
+      const label=document.createElement("label");label.className="option";
+      label.innerHTML=`<input type="radio" name="q${i}" value="${j}"> ${ans}`;
+      div.appendChild(label);
+    });
+    box.appendChild(div);
+  });
+}
+function finishTest(){
+  let correct=0, answered=0;
+  questions.forEach((item,i)=>{
+    const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+    if(chosen){answered++;if(Number(chosen.value)===item.c)correct++;}
+  });
+  const percent=Math.round(correct/questions.length*100);
+  let msg=percent>=90?"A’lo natija!":percent>=70?"Yaxshi natija!":percent>=50?"Qoniqarli. Mavzuni yana bir bor takrorlang.":"Mavzuni qayta o‘rganib, testni yana ishlang.";
+  $("testScore").innerHTML=`<div class="score">To‘g‘ri javoblar: ${correct} / ${questions.length}<br>Natija: ${percent}%<br><span>${msg}</span><br><small>Javob berilgan savollar: ${answered}</small></div>`;
+}
+function resetTest(){
+  document.querySelectorAll('#testBox input[type="radio"]').forEach(x=>x.checked=false);
+  $("testScore").innerHTML="";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+buildTest();
+updateP1();
+updateR();
+updatePot();
+</script>
+</body>
+</html>
