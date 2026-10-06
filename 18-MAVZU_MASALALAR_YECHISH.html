@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>18-MAVZU: MASALALAR YECHISH</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;overflow-x:hidden}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033;line-height:1.55}
+.container{width:min(1120px,94%);margin:auto}
+header{background:#fff;border-bottom:1px solid #dfe5ef;padding:22px 0;position:sticky;top:0;z-index:10}
+h1{font-size:clamp(24px,4vw,38px);margin:0 0 5px;color:#173b72}
+.subtitle{margin:0;color:#61708a}
+nav{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px}
+nav button,.btn{border:1px solid #b8c7dd;background:#fff;color:#173b72;padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:700}
+nav button:hover,.btn:hover{background:#eaf1fb}
+nav button.active{background:#173b72;color:#fff}
+section{display:none;padding:25px 0}
+section.active{display:block}
+.card{background:#fff;border:1px solid #dfe5ef;border-radius:14px;padding:20px;margin:15px 0;box-shadow:0 4px 16px rgba(25,45,80,.05)}
+h2{color:#173b72;margin-top:0}
+h3{color:#245a98}
+.formula{font-size:clamp(22px,4vw,30px);font-weight:700;text-align:center;background:#eef4fc;border-radius:10px;padding:13px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+label{font-weight:700;display:block;margin-bottom:5px}
+input,select{width:100%;padding:11px;border:1px solid #bdc8d8;border-radius:8px;font-size:16px;background:#fff}
+input:focus,select:focus{outline:2px solid #9dbbe0}
+.control{margin:10px 0}
+.range{width:100%}
+.value{font-weight:700;color:#173b72}
+.result{background:#f0f7f2;border-left:4px solid #2d8a57;padding:13px;border-radius:8px;margin-top:12px}
+.error{background:#fff0f0;border-left:4px solid #c83e3e;padding:12px;border-radius:8px;margin-top:10px;color:#8d2424}
+.note{background:#fff9e8;border-left:4px solid #d59b22;padding:12px;border-radius:8px}
+.steps{counter-reset:item;padding:0}
+.steps li{list-style:none;margin:9px 0;padding:10px 10px 10px 42px;background:#f7f9fc;border-radius:8px;position:relative}
+.steps li:before{counter-increment:item;content:counter(item);position:absolute;left:10px;top:8px;width:25px;height:25px;text-align:center;border-radius:50%;background:#173b72;color:white;font-weight:bold}
+.circuit{position:relative;height:250px;background:#f8fafc;border:1px solid #dce3ed;border-radius:12px;overflow:hidden;margin:15px 0}
+.wire{position:absolute;background:#34465e}
+.w1{left:10%;top:28%;width:80%;height:4px}.w2{left:10%;top:72%;width:80%;height:4px}
+.w3{left:10%;top:28%;width:4px;height:44%}.w4{right:10%;top:28%;width:4px;height:44%}
+.battery{position:absolute;left:6%;top:21%;width:55px;height:75px;border:4px solid #34465e;border-radius:7px;background:#fff}
+.battery:before,.battery:after{content:"";position:absolute;left:10px;right:10px;height:4px;background:#173b72}
+.battery:before{top:20px}.battery:after{top:45px}
+.resistor{position:absolute;left:45%;top:15%;width:110px;height:50px;border:4px solid #a35a22;background:#f5d6a5;border-radius:8px;transform:skew(-18deg);display:flex;align-items:center;justify-content:center;font-weight:bold}
+.meter{position:absolute;right:5%;top:42%;width:85px;height:70px;border:4px solid #34465e;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#173b72}
+.electron{position:absolute;width:10px;height:10px;background:#2768c7;border-radius:50%;box-shadow:0 0 7px #2768c7}
+.e1{top:28%;left:14%;animation:flow 3s linear infinite}.e2{top:72%;left:80%;animation:flow2 3s linear infinite}.e3{top:60%;left:10%;animation:down 1.2s linear infinite}
+@keyframes flow{0%{left:12%}100%{left:88%}}
+@keyframes flow2{0%{left:88%}100%{left:12%}}
+@keyframes down{0%{top:30%}100%{top:68%}}
+.circuit.paused .electron{animation-play-state:paused}
+.circuit.fast .electron{animation-duration:.55s}
+.bar{height:18px;background:#e4e9f1;border-radius:9px;overflow:hidden}
+.bar>span{display:block;height:100%;width:50%;background:#3975b9;transition:width .25s}
+.taskbox{border:1px dashed #9baec7;padding:15px;border-radius:10px}
+.choice{display:block;margin:8px 0;padding:9px;border:1px solid #d3dae5;border-radius:8px;cursor:pointer}
+.choice:hover{background:#f0f4f9}
+.correct{border-color:#39a467;background:#eef9f2}.wrong{border-color:#c74b4b;background:#fff1f1}
+.score{font-size:25px;font-weight:bold;color:#173b72;text-align:center;padding:15px}
+.small{font-size:14px;color:#66758c}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #d8dee8;padding:9px;text-align:center}
+th{background:#eef3fa}
+footer{text-align:center;color:#68758a;padding:30px 0}
+@media(max-width:720px){
+ .grid,.grid3{grid-template-columns:1fr}
+ header{position:static}
+ .card{padding:15px}
+ .circuit{height:220px}
+ .resistor{left:38%;width:90px}
+ .meter{right:3%;width:70px;height:60px}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<h1>18-MAVZU: MASALALAR YECHISH</h1>
+<p class="subtitle">8-sinf Fizika • Elektr toki, kuchlanish, qarshilik va Om qonuni</p>
+<nav>
+<button class="active" onclick="showSection('r1',this)">1-reja</button>
+<button onclick="showSection('r2',this)">2-reja</button>
+<button onclick="showSection('r3',this)">3-reja</button>
+<button onclick="showSection('test',this)">Yakuniy test</button>
+</nav>
+</div>
+</header>
+
+<main class="container">
+<section id="r1" class="active">
+<div class="card">
+<h2>1. Elektr zanjiridagi tok kuchi, kuchlanish va qarshilikka oid masalalarni tahlil qilish</h2>
+<p>Elektr zanjiriga oid masalani yechishda avvalo <b>berilgan</b> kattaliklar va <b>topilishi kerak bo‘lgan</b> kattalik aniqlanadi.</p>
+<div class="grid3">
+<div><b>I — tok kuchi</b><br>birligi: amper (A)</div>
+<div><b>U — kuchlanish</b><br>birligi: volt (V)</div>
+<div><b>R — qarshilik</b><br>birligi: om (Ω)</div>
+</div>
+<ol class="steps">
+<li>Masala shartini diqqat bilan o‘qing.</li>
+<li>Berilgan kattaliklarni yozing.</li>
+<li>Topilishi kerak bo‘lgan kattalikni aniqlang.</li>
+<li>Kerakli formulani tanlang.</li>
+<li>Qiymatlarni formulaga qo‘yib hisoblang.</li>
+</ol>
+<div class="note"><b>Misol:</b> U = 12 V, R = 6 Ω. I = U/R = 12/6 = <b>2 A</b>.</div>
+</div>
+
+<div class="card">
+<h3>Interaktiv simulyatsiya: Elektr zanjirini tahlil qilish</h3>
+<p>U va R ni o‘zgartiring. Tok kuchi va ampermetr ko‘rsatkichi darhol o‘zgaradi.</p>
+<div class="grid">
+<div class="control"><label>Kuchlanish U: <span id="u1v" class="value">12</span> V</label><input id="u1" class="range" type="range" min="6" max="24" step="1" value="12" oninput="sim1()"></div>
+<div class="control"><label>Qarshilik R: <span id="r1v" class="value">6</span> Ω</label><input id="r1" class="range" type="range" min="1" max="20" step="1" value="6" oninput="sim1()"></div>
+</div>
+<div class="circuit" id="circuit1">
+<div class="wire w1"></div><div class="wire w2"></div><div class="wire w3"></div><div class="wire w4"></div>
+<div class="battery">+</div><div class="resistor">R</div><div class="meter" id="meter1">2.00 A</div>
+<div class="electron e1"></div><div class="electron e2"></div><div class="electron e3"></div>
+</div>
+<div class="result" id="res1">I = U/R = 12/6 = <b>2.00 A</b></div>
+<div>
+<button class="btn" onclick="startSim(1)">▶ Boshlash</button>
+<button class="btn" onclick="pauseSim(1)">⏸ To‘xtatish</button>
+<button class="btn" onclick="resetSim(1)">↻ Qayta boshlash</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Amaliy topshiriq</h3>
+<p>U = 12 V bo‘lganda R = 3 Ω, 6 Ω va 12 Ω qiymatlarini sinab ko‘ring.</p>
+<table><tr><th>R (Ω)</th><th>I = U/R (A)</th><th>Xulosa</th></tr>
+<tr><td>3</td><td id="t3">4.00</td><td>—</td></tr>
+<tr><td>6</td><td id="t6">2.00</td><td>—</td></tr>
+<tr><td>12</td><td id="t12">1.00</td><td>—</td></tr></table>
+<p><b>Savol:</b> Qarshilik oshganda tok kuchi qanday o‘zgaradi?</p>
+<select id="task1"><option value="">Javobni tanlang</option><option value="a">Oshadi</option><option value="b">Kamayadi</option><option value="c">O‘zgarmaydi</option></select>
+<button class="btn" onclick="checkTask1()">Tekshirish</button>
+<div id="task1out"></div>
+</div>
+</section>
+
+<section id="r2">
+<div class="card">
+<h2>2. Om qonuni va elektr zanjiri formulalaridan foydalanib masalalar yechish</h2>
+<p>Elektr zanjiri uchun Om qonuni:</p>
+<div class="formula">I = U / R</div>
+<p>Undan quyidagi formulalar kelib chiqadi:</p>
+<div class="grid3">
+<div class="formula">U = I · R</div>
+<div class="formula">R = U / I</div>
+<div class="formula">I = U / R</div>
+</div>
+<p>Hisoblashda kattaliklarning birliklari mos bo‘lishi kerak: <b>V, A, Ω</b>.</p>
+</div>
+
+<div class="card">
+<h3>Interaktiv masala kalkulyatori</h3>
+<p>Topiladigan kattalikni tanlang va qolgan qiymatlarni kiriting.</p>
+<div class="grid3">
+<div><label>Topish</label><select id="find2" onchange="updateCalc2()"><option value="I">Tok kuchi I</option><option value="U">Kuchlanish U</option><option value="R">Qarshilik R</option></select></div>
+<div><label id="labA">U (V)</label><input id="a2" type="number" step="any" value="12"></div>
+<div><label id="labB">R (Ω)</label><input id="b2" type="number" step="any" value="6"></div>
+</div>
+<button class="btn" onclick="calc2()">Hisoblash</button>
+<div id="calc2out"></div>
+</div>
+
+<div class="card">
+<h3>Animatsiya: Om qonuni qanday ishlaydi?</h3>
+<p>Slayderlarni o‘zgartiring. Tok qiymatining o‘zgarishini kuzating.</p>
+<div class="grid">
+<div><label>U = <span id="u2v">12</span> V</label><input type="range" id="u2" min="1" max="24" value="12" oninput="sim2()"></div>
+<div><label>R = <span id="r2v">6</span> Ω</label><input type="range" id="r2" min="1" max="20" value="6" oninput="sim2()"></div>
+</div>
+<div class="formula" id="formula2">I = 12 / 6 = 2.00 A</div>
+<div class="bar"><span id="bar2"></span></div>
+<p class="small">Ko‘rsatkich tok kuchining nisbiy kattaligini ifodalaydi.</p>
+<button class="btn" onclick="startSim(2)">▶ Boshlash</button>
+<button class="btn" onclick="pauseSim(2)">⏸ To‘xtatish</button>
+<button class="btn" onclick="resetSim(2)">↻ Qayta boshlash</button>
+<div id="pulse2" style="height:30px;margin-top:10px"></div>
+</div>
+
+<div class="card">
+<h3>Amaliy masala</h3>
+<div class="taskbox">
+<p><b>Shart:</b> Rezistorga U = 18 V kuchlanish berilgan. Uning qarshiligi R = 9 Ω. Tok kuchini toping.</p>
+<p>O‘zingiz hisoblang, so‘ng javobni kiriting.</p>
+<div class="grid">
+<div><label>I (A)</label><input id="answer2" type="number" step="any" placeholder="Masalan: 2"></div>
+<div><label>Izoh</label><input id="explain2" type="text" placeholder="Qaysi formuladan foydalandingiz?"></div>
+</div>
+<button class="btn" onclick="checkTask2()">Tekshirish</button>
+<div id="task2out"></div>
+</div>
+</div>
+</section>
+
+<section id="r3">
+<div class="card">
+<h2>3. Masalani yechish bosqichlari, javobni tekshirish va fizik ma’nosini tahlil qilish</h2>
+<p>To‘g‘ri javob faqat sonni topish emas. Natijaning birligi va fizik ma’nosi ham tekshiriladi.</p>
+<ol class="steps">
+<li><b>Berilgan:</b> masaladagi ma’lum kattaliklarni yozing.</li>
+<li><b>Topish:</b> noma’lum kattalikni belgilang.</li>
+<li><b>Formula:</b> mos fizik qonun yoki formulani tanlang.</li>
+<li><b>Hisoblash:</b> sonlarni formulaga qo‘ying.</li>
+<li><b>Birlik:</b> javobning o‘lchov birligini tekshiring.</li>
+<li><b>Mantiqiy tekshiruv:</b> natija fizik jihatdan mantiqiymi?</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>Interaktiv “Masalani bosqichma-bosqich yech” simulyatsiyasi</h3>
+<p>Masala: <b>U = 20 V, R = 5 Ω. I ni toping.</b></p>
+<div class="grid">
+<div>
+<label>1-bosqich: Berilgan</label>
+<select id="s3a"><option value="ok">U = 20 V; R = 5 Ω</option><option value="bad">U = 5 A; R = 20 V</option></select>
+</div>
+<div>
+<label>2-bosqich: Formula</label>
+<select id="s3b"><option value="ok">I = U/R</option><option value="bad">I = U·R</option></select>
+</div>
+<div>
+<label>3-bosqich: Hisoblash</label>
+<select id="s3c"><option value="ok">I = 20/5 = 4 A</option><option value="bad">I = 20·5 = 100 A</option></select>
+</div>
+<div>
+<label>4-bosqich: Fizik ma’no</label>
+<select id="s3d"><option value="ok">Qarshilik 5 Ω bo‘lganda 20 V kuchlanish 4 A tok hosil qiladi.</option><option value="bad">Tok kuchi birliksiz bo‘ladi.</option></select>
+</div>
+</div>
+<button class="btn" onclick="checkSteps()">Tekshirish</button>
+<button class="btn" onclick="resetSteps()">↻ Qayta boshlash</button>
+<div id="stepsOut"></div>
+<div class="result">
+<b>Tekshiruv:</b> agar U = 20 V va R = 5 Ω bo‘lsa, I = 4 A. Demak natija mantiqan mos.
+</div>
+</div>
+
+<div class="card">
+<h3>Amaliy topshiriq: natijani tekshiring</h3>
+<p>Quyidagi qiymatlar bo‘yicha I ni hisoblang va javobingizni kiriting.</p>
+<div class="grid3">
+<div><b>Masala A</b><br>U = 10 V, R = 2 Ω<input id="qa" type="number" placeholder="I (A)"></div>
+<div><b>Masala B</b><br>U = 15 V, R = 5 Ω<input id="qb" type="number" placeholder="I (A)"></div>
+<div><b>Masala C</b><br>U = 24 V, R = 8 Ω<input id="qc" type="number" placeholder="I (A)"></div>
+</div>
+<button class="btn" onclick="checkPractice3()">Tekshirish</button>
+<div id="p3out"></div>
+</div>
+</section>
+
+<section id="test">
+<div class="card">
+<h2>Yakuniy interaktiv test</h2>
+<p>Har bir savolda bitta javobni tanlang. Javoblar test tugaguncha ko‘rsatilmaydi.</p>
+<div id="quiz"></div>
+<button class="btn" onclick="finishQuiz()">Testni yakunlash</button>
+<button class="btn" onclick="restartQuiz()">Qayta ishlash</button>
+<div id="score" class="score"></div>
+</div>
+</section>
+</main>
+
+<footer>8-sinf Fizika • 18-mavzu: Masalalar yechish</footer>
+
+<script>
+'use strict';
+
+function showSection(id,btn){
+ document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function num(id){return Number(document.getElementById(id).value)}
+function sim1(){
+ const U=num('u1'),R=num('r1'),I=U/R;
+ document.getElementById('u1v').textContent=U;
+ document.getElementById('r1v').textContent=R;
+ document.getElementById('meter1').textContent=I.toFixed(2)+' A';
+ document.getElementById('res1').innerHTML='I = U/R = '+U+'/'+R+' = <b>'+I.toFixed(2)+' A</b>';
+ const c=document.getElementById('circuit1');
+ c.classList.toggle('fast',I>=3);
+}
+function startSim(n){
+ const c=document.getElementById('circuit'+n);
+ if(c)c.classList.remove('paused');
+ if(n===2) document.getElementById('pulse2').innerHTML='<div class="bar"><span id="pulseBar"></span></div>';
+}
+function pauseSim(n){
+ const c=document.getElementById('circuit'+n);
+ if(c)c.classList.add('paused');
+ if(n===2)document.getElementById('pulse2').innerHTML='<div class="note">Animatsiya vaqtincha to‘xtatildi.</div>';
+}
+function resetSim(n){
+ if(n===1){
+  document.getElementById('u1').value=12;document.getElementById('r1').value=6;sim1();
+  document.getElementById('circuit1').classList.remove('paused');
+ }else{
+  document.getElementById('u2').value=12;document.getElementById('r2').value=6;sim2();
+  document.getElementById('pulse2').innerHTML='';
+ }
+}
+function checkTask1(){
+ const v=document.getElementById('task1').value,o=document.getElementById('task1out');
+ if(!v){o.innerHTML='<div class="error">Iltimos, javobni tanlang.</div>';return}
+ o.innerHTML=v==='b'?'<div class="result">To‘g‘ri! R oshsa, U o‘zgarmasa, I = U/R bo‘yicha tok kuchi kamayadi.</div>':'<div class="error">Noto‘g‘ri. Om qonuniga ko‘ra R oshsa, tok kuchi kamayadi.</div>';
+}
+function updateCalc2(){
+ const f=document.getElementById('find2').value,la=document.getElementById('labA'),lb=document.getElementById('labB');
+ if(f==='I'){la.textContent='U (V)';lb.textContent='R (Ω)'}
+ if(f==='U'){la.textContent='I (A)';lb.textContent='R (Ω)'}
+ if(f==='R'){la.textContent='U (V)';lb.textContent='I (A)'}
+}
+function calc2(){
+ const f=document.getElementById('find2').value,a=num('a2'),b=num('b2'),o=document.getElementById('calc2out');
+ if(!Number.isFinite(a)||!Number.isFinite(b)||a<=0||b<=0){o.innerHTML='<div class="error">Qiymatlar bo‘sh yoki noto‘g‘ri. Ikkala qiymatni ham 0 dan katta kiriting.</div>';return}
+ let ans,unit,formula;
+ if(f==='I'){ans=a/b;unit='A';formula='I = U/R'}
+ if(f==='U'){ans=a*b;unit='V';formula='U = I·R'}
+ if(f==='R'){ans=a/b;unit='Ω';formula='R = U/I'}
+ if(!Number.isFinite(ans)){o.innerHTML='<div class="error">Hisoblashda xatolik yuz berdi.</div>';return}
+ o.innerHTML='<div class="result"><b>'+formula+'</b><br>Natija: <b>'+ans.toFixed(3)+' '+unit+'</b></div>';
+}
+function sim2(){
+ const U=num('u2'),R=num('r2'),I=U/R;
+ document.getElementById('u2v').textContent=U;document.getElementById('r2v').textContent=R;
+ document.getElementById('formula2').textContent='I = '+U+' / '+R+' = '+I.toFixed(2)+' A';
+ document.getElementById('bar2').style.width=Math.min(100,I/24*100)+'%';
+}
+function checkTask2(){
+ const v=Number(document.getElementById('answer2').value),o=document.getElementById('task2out');
+ if(!Number.isFinite(v)){o.innerHTML='<div class="error">Javobni kiriting.</div>';return}
+ const ok=Math.abs(v-2)<0.001;
+ o.innerHTML=ok?'<div class="result">To‘g‘ri! I = U/R = 18/9 = 2 A.</div>':'<div class="error">Noto‘g‘ri. I = U/R formulasidan foydalaning: 18/9 = 2 A.</div>';
+}
+function checkSteps(){
+ const ids=['s3a','s3b','s3c','s3d'],good=ids.every(id=>document.getElementById(id).value==='ok');
+ document.getElementById('stepsOut').innerHTML=good?'<div class="result">Ajoyib! Barcha bosqichlar to‘g‘ri tanlandi.</div>':'<div class="error">Ba’zi bosqichlarda xato bor. Berilgan kattalik, formula, hisoblash va fizik ma’noni qayta tekshiring.</div>';
+}
+function resetSteps(){
+ ['s3a','s3b','s3c','s3d'].forEach(id=>document.getElementById(id).value='ok');
+ document.getElementById('stepsOut').innerHTML='';
+}
+function checkPractice3(){
+ const vals=[Number(document.getElementById('qa').value),Number(document.getElementById('qb').value),Number(document.getElementById('qc').value)];
+ if(vals.some(v=>!Number.isFinite(v))){document.getElementById('p3out').innerHTML='<div class="error">Barcha uchta javobni kiriting.</div>';return}
+ const ans=[5,3,3],n=vals.filter((v,i)=>Math.abs(v-ans[i])<.001).length;
+ document.getElementById('p3out').innerHTML=n===3?'<div class="result">3/3 — barcha javoblar to‘g‘ri!</div>':'<div class="note">'+n+'/3 to‘g‘ri. A: 5 A, B: 3 A, C: 3 A.</div>';
+}
+
+const questions=[
+ {q:'1. Tok kuchining o‘lchov birligi qaysi?',a:['Volt (V)','Amper (A)','Om (Ω)','Vatt (W)'],c:1},
+ {q:'2. Om qonunining to‘g‘ri ko‘rinishi qaysi?',a:['I = U/R','I = U·R','R = I/U','U = I/R'],c:0},
+ {q:'3. U = 12 V, R = 6 Ω bo‘lsa, I nechaga teng?',a:['0,5 A','2 A','6 A','18 A'],c:1},
+ {q:'4. U = I·R formuladan qaysi kattalik topiladi?',a:['Kuchlanish','Tok kuchi','Qarshilikning birligi','Quvvat'],c:0},
+ {q:'5. Qarshilik oshib, kuchlanish o‘zgarmasa tok kuchi qanday o‘zgaradi?',a:['Oshadi','Kamayadi','O‘zgarmaydi','Avval oshib, keyin kamayadi'],c:1},
+ {q:'6. Qarshilikning o‘lchov birligi qaysi?',a:['A','V','Ω','C'],c:2},
+ {q:'7. Masala yechishning birinchi muhim bosqichi qaysi?',a:['Javobni taxmin qilish','Berilgan kattaliklarni aniqlash','Faqat kalkulyatordan foydalanish','Birlikni yozmaslik'],c:1},
+ {q:'8. I = 3 A va R = 4 Ω bo‘lsa U nechaga teng?',a:['0,75 V','1 V','7 V','12 V'],c:3},
+ {q:'9. U = 20 V va I = 5 A bo‘lsa R nechaga teng?',a:['4 Ω','15 Ω','25 Ω','100 Ω'],c:0},
+ {q:'10. Yakuniy javobni tekshirishda nimaga e’tibor beriladi?',a:['Faqat soniga','Birligi va fizik ma’nosiga','Faqat vergulga','Rasm rangiga'],c:1}
+];
+function renderQuiz(){
+ const q=document.getElementById('quiz');
+ q.innerHTML=questions.map((x,i)=>'<div class="card"><b>'+x.q+'</b>'+x.a.map((v,j)=>'<label class="choice"><input type="radio" name="q'+i+'" value="'+j+'"> '+v+'</label>').join('')+'</div>').join('');
+}
+function finishQuiz(){
+ let score=0,answered=0;
+ questions.forEach((x,i)=>{
+  const sel=document.querySelector('input[name="q'+i+'"]:checked');
+  if(sel){answered++;if(Number(sel.value)===x.c)score++}
+ });
+ const out=document.getElementById('score');
+ if(answered<questions.length){out.innerHTML='<div class="error">Barcha 10 ta savolga javob bering. Hozircha '+answered+'/10 savol javoblangan.</div>';return}
+ const pct=score*10;
+ let text=pct>=90?'A’lo natija!':pct>=70?'Yaxshi natija!':pct>=50?'Qoniqarli natija.':'Mavzuni yana bir bor takrorlang.';
+ out.innerHTML='Natija: '+score+'/10 ('+pct+'%)<br><span class="small">'+text+'</span>';
+ document.querySelectorAll('.choice').forEach((el)=>{
+  const input=el.querySelector('input'),idx=Number(input.value),qi=Number(input.name.slice(1));
+  if(idx===questions[qi].c)el.classList.add('correct');
+  else if(input.checked)el.classList.add('wrong');
+ });
+}
+function restartQuiz(){renderQuiz();document.getElementById('score').innerHTML='';}
+renderQuiz();sim1();sim2();updateCalc2();
+</script>
+</body>
+</html>
