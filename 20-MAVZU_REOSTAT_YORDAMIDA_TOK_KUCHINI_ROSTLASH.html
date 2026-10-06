@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>20-MAVZU: Reostat yordamida tok kuchini rostlash</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033;line-height:1.55;overflow-x:hidden}
+header{background:#173b67;color:#fff;padding:28px 16px;text-align:center}
+header h1{margin:0 auto 8px;font-size:clamp(22px,4vw,34px);max-width:1000px}
+header p{margin:0;opacity:.9}
+.container{width:min(1120px,94%);margin:20px auto}
+.card{background:#fff;border:1px solid #dbe3ee;border-radius:14px;padding:20px;margin:18px 0;box-shadow:0 4px 16px rgba(20,40,70,.06)}
+h2{color:#173b67;margin-top:0;font-size:clamp(20px,3vw,27px)}
+h3{color:#285a8f;margin-bottom:8px}
+h4{margin:10px 0 6px}
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.plan a{display:block;text-decoration:none;color:#173b67;background:#eef4fa;border:1px solid #d4e1ef;border-radius:10px;padding:15px;font-weight:700}
+.plan a:hover{background:#e2edf8}
+.formula{font-size:22px;text-align:center;background:#eef5fc;border-left:5px solid #2d6ea5;padding:13px;margin:14px 0;font-weight:bold}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.info-box{background:#f7f9fc;border:1px solid #e0e7f0;border-radius:10px;padding:14px}
+.sim-wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:start}
+.circuit{position:relative;min-height:280px;background:#f8fbff;border:1px solid #d8e3ef;border-radius:12px;overflow:hidden}
+svg{width:100%;height:100%;min-height:280px;display:block}
+.control-panel{background:#f7f9fc;border:1px solid #dbe3ee;border-radius:12px;padding:15px}
+.control{margin:12px 0}
+.control label{display:flex;justify-content:space-between;gap:10px;font-weight:700;margin-bottom:5px}
+input[type=range]{width:100%;accent-color:#285f91}
+input[type=number]{width:100%;padding:10px;border:1px solid #c9d4e1;border-radius:8px;font-size:16px}
+button{border:0;border-radius:8px;padding:10px 14px;margin:4px 3px 4px 0;background:#285f91;color:#fff;font-weight:700;cursor:pointer}
+button:hover{filter:brightness(.94)}
+button.secondary{background:#687789}
+button.success{background:#28734b}
+button.warn{background:#9a671e}
+button.danger{background:#a33b3b}
+.readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.readout{background:#fff;border:1px solid #d6e0eb;border-radius:9px;padding:9px;text-align:center}
+.readout b{display:block;font-size:19px;color:#173b67}
+.status{padding:10px;border-radius:8px;background:#eef4fa;margin-top:10px}
+.good{background:#eaf7ef!important;color:#17633b}
+.bad{background:#fff0f0!important;color:#8c2e2e}
+.warning{background:#fff7e6!important;color:#7b5715}
+.lamp{width:70px;height:70px;border-radius:50%;margin:12px auto;background:#c8d0d9;border:5px solid #7b8794;transition:all .2s}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:430px}
+th,td{border:1px solid #ccd7e3;padding:9px;text-align:center}
+th{background:#173b67;color:#fff}
+tr:nth-child(even) td{background:#f7f9fc}
+.question{background:#f8fafc;border:1px solid #dce5ef;border-radius:10px;padding:14px;margin:12px 0}
+.option{display:block;margin:7px 0;padding:8px;border:1px solid #d8e1eb;border-radius:8px;cursor:pointer}
+.option:hover{background:#eef4fa}
+.task-answer{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.task-answer input{max-width:180px}
+.hidden{display:none}
+.progress{height:9px;background:#e0e7ef;border-radius:10px;overflow:hidden;margin:10px 0}
+.progress span{display:block;height:100%;width:0;background:#285f91;transition:width .2s}
+.electron{fill:#1c78c0}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.flow{stroke-dasharray:10 8;animation:flow 1s linear infinite}
+@keyframes slideContact{0%,100%{transform:translateX(-65px)}50%{transform:translateX(65px)}}
+.autoContact{animation:slideContact 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
+.pulse{animation:pulse .9s ease-in-out infinite}
+.badge{display:inline-block;background:#e8f0f8;color:#285a8f;padding:4px 9px;border-radius:20px;font-size:13px;font-weight:bold}
+footer{text-align:center;padding:30px;color:#687789}
+@media(max-width:800px){
+ .plan,.info-grid,.sim-wrap{grid-template-columns:1fr}
+ .readouts{grid-template-columns:1fr 1fr}
+ .card{padding:15px}
+}
+@media(max-width:500px){
+ header{padding:22px 10px}
+ .readouts{grid-template-columns:1fr}
+ button{width:100%;margin:4px 0}
+ .task-answer{display:block}
+ .task-answer input{max-width:none}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>20-MAVZU: AMALIY MASHG‘ULOT. REOSTAT YORDAMIDA TOK KUCHINI ROSTLASH</h1>
+<p>8-sinf fizika • Interaktiv o‘quv simulyatsiyasi</p>
+</header>
+
+<div class="container">
+<section class="card">
+<h2>Mavzu va reja</h2>
+<div class="plan">
+<a href="#reja1">1. Reostatning tuzilishi va ishlash prinsipi</a>
+<a href="#reja2">2. Reostat yordamida tok kuchini rostlash</a>
+<a href="#reja3">3. Tajriba natijalarini kuzatish va xulosa</a>
+</div>
+</section>
+
+<section id="reja1" class="card">
+<h2>1. Reostatning tuzilishi va ishlash prinsipi</h2>
+<div class="info-grid">
+<div class="info-box">
+<h3>Nazariy ma’lumot</h3>
+<p><b>Reostat</b> — elektr zanjiridagi tok kuchini o‘zgartirish va rostlash uchun ishlatiladigan o‘zgaruvchan qarshilikli asbob.</p>
+<p>Asosiy qismlari: qarshilik simi, sirpanma kontakt, kontaktlar, izolyatsiyalangan karkas va ulash uchlari.</p>
+<p>Sirpanma kontakt siljitilganda zanjirga ulangan qarshilik simining uzunligi o‘zgaradi. Uzunlik ortsa, qarshilik ortadi; uzunlik kamayса, qarshilik kamayadi.</p>
+</div>
+<div class="info-box">
+<h3>Fizik bog‘lanish</h3>
+<div class="formula">I = U / R</div>
+<p>Kuchlanish o‘zgarmasa:</p>
+<ul><li>R ortsa → I kamayadi;</li><li>R kamaysa → I ortadi.</li></ul>
+<p><span class="badge">Muhim</span> Reostat tok kuchini rostlash uchun zanjirga <b>ketma-ket</b> ulanadi.</p>
+</div>
+</div>
+
+<h3>1-reja simulyatsiyasi: Reostatning tuzilishi va ishlash prinsipi</h3>
+<div class="sim-wrap">
+<div class="circuit">
+<svg viewBox="0 0 760 300" aria-label="Reostat zanjiri">
+<path d="M90 90 H205" stroke="#25384d" stroke-width="5" fill="none"/>
+<path d="M555 90 H670 V225 H90 V90" stroke="#25384d" stroke-width="5" fill="none"/>
+<rect x="205" y="62" width="350" height="55" rx="10" fill="#dce5ef" stroke="#536579" stroke-width="3"/>
+<path d="M225 90 C250 55 275 125 300 90 S350 55 375 90 S425 125 450 90 S500 55 530 90" stroke="#b34a37" stroke-width="5" fill="none"/>
+<g id="contact1"><line x1="380" y1="45" x2="380" y2="135" stroke="#173b67" stroke-width="8"/><circle cx="380" cy="90" r="10" fill="#173b67"/></g>
+<rect x="43" y="72" width="47" height="55" rx="7" fill="#e7edf4" stroke="#40566d" stroke-width="3"/>
+<text x="50" y="105" font-size="13" font-weight="bold">12 V</text>
+<circle cx="670" cy="90" r="26" fill="#fff" stroke="#285f91" stroke-width="5"/>
+<text x="651" y="95" font-size="13" font-weight="bold">A</text>
+<text x="315" y="153" font-size="14" font-weight="bold">REOSTAT</text>
+<text x="325" y="185" font-size="13">qarshilik simi</text>
+<circle class="electron pulse" cx="125" cy="225" r="6"/><circle class="electron pulse" cx="170" cy="225" r="6"/><circle class="electron pulse" cx="215" cy="225" r="6"/><circle class="electron pulse" cx="260" cy="225" r="6"/>
+<path id="flow1" class="flow" d="M90 225 H670 V90" stroke="#1c78c0" stroke-width="3" fill="none" opacity=".8"/>
+</svg>
+</div>
+<div class="control-panel">
+<div class="control">
+<label>Sirpanma kontakt holati <span id="pos1v">50%</span></label>
+<input id="pos1" type="range" min="0" max="100" value="50">
+</div>
+<div class="readouts">
+<div class="readout">U<b>12 V</b></div>
+<div class="readout">R<b id="r1">11 Ω</b></div>
+<div class="readout">I<b id="i1">1.09 A</b></div>
+</div>
+<div class="status" id="status1">Kontaktni chap-o‘ngga siljiting va o‘zgarishlarni kuzating.</div>
+<button id="start1">Boshlash</button>
+<button id="stop1" class="secondary">To‘xtatish</button>
+<button id="reset1" class="warn">Qayta boshlash</button>
+</div>
+</div>
+
+<h3>1-reja animatsiyasi</h3>
+<p>Animatsiyada elektronlar tok kuchiga mos tezlikda harakat qiladi. Qarshilik oshganda ularning harakati sekinlashadi.</p>
+<div class="progress"><span id="prog1"></span></div>
+
+<h3>Amaliy topshiriq</h3>
+<div class="info-box">
+<p>Sirpanma kontaktni turli holatlarga o‘tkazing va kuzating:</p>
+<ol><li>Qarshilik qachon ortadi?</li><li>Qarshilik qachon kamayadi?</li><li>Ampermetr ko‘rsatkichi qanday o‘zgaradi?</li></ol>
+<div class="task-answer"><b>Savol:</b> Reostatning qarshiligi ortganda tok kuchi qanday o‘zgaradi?
+<select id="task1"><option value="">Javobni tanlang</option><option value="kamayadi">Kamayadi</option><option value="ortadi">Ortadi</option><option value="ozgarmaydi">O‘zgarmaydi</option></select>
+<button onclick="checkTask1()">Tekshirish</button>
+</div>
+<div id="task1msg" class="status"></div>
+</div>
+</section>
+
+<section id="reja2" class="card">
+<h2>2. Reostat yordamida tok kuchini rostlash</h2>
+<div class="info-grid">
+<div class="info-box">
+<h3>Nazariy ma’lumot</h3>
+<p>Reostat yordamida zanjirdagi qarshilikni o‘zgartirib, kuchlanish doimiy bo‘lganda tok kuchini rostlash mumkin.</p>
+<div class="formula">I = U / R</div>
+<p><b>I</b> — tok kuchi (A), <b>U</b> — kuchlanish (V), <b>R</b> — qarshilik (Ω).</p>
+</div>
+<div class="info-box">
+<h3>Misol</h3>
+<p>U = 12 V bo‘lsa:</p>
+<ul><li>R = 3 Ω → I = 12/3 = <b>4 A</b></li><li>R = 6 Ω → I = 12/6 = <b>2 A</b></li><li>R = 12 Ω → I = 12/12 = <b>1 A</b></li></ul>
+</div>
+</div>
+
+<h3>2-reja simulyatsiyasi: Tok kuchini rostlash</h3>
+<div class="sim-wrap">
+<div class="circuit">
+<svg viewBox="0 0 760 300">
+<path d="M95 80 H190 M550 80 H665 V225 H95 V80" stroke="#25384d" stroke-width="5" fill="none"/>
+<rect x="40" y="58" width="55" height="45" rx="6" fill="#e5edf6" stroke="#40566d" stroke-width="3"/>
+<text x="48" y="86" font-size="13" font-weight="bold">BAT</text>
+<rect x="190" y="55" width="360" height="50" rx="9" fill="#dce5ef" stroke="#536579" stroke-width="3"/>
+<path d="M210 80 C235 45 260 115 285 80 S335 45 360 80 S410 115 435 80 S485 45 510 80 S535 105 535 80" stroke="#b34a37" stroke-width="5" fill="none"/>
+<g id="contact2"><line x1="360" y1="40" x2="360" y2="125" stroke="#173b67" stroke-width="8"/><circle cx="360" cy="80" r="9" fill="#173b67"/></g>
+<circle cx="665" cy="80" r="25" fill="#fff" stroke="#285f91" stroke-width="5"/><text x="647" y="85" font-size="13" font-weight="bold">A</text>
+<circle id="lamp2" cx="380" cy="225" r="31" fill="#c8d0d9" stroke="#697887" stroke-width="5"/>
+<path d="M365 212 L395 238 M395 212 L365 238" stroke="#697887" stroke-width="4"/>
+<text x="346" y="273" font-size="13" font-weight="bold">LAMPochka</text>
+<path class="flow" d="M95 225 H665 V80" stroke="#1c78c0" stroke-width="3" fill="none"/>
+</svg>
+</div>
+<div class="control-panel">
+<div class="control"><label>Kuchlanish U <span id="u2v">12 V</span></label><input id="u2" type="range" min="6" max="24" step="1" value="12"></div>
+<div class="control"><label>Reostat qarshiligi R <span id="r2v">6 Ω</span></label><input id="r2" type="range" min="1" max="20" step="1" value="6"></div>
+<div class="control"><label>Sirpanma kontakt <span id="pos2v">32%</span></label><input id="pos2" type="range" min="0" max="100" value="32"></div>
+<div class="readouts">
+<div class="readout">U<b id="u2read">12 V</b></div><div class="readout">R<b id="r2read">6 Ω</b></div><div class="readout">I<b id="i2">2.00 A</b></div>
+</div>
+<div class="lamp" id="lamp2css"></div>
+<div class="status" id="status2">Zanjirni boshqarish uchun qiymatlarni o‘zgartiring.</div>
+<button id="start2">Boshlash</button><button id="stop2" class="secondary">To‘xtatish</button><button id="reset2" class="warn">Qayta boshlash</button><button id="calc2">Hisoblash</button>
+</div>
+</div>
+
+<h3>Amaliy topshiriq</h3>
+<div class="info-box">
+<p>U = 12 V bo‘lganda R = 3 Ω, 6 Ω va 12 Ω qiymatlarini sinab ko‘ring.</p>
+<div class="table-wrap"><table><thead><tr><th>R (Ω)</th><th>I (A)</th></tr></thead><tbody><tr><td>3</td><td>4</td></tr><tr><td>6</td><td>2</td></tr><tr><td>12</td><td>1</td></tr></tbody></table></div>
+<div class="task-answer" style="margin-top:12px"><b>Savol:</b> Reostat yordamida tok kuchini qanday rostlash mumkin?
+<select id="task2"><option value="">Javobni tanlang</option><option value="r">Qarshilikni o‘zgartirish orqali</option><option value="mass">Jism massasini o‘zgartirish orqali</option><option value="temp">Faqat temperaturani o‘zgartirish orqali</option></select>
+<button onclick="checkTask2()">Tekshirish</button></div>
+<div id="task2msg" class="status"></div>
+</div>
+</section>
+
+<section id="reja3" class="card">
+<h2>3. Tajriba natijalarini kuzatish va xulosa chiqarish</h2>
+<div class="info-grid">
+<div class="info-box">
+<h3>Nazariy ma’lumot</h3>
+<p>Tajriba davomida zanjir yig‘iladi, ampermetr ketma-ket ulanadi, reostat ketma-ket ulanadi va sirpanma kontakt turli holatlarga keltiriladi.</p>
+<ol><li>Zanjirni yig‘ish.</li><li>Ampermetr va reostatni ketma-ket ulash.</li><li>Tok manbaini ulash.</li><li>Kontaktni siljitish.</li><li>Ampermetr ko‘rsatkichlarini yozib olish.</li><li>R va I orasidagi bog‘lanishni tahlil qilish.</li></ol>
+</div>
+<div class="info-box">
+<h3>Asosiy xulosa</h3>
+<div class="formula">R ↑ → I ↓ &nbsp;&nbsp;&nbsp; R ↓ → I ↑</div>
+<p>Kuchlanish o‘zgarmagan holda reostat qarshiligi oshirilsa, tok kuchi kamayadi. Qarshilik kamaytirilsa, tok kuchi ortadi.</p>
+</div>
+</div>
+
+<h3>3-reja laboratoriya simulyatsiyasi</h3>
+<div class="sim-wrap">
+<div class="circuit">
+<svg viewBox="0 0 760 300">
+<path d="M95 80 H190 M550 80 H665 V225 H95 V80" stroke="#25384d" stroke-width="5" fill="none"/>
+<rect x="40" y="58" width="55" height="45" rx="6" fill="#e5edf6" stroke="#40566d" stroke-width="3"/><text x="48" y="86" font-size="13" font-weight="bold">12 V</text>
+<rect x="190" y="55" width="360" height="50" rx="9" fill="#dce5ef" stroke="#536579" stroke-width="3"/>
+<path d="M210 80 C235 45 260 115 285 80 S335 45 360 80 S410 115 435 80 S485 45 510 80 S535 105 535 80" stroke="#b34a37" stroke-width="5" fill="none"/>
+<g id="contact3"><line x1="380" y1="40" x2="380" y2="125" stroke="#173b67" stroke-width="8"/><circle cx="380" cy="80" r="9" fill="#173b67"/></g>
+<circle cx="665" cy="80" r="25" fill="#fff" stroke="#285f91" stroke-width="5"/><text x="647" y="85" font-size="13" font-weight="bold">A</text>
+<circle id="lamp3" cx="380" cy="225" r="31" fill="#c8d0d9" stroke="#697887" stroke-width="5"/><path d="M365 212 L395 238 M395 212 L365 238" stroke="#697887" stroke-width="4"/>
+<path class="flow" d="M95 225 H665 V80" stroke="#1c78c0" stroke-width="3" fill="none"/>
+</svg>
+</div>
+<div class="control-panel">
+<div class="control"><label>Kuchlanish U <span id="u3v">12 V</span></label><input id="u3" type="range" min="6" max="24" step="1" value="12"></div>
+<div class="control"><label>Reostat R <span id="r3v">3 Ω</span></label><input id="r3" type="range" min="1" max="20" step="1" value="3"></div>
+<div class="readouts"><div class="readout">U<b id="u3read">12 V</b></div><div class="readout">R<b id="r3read">3 Ω</b></div><div class="readout">I<b id="i3">4.00 A</b></div></div>
+<div class="status" id="status3">O‘lchashdan oldin kerakli U va R qiymatlarini tanlang.</div>
+<button id="measure3" class="success">O‘lchash</button><button id="calc3">Natijani hisoblash</button><button id="clear3" class="warn">Jadvalni tozalash</button>
+</div>
+</div>
+
+<h3>Tajriba jadvali</h3>
+<div class="table-wrap">
+<table id="labTable"><thead><tr><th>№</th><th>U (V)</th><th>R (Ω)</th><th>I (A)</th></tr></thead><tbody></tbody></table>
+</div>
+<div id="labSummary" class="status">Kamida 3 ta o‘lchash bajaring.</div>
+
+<h3>Amaliy topshiriq</h3>
+<div class="info-box">
+<p>U = 12 V ni tanlang. R = 3 Ω, 6 Ω, 12 Ω qilib o‘zgartirib, har safar <b>O‘lchash</b> tugmasini bosing. Natijalarni taqqoslang.</p>
+<div class="task-answer"><b>Savol:</b> Qaysi holatda tok kuchi eng katta bo‘ldi?
+<select id="task3"><option value="">Javobni tanlang</option><option value="3">R = 3 Ω</option><option value="6">R = 6 Ω</option><option value="12">R = 12 Ω</option></select>
+<button onclick="checkTask3()">Tekshirish</button></div>
+<div id="task3msg" class="status"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>Xulosa</h2>
+<div class="info-box">
+<p><b>Reostat</b> — qarshilikni o‘zgartirish orqali elektr zanjiridagi tok kuchini rostlaydigan asbob.</p>
+<div class="formula">I = U / R</div>
+<p>Kuchlanish o‘zgarmaganida qarshilik oshsa tok kuchi kamayadi, qarshilik kamayса tok kuchi ortadi. Shuning uchun reostat amaliy elektr zanjirlarida tokni kerakli qiymatga rostlash uchun ishlatiladi.</p>
+</div>
+</section>
+
+<section id="test" class="card">
+<h2>Mavzuni tekshirish — yakuniy test</h2>
+<p>10 ta savolning har birida faqat bitta to‘g‘ri javob bor. Javoblar test yakunlanguncha ko‘rsatilmaydi.</p>
+<div id="quiz"></div>
+<button id="finishQuiz" class="success">Testni yakunlash</button>
+<button id="resetQuiz" class="warn">Testni qayta boshlash</button>
+<div id="quizResult" class="status hidden"></div>
+</section>
+</div>
+<footer>8-sinf fizika • 20-mavzu: Reostat yordamida tok kuchini rostlash</footer>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+let sim1Running = true, sim2Running = true;
+let raf1, raf2;
+
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+function setStatus(id,msg,type=""){
+  const el=$(id); el.textContent=msg; el.className="status "+type;
+}
+function safeNum(v){return Number.isFinite(Number(v))?Number(v):NaN;}
+
+function update1(){
+  const p=Number($("pos1").value);
+  const R=Math.round(20-p*18/100);
+  const I=12/R;
+  $("pos1v").textContent=p+"%";
+  $("r1").textContent=R+" Ω";
+  $("i1").textContent=I.toFixed(2)+" A";
+  const x=225+p*3.05;
+  $("contact1").setAttribute("transform","translate("+(x-380)+",0)");
+  $("prog1").style.width=clamp(I/6*100,0,100)+"%";
+  const speed=clamp(1.8-I*.18,.25,1.6);
+  document.querySelector("#flow1").style.animationDuration=speed+"s";
+  setStatus("status1",R>12?"Qarshilik katta: tok kuchi kichik.":R<8?"Qarshilik kichik: tok kuchi katta.":"O‘rtacha qarshilik: tok kuchi ham o‘rtacha.","");
+}
+function animate1(){
+  if(sim1Running){
+    const t=Date.now()/1800;
+    const p=50+48*Math.sin(t);
+    $("pos1").value=p;
+    update1();
+  }
+  raf1=requestAnimationFrame(animate1);
+}
+$("pos1").addEventListener("input",()=>{sim1Running=false;update1();});
+$("start1").onclick=()=>{sim1Running=true;setStatus("status1","Animatsiya boshlandi.","good");};
+$("stop1").onclick=()=>{sim1Running=false;setStatus("status1","Animatsiya to‘xtatildi.","warning");};
+$("reset1").onclick=()=>{$("pos1").value=50;sim1Running=false;update1();setStatus("status1","Boshlang‘ich holatga qaytarildi.","");};
+update1(); animate1();
+
+function update2(){
+  const U=Number($("u2").value), R=Number($("r2").value), p=Number($("pos2").value), I=U/R;
+  $("u2v").textContent=U+" V"; $("r2v").textContent=R+" Ω"; $("pos2v").textContent=p+"%";
+  $("u2read").textContent=U+" V"; $("r2read").textContent=R+" Ω"; $("i2").textContent=I.toFixed(2)+" A";
+  $("contact2").setAttribute("transform","translate("+((225+p*3.05)-360)+",0)");
+  const intensity=clamp(I/24,0,1);
+  $("lamp2css").style.background="rgb("+(200+Math.round(55*intensity))+","+(208+Math.round(35*intensity))+","+(217-Math.round(60*intensity))+")";
+  $("lamp2css").style.boxShadow="0 0 "+Math.round(8+35*intensity)+"px rgba(255,190,60,"+(0.15+0.75*intensity)+")";
+  document.querySelectorAll("#reja2 .flow").forEach(e=>e.style.animationDuration=clamp(1.8-I*.05,.3,1.7)+"s");
+}
+["u2","r2","pos2"].forEach(id=>$(id).addEventListener("input",()=>{sim2Running=false;update2();}));
+$("start2").onclick=()=>{sim2Running=true;setStatus("status2","Simulyatsiya boshlandi.","good");};
+$("stop2").onclick=()=>{sim2Running=false;setStatus("status2","Simulyatsiya to‘xtatildi.","warning");};
+$("reset2").onclick=()=>{$("u2").value=12;$("r2").value=6;$("pos2").value=32;sim2Running=false;update2();setStatus("status2","Boshlang‘ich holatga qaytarildi.","");};
+$("calc2").onclick=()=>{
+ const U=safeNum($("u2").value),R=safeNum($("r2").value);
+ if(!U||U<6||U>24||!R||R<=0){setStatus("status2","U va R qiymatlarini tekshiring.","bad");return}
+ const I=U/R;
+ setStatus("status2","Hisoblash: I = "+U+" / "+R+" = "+I.toFixed(2)+" A","good");
+};
+update2();
+(function animate2(){if(sim2Running){const p=50+45*Math.sin(Date.now()/2200);$("pos2").value=p;update2()}raf2=requestAnimationFrame(animate2)})();
+
+function update3(){
+ const U=Number($("u3").value),R=Number($("r3").value),I=U/R;
+ $("u3v").textContent=U+" V";$("r3v").textContent=R+" Ω";
+ $("u3read").textContent=U+" V";$("r3read").textContent=R+" Ω";$("i3").textContent=I.toFixed(2)+" A";
+ $("contact3").setAttribute("transform","translate("+((225+(R-1)/19*305)-380)+",0)");
+ const glow=clamp(I/8,0,1);
+ $("lamp3").setAttribute("fill","rgb("+(200+Math.round(55*glow))+","+(205+Math.round(35*glow))+","+(215-Math.round(70*glow))+")");
+}
+["u3","r3"].forEach(id=>$(id).addEventListener("input",update3));
+let measurements=[];
+$("measure3").onclick=()=>{
+ const U=safeNum($("u3").value),R=safeNum($("r3").value);
+ if(!Number.isFinite(U)||!Number.isFinite(R)||U<=0||R<=0){setStatus("status3","Qiymatlar bo‘sh yoki noto‘g‘ri.","bad");return}
+ const I=U/R;
+ measurements.push({U,R,I});
+ renderTable();
+ setStatus("status3","O‘lchash saqlandi: U="+U+" V, R="+R+" Ω, I="+I.toFixed(2)+" A","good");
+};
+$("calc3").onclick=()=>{
+ if(measurements.length<3){setStatus("status3","Natijani hisoblash uchun kamida 3 ta o‘lchash bajaring.","warning");return}
+ const avg=measurements.reduce((s,x)=>s+x.I,0)/measurements.length;
+ setStatus("status3","Hisoblash yakuni: "+measurements.length+" ta o‘lchash, o‘rtacha tok kuchi = "+avg.toFixed(2)+" A. I = U/R munosabati tasdiqlandi.","good");
+};
+$("clear3").onclick=()=>{measurements=[];renderTable();setStatus("status3","Jadval tozalandi.","warning");};
+function renderTable(){
+ const body=$("labTable").querySelector("tbody");body.innerHTML="";
+ measurements.forEach((x,i)=>{
+   const tr=document.createElement("tr");
+   tr.innerHTML="<td>"+(i+1)+"</td><td>"+x.U+"</td><td>"+x.R+"</td><td>"+x.I.toFixed(2)+"</td>";
+   body.appendChild(tr);
+ });
+ $("labSummary").textContent=measurements.length>=3?"Kamida 3 ta tajriba bajarildi. Natijalarni taqqoslang va xulosa chiqaring.":measurements.length+" ta o‘lchash bajarildi. Kamida 3 ta o‘lchash tavsiya etiladi.";
+}
+update3();
+
+function checkTask1(){
+ const v=$("task1").value;
+ if(!v){setStatus("task1msg","Javobni tanlang.","bad");return}
+ setStatus("task1msg",v==="kamayadi"?"To‘g‘ri! R ortsa, I = U/R bo‘yicha tok kuchi kamayadi.":"Noto‘g‘ri. Om qonuniga ko‘ra qarshilik ortsa tok kuchi kamayadi.",v==="kamayadi"?"good":"bad");
+}
+function checkTask2(){
+ const v=$("task2").value;
+ if(!v){setStatus("task2msg","Javobni tanlang.","bad");return}
+ setStatus("task2msg",v==="r"?"To‘g‘ri! Reostat qarshilikni o‘zgartirib tok kuchini rostlaydi.":"Noto‘g‘ri. Reostatning asosiy vazifasi qarshilikni o‘zgartirishdir.",v==="r"?"good":"bad");
+}
+function checkTask3(){
+ const v=$("task3").value;
+ if(!v){setStatus("task3msg","Javobni tanlang.","bad");return}
+ setStatus("task3msg",v==="3"?"To‘g‘ri! U = 12 V doimiy bo‘lganda eng kichik R = 3 Ω uchun I = 4 A, ya’ni eng katta tok kuchi hosil bo‘ladi.":"Noto‘g‘ri. U doimiy bo‘lganda R qancha kichik bo‘lsa, I shuncha katta bo‘ladi.",v==="3"?"good":"bad");
+}
+
+const questions=[
+["Reostat nima?","Elektr zanjiridagi qarshilikni o‘zgartirib tokni rostlaydigan asbob","Voltmetr","Tok manbai","Faqat o‘lchov asbobi"],
+["Reostat nima uchun ishlatiladi?","Tok kuchini rostlash uchun","Faqat kuchlanishni o‘lchash uchun","Massani o‘lchash uchun","Temperaturani o‘lchash uchun"],
+["Reostatning ishlash prinsipi nimaga asoslangan?","Zanjirga ulangan qarshilik simi uzunligini o‘zgartirishga","Batareyani zaryadlashga","Ampermetrni aylantirishga","Lampochka rangini o‘zgartirishga"],
+["Sirpanma kontaktning vazifasi nima?","Zanjirga ulangan qarshilik simi uzunligini o‘zgartirish","Tok manbaini almashtirish","Kuchlanishni o‘lchash","Lampochkani o‘chirish"],
+["Reostat tokni rostlashda zanjirga qanday ulanadi?","Ketma-ket","Parallel","Faqat manbaga parallel","Ulanmaydi"],
+["Om qonuni qaysi formula bilan ifodalanadi?","I = U / R","I = U · R","R = I / U","U = I / R"],
+["U = 12 V va R = 6 Ω bo‘lsa, tok kuchi qancha?","2 A","6 A","18 A","72 A"],
+["Kuchlanish o‘zgarmasa, R ortganda I qanday o‘zgaradi?","Kamayadi","Ortadi","O‘zgarmaydi","Avval ortib, keyin yo‘qoladi"],
+["Tok kuchini qaysi asbob o‘lchaydi?","Ampermetr","Voltmetr","Termometr","Barometr"],
+["Reostat yordamida tok kuchini rostlashning to‘g‘ri izohi qaysi?","Reostat qarshiligini o‘zgartirib I = U/R bo‘yicha tokni o‘zgartirish","Faqat lampochkani almashtirish","Batareya massasini o‘zgartirish","Simni uzib qo‘yish"]
+];
+
+function renderQuiz(){
+ const q=$("quiz");q.innerHTML="";
+ questions.forEach((item,i)=>{
+  const box=document.createElement("div");box.className="question";
+  const letters=["A","B","C","D"];
+  let opts="";
+  item.slice(1).forEach((o,j)=>opts+='<label class="option"><input type="radio" name="q'+i+'" value="'+j+'"> <b>'+letters[j]+")</b> "+o+"</label>");
+  box.innerHTML="<h3>"+(i+1)+". "+item[0]+"</h3>"+opts;
+  q.appendChild(box);
+ });
+}
+function finishQuiz(){
+ let correct=0,answered=0;
+ questions.forEach((item,i)=>{
+  const selected=document.querySelector('input[name="q'+i+'"]:checked');
+  if(selected){answered++;if(Number(selected.value)===0)correct++;}
+ });
+ if(answered<questions.length){
+  $("quizResult").className="status bad";
+  $("quizResult").textContent="Barcha 10 ta savolga javob bering. Hozir "+answered+" ta savol javoblangan.";
+  return;
+ }
+ const pct=correct/questions.length*100;
+ let grade=pct>=90?"A’lo":pct>=70?"Yaxshi":pct>=50?"Qoniqarli":"Mavzuni takrorlash kerak";
+ $("quizResult").className="status good";
+ $("quizResult").innerHTML="<b>Natija:</b> "+correct+" ta to‘g‘ri, "+(10-correct)+" ta noto‘g‘ri. Umumiy natija: "+pct.toFixed(0)+"%. <b>"+grade+"</b>.";
+}
+$("finishQuiz").onclick=finishQuiz;
+$("resetQuiz").onclick=()=>{renderQuiz();$("quizResult").className="status hidden";$("quizResult").textContent="";window.scrollTo({top:$("test").offsetTop-10,behavior:"smooth"});};
+renderQuiz();
+</script>
+</body>
+</html>
