@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zanjirning bir qismi uchun Om qonuni</title>
+<style>
+:root{--bg:#fff;--fg:#1c2230;--mut:#5d6677;--card:#f2f5fa;--ac:#2563eb;--ac2:#e11d48;--ok:#059669;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ok:#34d399}}
+:root[data-theme="dark"]{--bg:#12161f;--fg:#e8ecf4;--mut:#9aa4b8;--card:#1c2230;--ac:#60a5fa;--ac2:#fb7185;--ok:#34d399}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px}
+section{background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+canvas{width:100%;height:210px;display:block;background:var(--bg);border-radius:10px}
+label{display:block;margin-top:8px;font-size:.92rem;color:var(--mut)}
+input[type=range]{width:100%}
+.out{font-weight:600;margin:8px 0;color:var(--ac)}
+button,select,input[type=number]{font:inherit;padding:8px 12px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);margin:4px 4px 0 0}
+button{background:var(--ac);color:#fff;border:0}
+pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:10px;font:.85rem/1.5 ui-monospace,monospace;max-height:320px;overflow:auto}
+.box{padding:10px;background:var(--bg);border-radius:10px;font-size:.95rem}
+ol{padding-left:20px;margin:6px 0}a{color:var(--ac)}
+</style></head><body><main>
+<h1>17-mavzu. Zanjirning bir qismi uchun Om qonuni</h1>
+
+<section><h2>Dars rejasi</h2><ol>
+<li><a href="#s1">Tok kuchi, kuchlanish va qarshilik</a> — zanjirda tok animatsiyasi</li>
+<li><a href="#s2">Tok kuchining kuchlanishga bog'liqligi</a> (R = const)</li>
+<li><a href="#s3">Tok kuchining qarshilikka bog'liqligi</a> (U = const)</li>
+<li><a href="#s4">Om qonuni: I = U / R</a> va masala yechish</li></ol></section>
+
+<section id="s1"><h2>1. Zanjirda tok: I, U, R</h2>
+<canvas id="c1"></canvas>
+<label>Kuchlanish U: <b id="u1v"></b> V</label><input type="range" id="u1" min="0" max="12" step="1" value="6">
+<label>Qarshilik R: <b id="r1v"></b> Ω</label><input type="range" id="r1" min="2" max="20" step="1" value="6">
+<div class="out" id="o1"></div>
+<div class="box">Elektronlar manbaning manfiy qutbidan musbat qutbiga harakatlanadi. Tok kuchi qancha katta bo'lsa, ular shuncha tez oqadi.</div></section>
+
+<section id="s2"><h2>2. I ning U ga bog'liqligi (R = 10 Ω)</h2>
+<canvas id="c2"></canvas>
+<label>Kuchlanish U: <b id="u2v"></b> V</label><input type="range" id="u2" min="0" max="12" step="1" value="4">
+<div class="out" id="o2"></div>
+<button id="add2">Natijani yozish</button><button id="clr2" style="background:var(--mut)">Tozalash</button>
+<canvas id="g2" style="margin-top:8px"></canvas>
+<div class="box">Xulosa: R o'zgarmas bo'lsa, tok kuchi kuchlanishga <b>to'g'ri proporsional</b> (grafik — to'g'ri chiziq).</div></section>
+
+<section id="s3"><h2>3. I ning R ga bog'liqligi (U = 12 V)</h2>
+<canvas id="c3"></canvas>
+<label>Qarshilik R: <b id="r3v"></b> Ω</label><input type="range" id="r3" min="2" max="20" step="1" value="6">
+<div class="out" id="o3"></div>
+<button id="add3">Natijani yozish</button><button id="clr3" style="background:var(--mut)">Tozalash</button>
+<canvas id="g3" style="margin-top:8px"></canvas>
+<div class="box">Xulosa: U o'zgarmas bo'lsa, tok kuchi qarshilikka <b>teskari proporsional</b> (grafik — giperbola).</div></section>
+
+<section id="s4"><h2>4. Om qonuni: I = U / R</h2>
+<div class="box">Zanjirning bir qismida tok kuchi shu qismdagi kuchlanishga to'g'ri proporsional va qarshiligiga teskari proporsional.<br>
+<b>I = U / R &nbsp;·&nbsp; U = I · R &nbsp;·&nbsp; R = U / I</b></div>
+<label>Noma'lum kattalik:</label>
+<select id="sel"><option value="I">I (A)</option><option value="U">U (V)</option><option value="R">R (Ω)</option></select>
+<div id="ins"></div><button id="calc">Hisoblash</button>
+<div class="out" id="o4"></div></section>
+
+<section><h2>ChatGPT uchun prompt</h2>
+<pre id="pr">Sen tajribali fizika o'qituvchisi va front-end dasturchisan. 8-sinf fizika darsi uchun "17-mavzu. Zanjirning bir qismi uchun Om qonuni" mavzusida bitta HTML fayl (HTML + CSS + JavaScript, tashqi kutubxonasiz) yarat. Barcha matnlar o'zbek tilida bo'lsin.
+
+Reja va har bir band uchun talablar:
+1. Tok kuchi, kuchlanish va qarshilik — kontur (manba, rezistor, ampermetr) va harakatlanuvchi elektronlar animatsiyasi; U va R slayderlari, I = U/R qiymati jonli ko'rsatilsin.
+2. Tok kuchining kuchlanishga bog'liqligi (R = const) — U slayderi, "Natijani yozish" tugmasi, I(U) jadvali va grafigi (to'g'ri chiziq), xulosa.
+3. Tok kuchining qarshilikka bog'liqligi (U = const) — R slayderi, I(R) grafigi (giperbola), xulosa.
+4. Om qonuni (I = U/R) — formula, noma'lumni tanlab hisoblaydigan kalkulyator, 2–3 ta namunaviy masala va qisqa test (to'g'ri/noto'g'ri javob bilan).
+
+Texnik talablar: canvas yoki SVG animatsiya, telefon va kompyuterda moslashuvchan dizayn, katta shrift, aniq ranglar, yorug' va qorong'i rejim. Kod toza va izohli bo'lsin. Javobda faqat tayyor to'liq HTML kodni bitta kod blokida ber.</pre>
+<button id="cp">Promptni nusxalash</button></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const cans=[];
+function fit(c){const d=devicePixelRatio||1,r=c.getBoundingClientRect();c.width=r.width*d;c.height=r.height*d;c.getContext('2d').setTransform(d,0,0,d,0,0)}
+function reg(id){const c=$(id);cans.push(c);fit(c);return c}
+addEventListener('resize',()=>{cans.forEach(fit);gr()});
+const f=(x,n=2)=>x.toFixed(n);
+
+function sim(id,gU,gR){
+  const c=reg(id),x=c.getContext('2d');let off=0,last=0;
+  function loop(t){
+    const dt=Math.min(.05,(t-last)/1000||0);last=t;
+    const W=c.clientWidth,H=c.clientHeight,m=34,x0=m,x1=W-m,y0=40,y1=H-40,w=x1-x0,h=y1-y0,P=2*(w+h);
+    const U=gU(),R=gR(),I=U/R;off=(off+I*45*dt)%P;
+    x.clearRect(0,0,W,H);x.lineWidth=3;x.strokeStyle=cv('--fg');x.strokeRect(x0,y0,w,h);
+    const pt=s=>{s=((s%P)+P)%P;return s<w?[x0+s,y0]:s<w+h?[x1,y0+s-w]:s<2*w+h?[x1-(s-w-h),y1]:[x0,y1-(s-2*w-h)]};
+    x.fillStyle=cv('--ac');const N=28;
+    for(let i=0;i<N;i++){const p=pt(off+i*P/N);x.beginPath();x.arc(p[0],p[1],4,0,7);x.fill()}
+    x.fillStyle=cv('--bg');x.strokeStyle=cv('--fg');
+    x.fillRect(W/2-34,y0-12,68,24);x.strokeRect(W/2-34,y0-12,68,24);
+    x.fillRect(x0-12,H/2-20,24,40);
+    x.beginPath();x.moveTo(x0-14,H/2-6);x.lineTo(x0+14,H/2-6);x.moveTo(x0-8,H/2+6);x.lineTo(x0+8,H/2+6);x.stroke();
+    x.beginPath();x.arc(W/2,y1,17,0,7);x.fill();x.stroke();
+    x.fillStyle=cv('--fg');x.font='bold 15px system-ui';x.textAlign='center';
+    x.fillText('A',W/2,y1+5);x.fillText('R = '+R+' Ω',W/2,y0-20);
+    x.fillText(U+' V',x0+36,H/2+5);x.fillStyle=cv('--ac2');x.fillText('I = '+f(I)+' A',W/2,y1+36);
+    requestAnimationFrame(loop)}
+  requestAnimationFrame(loop)}
+
+const g=id=>+$(id).value;
+$('u1').oninput=$('r1').oninput=()=>{$('u1v').textContent=g('u1');$('r1v').textContent=g('r1');$('o1').textContent=`I = U/R = ${g('u1')}/${g('r1')} = ${f(g('u1')/g('r1'))} A`};
+$('u2').oninput=()=>{$('u2v').textContent=g('u2');$('o2').textContent=`I = ${g('u2')}/10 = ${f(g('u2')/10)} A`};
+$('r3').oninput=()=>{$('r3v').textContent=g('r3');$('o3').textContent=`I = 12/${g('r3')} = ${f(12/g('r3'))} A`};
+['u1','u2','r3'].forEach(i=>$(i).oninput());
+sim('c1',()=>g('u1'),()=>g('r1'));sim('c2',()=>g('u2'),()=>10);sim('c3',()=>12,()=>g('r3'));
+
+let p2=[],p3=[];
+function graph(id,pts,xm,ym,xl,yl,hyp){
+  const c=$(id),x=c.getContext('2d'),W=c.clientWidth,H=c.clientHeight,L=44,B=30,T=14,Rr=14;
+  const X=v=>L+v/xm*(W-L-Rr),Y=v=>H-B-v/ym*(H-B-T);
+  x.clearRect(0,0,W,H);x.strokeStyle=cv('--mut');x.fillStyle=cv('--mut');x.lineWidth=1.5;x.font='12px system-ui';
+  x.beginPath();x.moveTo(L,T);x.lineTo(L,H-B);x.lineTo(W-Rr,H-B);x.stroke();
+  x.textAlign='center';for(let i=0;i<=4;i++){x.fillText(f(xm*i/4,0),X(xm*i/4),H-B+14)}
+  x.textAlign='right';for(let i=0;i<=4;i++){x.fillText(f(ym*i/4,1),L-4,Y(ym*i/4)+4)}
+  x.textAlign='left';x.fillText(xl,W-Rr-30,H-B+26);x.fillText(yl,L+4,T+8);
+  const s=[...pts].sort((a,b)=>a[0]-b[0]);
+  if(s.length>1){x.strokeStyle=cv('--ac2');x.lineWidth=2;x.beginPath();s.forEach((p,i)=>i?x.lineTo(X(p[0]),Y(p[1])):x.moveTo(X(p[0]),Y(p[1])));x.stroke()}
+  x.fillStyle=cv('--ac');pts.forEach(p=>{x.beginPath();x.arc(X(p[0]),Y(p[1]),5,0,7);x.fill()})}
+function gr(){graph('g2',p2,12,1.2,'U (V)','I (A)');graph('g3',p3,20,6,'R (Ω)','I (A)')}
+reg('g2');reg('g3');
+$('add2').onclick=()=>{const u=g('u2');if(!p2.some(p=>p[0]==u))p2.push([u,u/10]);gr()};
+$('add3').onclick=()=>{const r=g('r3');if(!p3.some(p=>p[0]==r))p3.push([r,12/r]);gr()};
+$('clr2').onclick=()=>{p2=[];gr()};$('clr3').onclick=()=>{p3=[];gr()};gr();
+
+const nm={I:'I (A)',U:'U (V)',R:'R (Ω)'};
+function ins(){const k=$('sel').value,o=['I','U','R'].filter(v=>v!=k);
+  $('ins').innerHTML=o.map(v=>`<input type="number" id="i${v}" placeholder="${nm[v]}" step="any" style="width:7.5em">`).join('');$('o4').textContent=''}
+$('sel').onchange=ins;ins();
+$('calc').onclick=()=>{const k=$('sel').value,v=n=>parseFloat($('i'+n)?.value);let r;
+  if(k=='I')r=v('U')/v('R');if(k=='U')r=v('I')*v('R');if(k=='R')r=v('U')/v('I');
+  $('o4').textContent=isFinite(r)?`${k} = ${f(r)} ${{I:'A',U:'V',R:'Ω'}[k]}`:'Qiymatlarni to\'g\'ri kiriting (0 ga bo\'lish mumkin emas)'};
+$('cp').onclick=async()=>{try{await navigator.clipboard.writeText($('pr').textContent);$('cp').textContent='Nusxalandi ✓'}catch(e){const r=document.createRange();r.selectNode($('pr'));getSelection().removeAllRanges();getSelection().addRange(r);$('cp').textContent='Matn tanlandi — nusxalang'}};
+</script></body></html>
