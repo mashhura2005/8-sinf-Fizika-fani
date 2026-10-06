@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8-sinf fizika — Laboratoriya ishi uchun ChatGPT prompt</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef7ff,#f8fbff);color:#1e293b}
+.container{max-width:1050px;margin:25px auto;padding:20px}
+.card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 8px 30px rgba(0,0,0,.09)}
+h1{text-align:center;color:#145da0;margin-top:0}
+h2{color:#1769aa}
+.info{background:#eef7ff;border-left:5px solid #2196f3;padding:15px;border-radius:9px;margin:16px 0;line-height:1.55}
+textarea{width:100%;min-height:850px;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:12px;padding:18px;font-size:15px;line-height:1.55;background:#fbfdff;resize:vertical}
+button{margin-top:15px;padding:13px 22px;border:0;border-radius:10px;background:#1769aa;color:white;font-size:16px;cursor:pointer}
+button:hover{background:#0d4f82}
+#status{font-weight:bold;color:#16803c}
+.footer{text-align:center;color:#64748b;margin-top:20px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<h1>8-sinf fizika</h1>
+<h2>Laboratoriya ishi: Elektr zanjirini yig‘ish, uning turli qismlaridagi tok kuchi va kuchlanishni o‘lchash</h2>
+
+<div class="info">
+<b>Maqsad:</b> Quyidagi tayyor prompt yordamida ChatGPT’dan 8-sinf o‘quvchilari
+uchun laboratoriya ishini tushuntiruvchi, elektr zanjirini virtual yig‘ish,
+ampermetr va voltmetr yordamida tok kuchi hamda kuchlanishni o‘lchash,
+animatsiya va interaktiv simulyatsiyaga ega bo‘lgan bitta HTML dars yaratishni so‘rash.
+</div>
+
+<h2>ChatGPT uchun tayyor prompt</h2>
+
+<textarea id="prompt" readonly>
+Sen 8-sinf fizika fani o‘qituvchisi, metodist va interaktiv ta’limiy web-ilovalar
+yaratuvchi dasturchi sifatida ish yurit.
+
+MAVZU:
+“Laboratoriya ishi: Elektr zanjirini yig‘ish, uning turli qismlaridagi tok kuchi
+va kuchlanishni o‘lchash”
+
+MAQSAD:
+8-sinf o‘quvchilariga oddiy elektr zanjirini to‘g‘ri yig‘ishni, elektr zanjiri
+qismlarini tanishni, ampermetrni zanjirga ketma-ket ulashni, voltmetrni
+kuchlanishi o‘lchanayotgan qismga parallel ulashni, tok kuchi va kuchlanishni
+o‘lchashni hamda o‘lchash natijalarini jadvalga kiritishni interaktiv
+simulyatsiya va animatsiya orqali o‘rgat.
+
+MUHIM TALABLAR:
+1. Natijani bitta to‘liq HTML fayl ko‘rinishida yarat.
+2. HTML internetga ulanmasdan ham ishlasin.
+3. CSS va JavaScript kodlari HTML faylning ichida bo‘lsin.
+4. Tashqi kutubxonalar, rasm yoki internetdagi fayllarga bog‘lanma.
+5. Barcha animatsiya va simulyatsiyalar CSS va JavaScript yordamida yaratilishi kerak.
+6. Dizayn zamonaviy, chiroyli, rangli va 8-sinf o‘quvchisiga tushunarli bo‘lsin.
+7. Telefon, planshet va kompyuter ekranlariga moslashsin.
+8. Barcha matnlar o‘zbek tilida bo‘lsin.
+9. Fizik kattaliklar, formulalar va birliklarda xatoga yo‘l qo‘yma.
+
+1-BO‘LIM. LABORATORIYA ISHINING MAQSADI
+
+Quyidagilarni tushunarli qilib yoz:
+- elektr zanjiri haqida qisqacha ma’lumot;
+- tok kuchi nima;
+- kuchlanish nima;
+- elektr zanjirining asosiy qismlari;
+- ampermetrning vazifasi;
+- voltmetrning vazifasi.
+
+Asosiy formulalarni ko‘rsat:
+
+I = q/t
+
+U = A/q
+
+Bu yerda:
+I — tok kuchi, A;
+q — elektr zaryadi, C;
+t — vaqt, s;
+U — kuchlanish, V;
+A — elektr tokining bajargan ishi, J.
+
+2-BO‘LIM. KERAKLI JIHOZLAR
+
+Interaktiv kartochkalar ko‘rinishida quyidagi jihozlarni ko‘rsat:
+
+- tok manbai (batareya);
+- kalit;
+- elektr lampochka;
+- ulash simlari;
+- ampermetr;
+- voltmetr.
+
+Har bir jihoz ustiga bosilganda uning:
+- nomi;
+- belgisi;
+- vazifasi;
+- zanjirda qanday ulanilishi
+haqida qisqa ma’lumot chiqsin.
+
+Har bir jihozning sxematik elektr belgisi ham ko‘rsatilsin.
+
+3-BO‘LIM. ELEKTR ZANJIRINI YIG‘ISH SIMULYATSIYASI
+
+Interaktiv virtual laboratoriya yarat.
+
+O‘quvchi ekranda:
+- batareya;
+- kalit;
+- lampochka;
+- ampermetr;
+- voltmetr;
+- ulash simlarini
+ko‘rsin.
+
+O‘quvchi elementlarni bosish yoki “Ulash” tugmasi orqali virtual zanjirni
+yig‘a olsin.
+
+To‘g‘ri ulanish:
+Batareya → kalit → ampermetr → lampochka → batareyaga qaytish.
+
+Voltmeter lampochbaning ikki uchiga parallel ulanadigan qilib ko‘rsatilsin.
+
+Agar o‘quvchi noto‘g‘ri ulasa:
+- qizil ogohlantirish chiqsin;
+- xato qayerdaligi tushuntirilsin;
+- “Qayta urinib ko‘ring” tugmasi chiqsin.
+
+Agar zanjir to‘g‘ri yig‘ilsa:
+- yashil “Zanjir to‘g‘ri yig‘ildi!” xabari chiqsin;
+- tok yo‘nalishini ko‘rsatuvchi animatsiya paydo bo‘lsin;
+- lampochka yonsin;
+- ampermetr qiymat ko‘rsatsin;
+- voltmetr qiymat ko‘rsatsin.
+
+4-BO‘LIM. TOK KUCHI O‘LCHASH ANIMATSIYASI
+
+Ampermetrning zanjirga KETMA-KET ulanishini animatsiya bilan tushuntir.
+
+Ekranda:
+“Ampermetr tok kuchini o‘lchaydi va zanjirga ketma-ket ulanadi”
+degan yozuv bo‘lsin.
+
+Ampermetrning + va − qutblarini ko‘rsat.
+
+O‘quvchi qiymatni o‘zgartira olsin.
+
+Masalan:
+I = 0.2 A
+
+Keyin boshqa nuqtaga ampermetr qo‘yib ko‘rsat:
+I1 = 0.2 A
+I2 = 0.2 A
+
+Oddiy ketma-ket zanjir uchun zanjirning turli qismlarida tok kuchi bir xil
+bo‘lishini animatsiya va izoh bilan ko‘rsat.
+
+5-BO‘LIM. KUCHLANISHNI O‘LCHASH ANIMATSIYASI
+
+Voltmeterning lampochka yoki zanjirning ma’lum qismiga PARALLEL ulanishini
+animatsiya bilan tushuntir.
+
+Ekranda:
+“Voltmeter kuchlanishni o‘lchaydi va kuchlanishi o‘lchanayotgan qismga
+parallel ulanadi”
+degan yozuv bo‘lsin.
+
+Voltmeterning + va − qutblarini ko‘rsat.
+
+Masalan:
+U = 3 V
+
+Agar zanjirda ikkita element bo‘lsa, kuchlanishlarning taqsimlanishini
+sodda tarzda ko‘rsat.
+
+6-BO‘LIM. O‘LCHOV ASBOBLARI SIMULYATSIYASI
+
+Alohida interaktiv ampermetr va voltmetr yarating.
+
+Ampermetr:
+- shkalasi;
+- ko‘rsatkichi;
+- A, mA birliklari;
+- qiymatni o‘zgartirish imkoniyati.
+
+Voltmeter:
+- shkalasi;
+- ko‘rsatkichi;
+- V, mV birliklari;
+- qiymatni o‘zgartirish imkoniyati.
+
+Slider yordamida qiymatlarni o‘zgartirish mumkin bo‘lsin.
+
+Qiymat o‘zgarganda ko‘rsatkich animatsiya bilan harakatlansin.
+
+7-BO‘LIM. O‘LCHASH JADVALI
+
+Laboratoriya natijalarini kiritish uchun jadval yarat:
+
+| O‘lchash nuqtasi | Tok kuchi I, A | Kuchlanish U, V |
+|------------------|----------------|-----------------|
+| 1-qism           |                |                 |
+| 2-qism           |                |                 |
+| 3-qism           |                |                 |
+
+O‘quvchi qiymatlarni o‘zi kirita olsin.
+
+“Tekshirish” tugmasi bo‘lsin.
+
+To‘g‘ri natija:
+“Natijalar to‘g‘ri kiritildi!”
+
+Noto‘g‘ri natija:
+“Qiymatlarni yana tekshiring.”
+
+8-BO‘LIM. ANIMATSIYA
+
+Quyidagi jarayonlar alohida animatsiya bilan ko‘rsatilsin:
+
+1. Batareya zanjirga ulanadi.
+2. Kalit yopiladi.
+3. Zanjirdagi tok harakati ko‘rsatiladi.
+4. Lampochka yonadi.
+5. Ampermetr tok kuchini ko‘rsatadi.
+6. Voltmeter kuchlanishni ko‘rsatadi.
+7. O‘lchash natijalari jadvalga tushadi.
+
+Animatsiya boshqaruv tugmalari:
+- Boshlash
+- Pauza
+- Davom ettirish
+- Qayta boshlash
+- Keyingi bosqich
+
+9-BO‘LIM. XAVFSIZLIK QOIDALARI
+
+Laboratoriya ishidan oldin xavfsizlik qoidalarini alohida blokda ber:
+
+- elektr zanjirini yig‘ishda ehtiyotkorlik;
+- simlarning ochiq qismlariga tegmaslik;
+- kuchlanish manbaini me’yoridan ortiq ishlatmaslik;
+- ampermetrni parallel ulamaslik;
+- voltmetrni ketma-ket ulamaslik;
+- ulanishlarni o‘zgartirishdan oldin kalitni ochish.
+
+Muhim xatolarni qizil ogohlantirish bilan ko‘rsat.
+
+10-BO‘LIM. VIRTUAL TOPSHIRIQLAR
+
+O‘quvchiga interaktiv topshiriqlar ber:
+
+1-topshiriq:
+Elektr zanjirining qismlarini to‘g‘ri joylashtir.
+
+2-topshiriq:
+Ampermetrni to‘g‘ri joylashtir.
+
+3-topshiriq:
+Voltmeterning to‘g‘ri ulanishini tanla.
+
+4-topshiriq:
+Tok kuchini o‘lcha.
+
+5-topshiriq:
+Kuchlanishni o‘lcha.
+
+Har bir topshiriqda “Tekshirish” tugmasi bo‘lsin.
+
+11-BO‘LIM. TEST
+
+Kamida 7 ta test savoli yarat.
+Har bir savolda 4 ta javob varianti bo‘lsin.
+
+Savollar quyidagi mazmunda bo‘lsin:
+- ampermetr nima o‘lchaydi?
+- voltmetr nima o‘lchaydi?
+- ampermetr qanday ulanadi?
+- voltmetr qanday ulanadi?
+- tok kuchining birligi nima?
+- kuchlanishning birligi nima?
+- ketma-ket zanjirda tok kuchi qanday bo‘ladi?
+
+Javob tanlanganda darhol natija chiqsin.
+
+Oxirida:
+“7/7 — A’lo!”
+“6/7 — Juda yaxshi!”
+“5/7 — Yaxshi!”
+“4/7 — Yana mashq qiling!”
+kabi baholash chiqsin.
+
+12-BO‘LIM. LABORATORIYA HISOBOTI
+
+O‘quvchi uchun tayyor hisobot shakli yarat:
+
+Laboratoriya ishi № __
+
+Mavzu: Elektr zanjirini yig‘ish, uning turli qismlaridagi tok kuchi va
+kuchlanishni o‘lchash.
+
+Ishning maqsadi: __________________
+
+Kerakli jihozlar: __________________
+
+Ishning bajarilishi:
+1. __________________
+2. __________________
+3. __________________
+
+O‘lchash natijalari:
+__________________
+
+Xulosa:
+__________________
+
+O‘quvchi matnlarni o‘zi to‘ldira olsin.
+
+13-BO‘LIM. XULOSA
+
+Oxirida quyidagi asosiy xulosalarni ko‘rsat:
+
+- Ampermetr tok kuchini o‘lchaydi.
+- Ampermetr zanjirga ketma-ket ulanadi.
+- Voltmeter kuchlanishni o‘lchaydi.
+- Voltmeter kuchlanishi o‘lchanayotgan qismga parallel ulanadi.
+- Tok kuchining SI birligi — amper (A).
+- Kuchlanishning SI birligi — volt (V).
+
+14-BO‘LIM. YAKUNIY DIZAYN
+
+HTML sahifani quyidagi bo‘limlarga ajrat:
+
+1. Mavzu
+2. Laboratoriya ishining maqsadi
+3. Kerakli jihozlar
+4. Nazariy ma’lumot
+5. Elektr zanjirini yig‘ish simulyatsiyasi
+6. Ampermetr bilan tok kuchini o‘lchash
+7. Voltmeter bilan kuchlanishni o‘lchash
+8. Animatsiya
+9. O‘lchash jadvali
+10. Virtual topshiriqlar
+11. Xavfsizlik qoidalari
+12. Test
+13. Laboratoriya hisoboti
+14. Xulosa
+
+INTERFASE:
+- chiroyli;
+- sodda;
+- rangli;
+- o‘quvchiga tushunarli;
+- katta va aniq tugmalar;
+- formulalar alohida bloklarda;
+- elektr sxemasi aniq ko‘rinadigan bo‘lsin.
+
+MUHIM:
+Faqat bitta to‘liq ishlaydigan HTML kodini ber.
+CSS va JavaScript HTML ichida bo‘lsin.
+Tashqi fayllardan foydalanma.
+Internet talab qilinmasin.
+Elektr zanjiri, ampermetr, voltmetr va tok harakati haqiqiy fizik ma’noga
+mos ravishda tasvirlansin.
+Simulyatsiya faqat bezak emas, balki o‘quvchiga laboratoriya ishini amalda
+tushunishga yordam beradigan interaktiv model bo‘lsin.
+Kod brauzerda ochilganda darhol ishlasin.
+</textarea>
+
+<button onclick="copyPrompt()">📋 Promptni nusxalash</button>
+<p id="status"></p>
+
+<div class="info">
+<b>Foydalanish:</b> “Promptni nusxalash” tugmasini bosing va nusxalangan
+matnni ChatGPT’ga yuboring. Natijada ChatGPT sizga elektr zanjirini virtual
+yig‘ish, ampermetr va voltmetr bilan o‘lchash, animatsiya, topshiriq va
+testlardan iborat interaktiv HTML yaratishi kerak.
+</div>
+
+<div class="footer">
+8-sinf fizika • Laboratoriya ishi • Elektr zanjiri • Interaktiv simulyatsiya
+</div>
+</div>
+</div>
+
+<script>
+function copyPrompt(){
+    const text=document.getElementById("prompt").value;
+    navigator.clipboard.writeText(text).then(()=>{
+        document.getElementById("status").textContent="✅ Prompt nusxalandi!";
+    }).catch(()=>{
+        const area=document.getElementById("prompt");
+        area.select();
+        document.execCommand("copy");
+        document.getElementById("status").textContent="✅ Prompt nusxalandi!";
+    });
+}
+</script>
+</body>
+</html>
